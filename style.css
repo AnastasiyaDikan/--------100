@@ -101,7 +101,7 @@ input[type="checkbox"] {
 /* Основная сетка */
 .main-grid {
     display: grid;
-    grid-template-columns: 350px 1fr; /* Увеличили ширину левой колонки */
+    grid-template-columns: minmax(350px, 380px) 1fr; /* Увеличил ширину левой колонки */
     gap: 30px;
 }
 .left-column {
@@ -142,7 +142,7 @@ input[type="checkbox"] {
 .stat-input-container {
     display: flex;
     align-items: center;
-    gap: 15px; /* Расстояние между полем ввода и кружочками */
+    gap: 10px; /* Уменьшил расстояние между полем ввода и кружочками */
 }
 
 .improvement-dots {

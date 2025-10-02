@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'willpower': 'wp'
     };
 
-    // --- СИСТЕМА УЛУЧШЕНИЯ ХАРАКТЕРИСТИК ---
+    // --- СИСТЕМА УЛУЧШЕНИЯ ХАРАКТЕРИСТИК (ИСПРАВЛЕННАЯ) ---
     const improvementDots = document.querySelectorAll('.improvement-dot');
     
     improvementDots.forEach(dot => {
@@ -183,10 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (!isFilled) {
                 // Пытаемся добавить улучшение
-                if (updateExperience(cost)) {
+                if (canSpendExperience(cost)) {
+                    spendExperience(cost);
                     dot.classList.add('filled');
                     const currentValue = parseInt(statInput.value) || 0;
                     statInput.value = currentValue + 5;
+                } else {
+                    alert('Недостаточно опыта для улучшения!');
                 }
             } else {
                 // Убираем улучшение (НЕ возвращаем опыт)
@@ -201,24 +204,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const usedExpInput = document.getElementById('used-exp');
     const totalExpInput = document.getElementById('total-exp');
     
-    // Функция обновления опыта при покупке улучшений
-    function updateExperience(cost = 0) {
+    // Функция проверки возможности траты опыта
+    function canSpendExperience(cost = 0) {
+        const currentExp = parseInt(currentExpInput.value) || 0;
+        return currentExp >= cost;
+    }
+    
+    // Функция траты опыта
+    function spendExperience(cost = 0) {
         const currentExp = parseInt(currentExpInput.value) || 0;
         const usedExp = parseInt(usedExpInput.value) || 0;
         
-        if (cost > 0) {
-            // Тратим опыт
-            if (currentExp >= cost) {
-                currentExpInput.value = currentExp - cost;
-                usedExpInput.value = usedExp + cost;
-                updateTotalExperience();
-                return true;
-            } else {
-                alert('Недостаточно опыта для улучшения!');
-                return false;
-            }
+        if (cost > 0 && currentExp >= cost) {
+            currentExpInput.value = currentExp - cost;
+            usedExpInput.value = usedExp + cost;
+            updateTotalExperience();
+            return true;
         }
-        return true;
+        return false;
     }
     
     // Функция обновления общего опыта
@@ -259,11 +262,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (isChecked) {
             // Пытаемся добавить улучшение навыка
-            if (updateExperience(cost)) {
+            if (canSpendExperience(cost)) {
+                spendExperience(cost);
                 // Галочка ставится автоматически благодаря checked свойству
             } else {
                 // Если не хватило опыта, отменяем установку галочки
                 checkbox.checked = false;
+                alert('Недостаточно опыта для улучшения навыка!');
             }
         } else {
             // Убираем улучшение навыка (НЕ возвращаем опыт)
