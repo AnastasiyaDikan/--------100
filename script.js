@@ -64,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
         row.innerHTML = `
             <td>
                 <button type="button" class="remove-skill-btn" title="Удалить навык">×</button>
-                <input type="text" id="${skillType}-sub${rowIndex}-name" placeholder="${getPlaceholder(skillType)}">
+                <span class="skill-name" data-skill="${skillType}-sub${rowIndex}">${getPlaceholder(skillType)}</span>
+                <span class="skill-value" data-skill="${skillType}-sub${rowIndex}"></span>
             </td>
             <td><input type="checkbox" id="${skillType}-sub${rowIndex}-k" data-skill="${skillType}-sub${rowIndex}" data-level="1" data-characteristic="intelligence"></td>
             <td><input type="checkbox" id="${skillType}-sub${rowIndex}-10" data-skill="${skillType}-sub${rowIndex}" data-level="2" data-characteristic="intelligence"></td>
@@ -76,7 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Заполняем данными, если они переданы
         if (data) {
-            document.getElementById(`${skillType}-sub${rowIndex}-name`).value = data.name || '';
+            const nameSpan = row.querySelector('.skill-name');
+            nameSpan.textContent = data.name || getPlaceholder(skillType);
             document.getElementById(`${skillType}-sub${rowIndex}-k`).checked = data.k || false;
             document.getElementById(`${skillType}-sub${rowIndex}-10`).checked = data.plus10 || false;
             document.getElementById(`${skillType}-sub${rowIndex}-20`).checked = data.plus20 || false;
@@ -95,6 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
             currentSkillTypeToRemove = skillType;
             confirmModal.style.display = 'block';
         });
+
+        // Добавляем обработчик для отображения значения навыка
+        const skillName = row.querySelector('.skill-name');
+        skillName.addEventListener('click', toggleSkillValueDisplay);
     }
     
     // Функция для получения placeholder в зависимости от типа навыка
@@ -116,11 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         rows.forEach((row, index) => {
             const newIndex = index + 1;
-            const nameInput = row.querySelector('input[type="text"]');
+            const nameSpan = row.querySelector('.skill-name');
+            const valueSpan = row.querySelector('.skill-value');
             const checkboxes = row.querySelectorAll('input[type="checkbox"]');
             
-            // Обновляем ID
-            nameInput.id = `${skillType}-sub${newIndex}-name`;
+            // Обновляем ID и data-атрибуты
+            nameSpan.dataset.skill = `${skillType}-sub${newIndex}`;
+            valueSpan.dataset.skill = `${skillType}-sub${newIndex}`;
+            
             checkboxes[0].id = `${skillType}-sub${newIndex}-k`;
             checkboxes[1].id = `${skillType}-sub${newIndex}-10`;
             checkboxes[2].id = `${skillType}-sub${newIndex}-20`;
@@ -162,6 +171,53 @@ document.addEventListener('DOMContentLoaded', () => {
         'intelligence': 'int',
         'willpower': 'wp'
     };
+
+    // --- ФУНКЦИИ ДЛЯ РАСЧЕТА ЗНАЧЕНИЙ НАВЫКОВ ---
+    function calculateSkillValue(skillName) {
+        // Находим все чекбоксы для этого навыка
+        const checkboxes = document.querySelectorAll(`input[type="checkbox"][data-skill="${skillName}"]`);
+        
+        // Определяем уровень прокачки навыка
+        let skillBonus = -20; // Базовое значение без прокачки
+        
+        if (checkboxes[0].checked) skillBonus = 0;   // K
+        if (checkboxes[1].checked) skillBonus = 10;  // +10
+        if (checkboxes[2].checked) skillBonus = 20;  // +20
+        if (checkboxes[3].checked) skillBonus = 30;  // +30
+        
+        // Получаем характеристику навыка
+        const characteristic = checkboxes[0].dataset.characteristic;
+        const characteristicInput = document.getElementById(`stat-${characteristic}`);
+        const characteristicValue = parseInt(characteristicInput.value) || 0;
+        
+        // Вычисляем модификатор (первая цифра характеристики)
+        const modifier = Math.floor(characteristicValue / 10);
+        
+        // Итоговое значение: характеристика + бонус навыка + модификатор
+        const totalValue = characteristicValue + skillBonus + modifier;
+        
+        return totalValue;
+    }
+
+    function toggleSkillValueDisplay(event) {
+        const skillName = event.target.dataset.skill;
+        const valueElement = document.querySelector(`.skill-value[data-skill="${skillName}"]`);
+        
+        if (valueElement.classList.contains('visible')) {
+            // Скрываем значение
+            valueElement.classList.remove('visible');
+        } else {
+            // Показываем значение
+            const calculatedValue = calculateSkillValue(skillName);
+            valueElement.textContent = calculatedValue;
+            valueElement.classList.add('visible');
+        }
+    }
+
+    // Добавляем обработчики для отображения значений навыков
+    document.querySelectorAll('.skill-name').forEach(skillName => {
+        skillName.addEventListener('click', toggleSkillValueDisplay);
+    });
 
     // --- СИСТЕМА УЛУЧШЕНИЯ ХАРАКТЕРИСТИК (ИСПРАВЛЕННАЯ) ---
     const improvementDots = document.querySelectorAll('.improvement-dot');
@@ -274,6 +330,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Убираем улучшение навыка (НЕ возвращаем опыт)
             // Галочка снимается, но опыт не возвращается
         }
+
+        // Обновляем отображаемое значение навыка, если оно видимо
+        const valueElement = document.querySelector(`.skill-value[data-skill="${skillName}"]`);
+        if (valueElement.classList.contains('visible')) {
+            const calculatedValue = calculateSkillValue(skillName);
+            valueElement.textContent = calculatedValue;
+        }
     }
     
     // Добавляем обработчики для всех чекбоксов навыков
@@ -323,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             rows.forEach((row, index) => {
                 const rowIndex = index + 1;
-                const nameElem = document.getElementById(`${skillType}-sub${rowIndex}-name`);
+                const nameElem = row.querySelector('.skill-name');
                 const kElem = document.getElementById(`${skillType}-sub${rowIndex}-k`);
                 const plus10Elem = document.getElementById(`${skillType}-sub${rowIndex}-10`);
                 const plus20Elem = document.getElementById(`${skillType}-sub${rowIndex}-20`);
@@ -331,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (nameElem && kElem && plus10Elem && plus20Elem && plus30Elem) {
                     data.dynamicSkills[skillType].push({
-                        name: nameElem.value,
+                        name: nameElem.textContent,
                         k: kElem.checked,
                         plus10: plus10Elem.checked,
                         plus20: plus20Elem.checked,
