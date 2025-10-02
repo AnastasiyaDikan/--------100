@@ -1,0 +1,430 @@
+/* Общие стили */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e9e9e9;
+    color: #333;
+    font-size: 14px;
+}
+h3 {
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+    margin-top: 0;
+    font-weight: 600;
+}
+h4 {
+    background-color: #f2f2f2;
+    padding: 8px;
+    margin: 15px 0 8px 0;
+    border-radius: 4px;
+    font-weight: 600;
+}
+input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px;
+    box-sizing: border-box;
+}
+input[type="number"] {
+    width: 80px; /* Увеличили ширину полей с числами */
+    text-align: center;
+}
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Контейнер листа */
+.character-sheet {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 25px;
+}
+
+/* Шапка */
+.sheet-header {
+    margin-bottom: 25px;
+}
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+.header-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.header-info input {
+    font-size: 16px;
+    padding: 8px;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+    width: 200px; /* Увеличили ширину полей в шапке */
+}
+.header-info input:focus {
+    outline: none;
+    border-bottom-color: #555;
+}
+
+/* Таблица опыта */
+.experience-table {
+    margin-left: 20px;
+}
+.experience-table table {
+    border-collapse: collapse;
+    font-size: 12px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.experience-table th, .experience-table td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    text-align: center;
+}
+.experience-table th {
+    background-color: #e9e9e9;
+    font-weight: bold;
+}
+.experience-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+
+/* Основная сетка */
+.main-grid {
+    display: grid;
+    grid-template-columns: 350px 1fr; /* Увеличили ширину левой колонки */
+    gap: 30px;
+}
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Характеристики с улучшенным расположением кружочков */
+.characteristics-section {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee; /* Тонкая разделительная линия */
+    position: relative;
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.stat-item label {
+    font-weight: 500;
+    width: 100px;
+}
+
+.stat-input-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Расстояние между полем ввода и кружочками */
+}
+
+.improvement-dots {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.improvement-dot {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #28a745;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: white;
+    position: relative;
+}
+
+.improvement-dot.filled {
+    background-color: #28a745;
+}
+
+.improvement-dot:hover {
+    transform: scale(1.2);
+}
+
+/* Подсказка для кружочков улучшения */
+.improvement-dot::after {
+    content: attr(data-value);
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #666;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.improvement-dot:hover::after {
+    opacity: 1;
+}
+
+/* Склонности с исправленной логикой */
+.aptitude-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.aptitude-item .dots { 
+    display: flex; 
+    gap: 6px; 
+}
+.aptitude-item .dot {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.aptitude-item .dot.filled { 
+    background-color: #333; 
+}
+
+/* Опыт с увеличенными полями */
+.experience-section {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+.experience-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.experience-item label {
+    font-weight: 500;
+    width: 140px; /* Увеличили ширину меток */
+}
+.experience-item input {
+    width: 100px; /* Увеличили ширину полей ввода опыта */
+    font-size: 14px;
+}
+
+/* Контейнер навыков */
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Группы навыков по характеристикам */
+.skill-characteristic-group {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Таблица Навыков */
+.skills-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+}
+.skills-table th, .skills-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+.skills-table th {
+    background-color: #e9e9e9;
+    font-weight: bold;
+}
+.skills-table td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+.skills-table th:not(:first-child) { width: 50px; }
+
+/* Стили для групп навыков - более светлый фон */
+.skill-group-header td {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 10px;
+}
+.skill-sub-row td:first-child {
+    padding-left: 25px; /* Создаем отступ для под-категории */
+    position: relative;
+}
+.skill-sub-row input[type="text"] {
+    width: 100%;
+    border: none;
+    background: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 0;
+    padding: 4px 0;
+    padding-left: 30px; /* Место для кнопки удаления */
+}
+.skill-sub-row input[type="text"]:focus {
+    outline: none;
+    border-bottom-color: #007bff;
+}
+
+/* Кнопка добавления навыка */
+.add-skill-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s;
+}
+.add-skill-btn:hover {
+    background-color: #218838;
+}
+
+/* Кнопка удаления строки */
+.remove-skill-btn {
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+.remove-skill-btn:hover {
+    background-color: #c82333;
+}
+
+/* Футер с кнопками */
+.sheet-footer {
+    text-align: center;
+    margin-top: 25px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+.sheet-footer button {
+    padding: 10px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin: 0 10px;
+    transition: background-color 0.2s;
+}
+.sheet-footer button:hover {
+    background-color: #0056b3;
+}
+
+/* Полоса прокрутки для контейнера навыков */
+.skills-container::-webkit-scrollbar {
+    width: 8px;
+}
+.skills-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+.skills-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+.skills-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Модальное окно подтверждения */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modal-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.confirm-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background-color: #c82333;
+}
+
+.cancel-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+}
