@@ -268,6 +268,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Добавляем по одному пустому полю для союзников и врагов при загрузке
     addRelationship('allies');
     addRelationship('enemies');
+
+    // --- СКРЫТИЕ/ПОКАЗ СЕКЦИИ СОЮЗНИКОВ И ВРАГОВ ---
+    const relationshipsHeader = document.querySelector('.relationships-header');
+    
+    relationshipsHeader.addEventListener('click', () => {
+        const content = document.querySelector('.relationships-content');
+        const toggleIcon = relationshipsHeader.querySelector('.toggle-icon');
+        
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            relationshipsHeader.classList.add('active');
+            toggleIcon.textContent = '▼';
+        } else {
+            content.style.display = 'none';
+            relationshipsHeader.classList.remove('active');
+            toggleIcon.textContent = '▶';
+        }
+    });
+
     // --- БЕЗУМИЕ И ПОРЧА ---
     const mutationsContainer = document.getElementById('mutations-container');
     const corruptionsContainer = document.getElementById('corruptions-container');
@@ -671,7 +690,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Аватар
         data.avatar = avatarData;
         
-         // Безумие
+        // Безумие
         data.madness = {
             points: document.getElementById('madness-points').value || 0,
             mutations: Array.from(mutationsContainer.querySelectorAll('.mutation-item')).map(item => {
@@ -830,7 +849,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('campaignNotes', data.campaignNotes);
         }
 
-                  // Безумие
+        // Безумие
         if (data.madness) {
             document.getElementById('madness-points').value = data.madness.points || 0;
             

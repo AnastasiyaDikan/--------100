@@ -450,24 +450,29 @@
 
                 <!-- Союзники и враги -->
                 <section class="relationships-section">
-                    <h3>Союзники и враги</h3>
-                    <div class="relationship-group">
-                        <h4>Союзники</h4>
-                        <div class="relationship-container" id="allies-container">
-                            <!-- Динамически добавляемые союзники -->
-                        </div>
-                        <button type="button" class="add-relationship-btn" data-type="allies">+ Добавить союзника</button>
+                    <div class="relationships-header section-header">
+                        <h3>Союзники и враги</h3>
+                        <span class="toggle-icon">▶</span>
                     </div>
-                    <div class="relationship-group">
-                        <h4>Враги</h4>
-                        <div class="relationship-container" id="enemies-container">
-                            <!-- Динамически добавляемые враги -->
+                    <div class="relationships-content section-content" style="display: none;">
+                        <div class="relationship-group">
+                            <h4>Союзники</h4>
+                            <div class="relationship-container" id="allies-container">
+                                <!-- Динамически добавляемые союзники -->
+                            </div>
+                            <button type="button" class="add-relationship-btn" data-type="allies">+ Добавить союзника</button>
                         </div>
-                        <button type="button" class="add-relationship-btn" data-type="enemies">+ Добавить врага</button>
+                        <div class="relationship-group">
+                            <h4>Враги</h4>
+                            <div class="relationship-container" id="enemies-container">
+                                <!-- Динамически добавляемые враги -->
+                            </div>
+                            <button type="button" class="add-relationship-btn" data-type="enemies">+ Добавить врага</button>
+                        </div>
                     </div>
                 </section>
 
-                                 <!-- Безумие -->
+                <!-- Безумие -->
                 <section class="madness-section">
                     <div class="madness-header section-header">
                         <h3>Безумие</h3>
@@ -502,8 +507,6 @@
                         <button type="button" class="add-corruption-btn">+ Добавить проявление порчи</button>
                     </div>
                 </section>
-
-
             </div>
         </main>
     </div>
