@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveButton = document.getElementById('save-button');
     const loadInput = document.getElementById('file-input');
+    const notesButton = document.getElementById('notes-button');
+    const notesModal = document.getElementById('notes-modal');
+    const notesSave = document.getElementById('notes-save');
+    const notesCancel = document.getElementById('notes-cancel');
+    const campaignNotes = document.getElementById('campaign-notes');
 
     // --- АВАТАРКА ---
     const avatarPlaceholder = document.getElementById('avatar-placeholder');
@@ -49,6 +54,54 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             reader.readAsDataURL(file);
         }
+    });
+
+    // --- МОДАЛЬНОЕ ОКНО ЗАМЕТОК ---
+    notesButton.addEventListener('click', () => {
+        // Загружаем заметки из localStorage
+        const savedNotes = localStorage.getItem('campaignNotes');
+        if (savedNotes) {
+            campaignNotes.value = savedNotes;
+        }
+        notesModal.style.display = 'block';
+    });
+
+    notesSave.addEventListener('click', () => {
+        // Сохраняем заметки в localStorage
+        localStorage.setItem('campaignNotes', campaignNotes.value);
+        notesModal.style.display = 'none';
+    });
+
+    notesCancel.addEventListener('click', () => {
+        notesModal.style.display = 'none';
+    });
+
+    // Закрытие модального окна при клике вне его
+    window.addEventListener('click', (event) => {
+        if (event.target === notesModal) {
+            notesModal.style.display = 'none';
+        }
+    });
+
+    // --- СКРЫТИЕ/ПОКАЗ НАВЫКОВ ПО ХАРАКТЕРИСТИКАМ ---
+    const skillHeaders = document.querySelectorAll('.skill-characteristic-header');
+    
+    skillHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const characteristic = header.getAttribute('data-characteristic');
+            const skillGroup = document.getElementById(`skills-${characteristic}`);
+            const toggleIcon = header.querySelector('.toggle-icon');
+            
+            if (skillGroup.style.display === 'none') {
+                skillGroup.style.display = 'block';
+                header.classList.add('active');
+                toggleIcon.textContent = '▼';
+            } else {
+                skillGroup.style.display = 'none';
+                header.classList.remove('active');
+                toggleIcon.textContent = '▶';
+            }
+        });
     });
 
     // --- ДИНАМИЧЕСКОЕ ДОБАВЛЕНИЕ СТРОК ДЛЯ НАВЫКОВ ---
@@ -190,7 +243,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const relationshipItem = document.createElement('div');
         relationshipItem.className = 'relationship-item';
         relationshipItem.innerHTML = `
-            <input type="text" placeholder="Имя и описание..." value="${data || ''}">
+            <input type="text" placeholder="Имя" value="${data ? data.name || '' : ''}">
+            <input type="text" placeholder="Отношение" value="${data ? data.relation || '' : ''}">
+            <input type="text" placeholder="Информация" value="${data ? data.info || '' : ''}">
             <button type="button" class="remove-relationship-btn" title="Удалить">×</button>
         `;
         
@@ -414,9 +469,9 @@ document.addEventListener('DOMContentLoaded', () => {
             experience: {},
             basicInfo: {},
             appearance: {},
-            notes: {},
             relationships: {},
-            avatar: null
+            avatar: null,
+            campaignNotes: localStorage.getItem('campaignNotes') || ''
         };
         
         // Статические текстовые поля
@@ -485,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Основная информация
         data.basicInfo = {
+            name: document.getElementById('char-name').value,
             race: document.getElementById('char-race').value,
             background: document.getElementById('char-background').value,
             role: document.getElementById('char-role').value,
@@ -500,15 +556,24 @@ document.addEventListener('DOMContentLoaded', () => {
             build: document.getElementById('char-build').value
         };
 
-        // Заметки
-        data.notes = {
-            notes: document.getElementById('char-notes').value
-        };
-
         // Союзники и враги
         data.relationships = {
-            allies: Array.from(alliesContainer.querySelectorAll('input')).map(input => input.value),
-            enemies: Array.from(enemiesContainer.querySelectorAll('input')).map(input => input.value)
+            allies: Array.from(alliesContainer.querySelectorAll('.relationship-item')).map(item => {
+                const inputs = item.querySelectorAll('input');
+                return {
+                    name: inputs[0].value,
+                    relation: inputs[1].value,
+                    info: inputs[2].value
+                };
+            }),
+            enemies: Array.from(enemiesContainer.querySelectorAll('.relationship-item')).map(item => {
+                const inputs = item.querySelectorAll('input');
+                return {
+                    name: inputs[0].value,
+                    relation: inputs[1].value,
+                    info: inputs[2].value
+                };
+            })
         };
 
         // Аватар
@@ -591,6 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Основная информация
         if (data.basicInfo) {
+            document.getElementById('char-name').value = data.basicInfo.name || '';
             document.getElementById('char-race').value = data.basicInfo.race || '';
             document.getElementById('char-background').value = data.basicInfo.background || '';
             document.getElementById('char-role').value = data.basicInfo.role || '';
@@ -606,11 +672,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('char-build').value = data.appearance.build || '';
         }
 
-        // Заметки
-        if (data.notes) {
-            document.getElementById('char-notes').value = data.notes.notes || '';
-        }
-
         // Союзники и враги
         if (data.relationships) {
             // Очищаем контейнеры
@@ -620,14 +681,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Добавляем союзников
             if (data.relationships.allies) {
                 data.relationships.allies.forEach(ally => {
-                    if (ally) addRelationship('allies', ally);
+                    if (ally.name || ally.relation || ally.info) addRelationship('allies', ally);
                 });
             }
 
             // Добавляем врагов
             if (data.relationships.enemies) {
                 data.relationships.enemies.forEach(enemy => {
-                    if (enemy) addRelationship('enemies', enemy);
+                    if (enemy.name || enemy.relation || enemy.info) addRelationship('enemies', enemy);
                 });
             }
 
@@ -646,6 +707,11 @@ document.addEventListener('DOMContentLoaded', () => {
             avatarPlaceholder.style.backgroundImage = `url(${data.avatar})`;
             avatarPlaceholder.classList.add('has-image');
             avatarPlaceholder.querySelector('span').style.display = 'none';
+        }
+
+        // Заметки
+        if (data.campaignNotes) {
+            localStorage.setItem('campaignNotes', data.campaignNotes);
         }
     }
     

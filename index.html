@@ -18,7 +18,15 @@
                     <input type="file" id="avatar-input" accept="image/*" style="display: none;">
                     <button type="button" id="avatar-upload-btn">Загрузить</button>
                 </div>
-                <h1>Лист Персонажа</h1>
+                <div class="header-main">
+                    <h1>Лист Персонажа</h1>
+                    <div class="header-controls">
+                        <button id="notes-button">Заметки</button>
+                        <button id="save-button">Сохранить</button>
+                        <button onclick="document.getElementById('file-input').click()">Загрузить</button>
+                        <input type="file" id="file-input" style="display: none;" accept=".json">
+                    </div>
+                </div>
                 <div class="experience-table">
                     <table>
                         <thead>
@@ -60,10 +68,6 @@
                     </table>
                 </div>
             </div>
-            <div class="header-info">
-                <input type="text" id="char-name" placeholder="Имя персонажа">
-                <input type="text" id="player-name" placeholder="Имя игрока">
-            </div>
         </header>
 
         <main class="main-grid">
@@ -72,6 +76,10 @@
                 <section class="basic-info-section">
                     <h3>Основная информация</h3>
                     <div class="basic-info-grid">
+                        <div class="info-item full-width">
+                            <label for="char-name">Имя персонажа</label>
+                            <input type="text" id="char-name" placeholder="Имя персонажа">
+                        </div>
                         <div class="info-item">
                             <label for="char-race">Раса</label>
                             <input type="text" id="char-race" placeholder="Раса персонажа">
@@ -236,8 +244,11 @@
                     <h3>Навыки</h3>
                     <div class="skills-container">
                         <!-- Ловкость -->
-                        <div class="skill-characteristic-group">
+                        <div class="skill-characteristic-header" data-characteristic="agility">
                             <h4>Ловкость (Лов)</h4>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="skill-characteristic-group" id="skills-agility" style="display: none;">
                             <table class="skills-table">
                                 <thead>
                                     <tr>
@@ -260,8 +271,11 @@
                         </div>
 
                         <!-- Сила -->
-                        <div class="skill-characteristic-group">
+                        <div class="skill-characteristic-header" data-characteristic="strength">
                             <h4>Сила (С)</h4>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="skill-characteristic-group" id="skills-strength" style="display: none;">
                             <table class="skills-table">
                                 <thead>
                                     <tr>
@@ -280,8 +294,11 @@
                         </div>
 
                         <!-- Восприятие -->
-                        <div class="skill-characteristic-group">
+                        <div class="skill-characteristic-header" data-characteristic="perception">
                             <h4>Восприятие (Вос)</h4>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="skill-characteristic-group" id="skills-perception" style="display: none;">
                             <table class="skills-table">
                                 <thead>
                                     <tr>
@@ -301,8 +318,11 @@
                         </div>
 
                         <!-- Общительность -->
-                        <div class="skill-characteristic-group">
+                        <div class="skill-characteristic-header" data-characteristic="fellowship">
                             <h4>Общительность (Общ)</h4>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="skill-characteristic-group" id="skills-fellowship" style="display: none;">
                             <table class="skills-table">
                                 <thead>
                                     <tr>
@@ -324,8 +344,11 @@
                         </div>
 
                         <!-- Интеллект -->
-                        <div class="skill-characteristic-group">
+                        <div class="skill-characteristic-header" data-characteristic="intelligence">
                             <h4>Интеллект (Инт)</h4>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="skill-characteristic-group" id="skills-intelligence" style="display: none;">
                             <table class="skills-table">
                                 <thead>
                                     <tr>
@@ -402,8 +425,11 @@
                         </div>
 
                         <!-- Сила воли -->
-                        <div class="skill-characteristic-group">
+                        <div class="skill-characteristic-header" data-characteristic="willpower">
                             <h4>Сила воли (СВ)</h4>
+                            <span class="toggle-icon">▶</span>
+                        </div>
+                        <div class="skill-characteristic-group" id="skills-willpower" style="display: none;">
                             <table class="skills-table">
                                 <thead>
                                     <tr>
@@ -422,12 +448,7 @@
                     </div>
                 </section>
 
-                <!-- Новая секция: Заметки и отношения -->
-                <section class="notes-section">
-                    <h3>Заметки</h3>
-                    <textarea id="char-notes" placeholder="Заметки о персонаже..." rows="6"></textarea>
-                </section>
-
+                <!-- Союзники и враги -->
                 <section class="relationships-section">
                     <h3>Союзники и враги</h3>
                     <div class="relationship-group">
@@ -447,12 +468,18 @@
                 </section>
             </div>
         </main>
+    </div>
 
-        <footer class="sheet-footer">
-            <button id="save-button">Сохранить</button>
-            <button onclick="document.getElementById('file-input').click()">Загрузить</button>
-            <input type="file" id="file-input" style="display: none;" accept=".json">
-        </footer>
+    <!-- Модальное окно заметок -->
+    <div id="notes-modal" class="modal">
+        <div class="modal-content large-modal">
+            <h3>Заметки о партии</h3>
+            <textarea id="campaign-notes" placeholder="Заметки о партии, событиях, NPC и т.д..." rows="15"></textarea>
+            <div class="modal-buttons">
+                <button id="notes-save" class="modal-btn confirm-btn">Сохранить и закрыть</button>
+                <button id="notes-cancel" class="modal-btn cancel-btn">Закрыть</button>
+            </div>
+        </div>
     </div>
 
     <!-- Модальное окно подтверждения удаления -->

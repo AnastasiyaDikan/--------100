@@ -56,18 +56,46 @@ input[type="checkbox"] {
     gap: 20px;
 }
 
+.header-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.header-controls button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.header-controls button:hover {
+    background-color: #0056b3;
+}
+
 /* Аватар персонажа */
 .character-avatar {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    min-width: 120px;
+    min-width: 150px;
 }
 
 .avatar-placeholder {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border: 2px dashed #ccc;
     border-radius: 8px;
     display: flex;
@@ -107,25 +135,6 @@ input[type="checkbox"] {
 
 #avatar-upload-btn:hover {
     background-color: #5a6268;
-}
-
-.header-info {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-grow: 1;
-}
-.header-info input {
-    font-size: 16px;
-    padding: 8px;
-    border: none;
-    border-bottom: 2px solid #ddd;
-    text-align: center;
-    width: 200px; /* Увеличили ширину полей в шапке */
-}
-.header-info input:focus {
-    outline: none;
-    border-bottom-color: #555;
 }
 
 /* Таблица опыта */
@@ -191,6 +200,10 @@ input[type="checkbox"] {
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.info-item.full-width {
+    grid-column: 1 / -1;
 }
 
 .info-item label {
@@ -332,10 +345,47 @@ input[type="checkbox"] {
 .skills-container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    max-height: 60vh;
+    gap: 10px;
+    max-height: 70vh;
     overflow-y: auto;
     padding-right: 10px;
+}
+
+/* Заголовки характеристик для навыков */
+.skill-characteristic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #e0e0e0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 5px;
+}
+
+.skill-characteristic-header:hover {
+    background-color: #d0d0d0;
+}
+
+.skill-characteristic-header h4 {
+    margin: 0;
+    background: none;
+    padding: 0;
+}
+
+.skill-characteristic-header.active {
+    background-color: #c0c0c0;
+}
+
+.toggle-icon {
+    font-size: 12px;
+    transition: transform 0.2s;
+}
+
+.skill-characteristic-header.active .toggle-icon {
+    transform: rotate(90deg);
 }
 
 /* Группы навыков по характеристикам */
@@ -344,6 +394,7 @@ input[type="checkbox"] {
     border-radius: 6px;
     padding: 10px;
     background-color: #f9f9f9;
+    margin-bottom: 10px;
 }
 
 /* Таблица Навыков */
@@ -439,26 +490,6 @@ input[type="checkbox"] {
     background-color: #218838;
 }
 
-/* Заметки */
-.notes-section {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    background-color: #f9f9f9;
-}
-
-#char-notes {
-    width: 100%;
-    min-height: 120px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 14px;
-    resize: vertical;
-    box-sizing: border-box;
-}
-
 /* Союзники и враги */
 .relationships-section {
     border: 1px solid #ddd;
@@ -485,26 +516,27 @@ input[type="checkbox"] {
 }
 
 .relationship-item {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
     gap: 10px;
     margin-bottom: 8px;
     padding: 8px;
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 4px;
+    align-items: center;
 }
 
 .relationship-item input {
-    flex-grow: 1;
-    border: none;
-    background: none;
-    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 12px;
 }
 
 .relationship-item input:focus {
     outline: none;
-    background-color: #f0f8ff;
+    border-color: #007bff;
 }
 
 .remove-relationship-btn {
@@ -564,28 +596,6 @@ input[type="checkbox"] {
     background-color: #c82333;
 }
 
-/* Футер с кнопками */
-.sheet-footer {
-    text-align: center;
-    margin-top: 25px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-.sheet-footer button {
-    padding: 10px 25px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    margin: 0 10px;
-    transition: background-color 0.2s;
-}
-.sheet-footer button:hover {
-    background-color: #0056b3;
-}
-
 /* Полоса прокрутки для контейнера навыков */
 .skills-container::-webkit-scrollbar {
     width: 8px;
@@ -602,7 +612,7 @@ input[type="checkbox"] {
     background: #a8a8a8;
 }
 
-/* Модальное окно подтверждения */
+/* Модальные окна */
 .modal {
     display: none;
     position: fixed;
@@ -616,12 +626,32 @@ input[type="checkbox"] {
 
 .modal-content {
     background-color: #fff;
-    margin: 15% auto;
+    margin: 5% auto;
     padding: 20px;
     border-radius: 8px;
-    width: 300px;
-    text-align: center;
+    width: 500px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.large-modal {
+    width: 600px;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    text-align: center;
+}
+
+#campaign-notes {
+    width: 100%;
+    min-height: 300px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    box-sizing: border-box;
 }
 
 .modal-buttons {
@@ -641,12 +671,12 @@ input[type="checkbox"] {
 }
 
 .confirm-btn {
-    background-color: #dc3545;
+    background-color: #28a745;
     color: white;
 }
 
 .confirm-btn:hover {
-    background-color: #c82333;
+    background-color: #218838;
 }
 
 .cancel-btn {
