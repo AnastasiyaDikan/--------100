@@ -466,6 +466,44 @@
                         <button type="button" class="add-relationship-btn" data-type="enemies">+ Добавить врага</button>
                     </div>
                 </section>
+
+                                 <!-- Безумие -->
+                <section class="madness-section">
+                    <div class="madness-header section-header">
+                        <h3>Безумие</h3>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div class="madness-content section-content" style="display: none;">
+                        <div class="madness-points">
+                            <label for="madness-points">Очки безумия:</label>
+                            <input type="number" id="madness-points" min="0" value="0">
+                        </div>
+                        <div class="mutations-container" id="mutations-container">
+                            <!-- Динамически добавляемые мутации -->
+                        </div>
+                        <button type="button" class="add-mutation-btn">+ Добавить мутацию</button>
+                    </div>
+                </section>
+
+                <!-- Порча -->
+                <section class="corruption-section">
+                    <div class="corruption-header section-header">
+                        <h3>Порча</h3>
+                        <span class="toggle-icon">▶</span>
+                    </div>
+                    <div class="corruption-content section-content" style="display: none;">
+                        <div class="corruption-points">
+                            <label for="corruption-points">Очки порчи:</label>
+                            <input type="number" id="corruption-points" min="0" value="0">
+                        </div>
+                        <div class="corruptions-container" id="corruptions-container">
+                            <!-- Динамически добавляемые проявления порчи -->
+                        </div>
+                        <button type="button" class="add-corruption-btn">+ Добавить проявление порчи</button>
+                    </div>
+                </section>
+
+
             </div>
         </main>
     </div>

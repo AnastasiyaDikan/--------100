@@ -268,6 +268,98 @@ document.addEventListener('DOMContentLoaded', () => {
     // Добавляем по одному пустому полю для союзников и врагов при загрузке
     addRelationship('allies');
     addRelationship('enemies');
+    // --- БЕЗУМИЕ И ПОРЧА ---
+    const mutationsContainer = document.getElementById('mutations-container');
+    const corruptionsContainer = document.getElementById('corruptions-container');
+    const addMutationBtn = document.querySelector('.add-mutation-btn');
+    const addCorruptionBtn = document.querySelector('.add-corruption-btn');
+
+    // Функция добавления мутации
+    function addMutation(data = null) {
+        const mutationId = `mutation-${Date.now()}`;
+        
+        const mutationItem = document.createElement('div');
+        mutationItem.className = 'mutation-item';
+        mutationItem.innerHTML = `
+            <input type="text" placeholder="Название мутации" value="${data ? data.name || '' : ''}">
+            <input type="text" placeholder="Описание мутации" value="${data ? data.description || '' : ''}">
+            <button type="button" class="remove-mutation-btn" title="Удалить мутацию">×</button>
+        `;
+        
+        mutationsContainer.appendChild(mutationItem);
+        
+        // Добавляем обработчик для кнопки удаления
+        mutationItem.querySelector('.remove-mutation-btn').addEventListener('click', () => {
+            mutationItem.remove();
+        });
+    }
+
+    // Функция добавления проявления порчи
+    function addCorruption(data = null) {
+        const corruptionId = `corruption-${Date.now()}`;
+        
+        const corruptionItem = document.createElement('div');
+        corruptionItem.className = 'corruption-item';
+        corruptionItem.innerHTML = `
+            <input type="text" placeholder="Название проявления" value="${data ? data.name || '' : ''}">
+            <input type="text" placeholder="Описание проявления" value="${data ? data.description || '' : ''}">
+            <button type="button" class="remove-corruption-btn" title="Удалить проявление">×</button>
+        `;
+        
+        corruptionsContainer.appendChild(corruptionItem);
+        
+        // Добавляем обработчик для кнопки удаления
+        corruptionItem.querySelector('.remove-corruption-btn').addEventListener('click', () => {
+            corruptionItem.remove();
+        });
+    }
+
+    // Добавляем обработчики для кнопок добавления
+    addMutationBtn.addEventListener('click', () => {
+        addMutation();
+    });
+
+    addCorruptionBtn.addEventListener('click', () => {
+        addCorruption();
+    });
+
+    // Добавляем по одному пустому полю при загрузке
+    addMutation();
+    addCorruption();
+
+    // --- СКРЫТИЕ/ПОКАЗ СЕКЦИЙ БЕЗУМИЯ И ПОРЧИ ---
+    const madnessHeader = document.querySelector('.madness-header');
+    const corruptionHeader = document.querySelector('.corruption-header');
+    
+    madnessHeader.addEventListener('click', () => {
+        const content = document.querySelector('.madness-content');
+        const toggleIcon = madnessHeader.querySelector('.toggle-icon');
+        
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            madnessHeader.classList.add('active');
+            toggleIcon.textContent = '▼';
+        } else {
+            content.style.display = 'none';
+            madnessHeader.classList.remove('active');
+            toggleIcon.textContent = '▶';
+        }
+    });
+    
+    corruptionHeader.addEventListener('click', () => {
+        const content = document.querySelector('.corruption-content');
+        const toggleIcon = corruptionHeader.querySelector('.toggle-icon');
+        
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            corruptionHeader.classList.add('active');
+            toggleIcon.textContent = '▼';
+        } else {
+            content.style.display = 'none';
+            corruptionHeader.classList.remove('active');
+            toggleIcon.textContent = '▶';
+        }
+    });
 
     // --- ТАБЛИЦА СТОИМОСТИ УЛУЧШЕНИЙ ---
     const improvementCosts = {
@@ -579,6 +671,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // Аватар
         data.avatar = avatarData;
         
+         // Безумие
+        data.madness = {
+            points: document.getElementById('madness-points').value || 0,
+            mutations: Array.from(mutationsContainer.querySelectorAll('.mutation-item')).map(item => {
+                const inputs = item.querySelectorAll('input');
+                return {
+                    name: inputs[0].value,
+                    description: inputs[1].value
+                };
+            })
+        };
+
+        // Порча
+        data.corruption = {
+            points: document.getElementById('corruption-points').value || 0,
+            corruptions: Array.from(corruptionsContainer.querySelectorAll('.corruption-item')).map(item => {
+                const inputs = item.querySelectorAll('input');
+                return {
+                    name: inputs[0].value,
+                    description: inputs[1].value
+                };
+            })
+        };
+
         return data;
     }
 
@@ -712,6 +828,46 @@ document.addEventListener('DOMContentLoaded', () => {
         // Заметки
         if (data.campaignNotes) {
             localStorage.setItem('campaignNotes', data.campaignNotes);
+        }
+
+                  // Безумие
+        if (data.madness) {
+            document.getElementById('madness-points').value = data.madness.points || 0;
+            
+            // Очищаем контейнер мутаций
+            mutationsContainer.innerHTML = '';
+            
+            // Добавляем мутации
+            if (data.madness.mutations) {
+                data.madness.mutations.forEach(mutation => {
+                    if (mutation.name || mutation.description) addMutation(mutation);
+                });
+            }
+            
+            // Если нет данных, добавляем пустое поле
+            if (!data.madness.mutations || data.madness.mutations.length === 0) {
+                addMutation();
+            }
+        }
+
+        // Порча
+        if (data.corruption) {
+            document.getElementById('corruption-points').value = data.corruption.points || 0;
+            
+            // Очищаем контейнер проявлений порчи
+            corruptionsContainer.innerHTML = '';
+            
+            // Добавляем проявления порчи
+            if (data.corruption.corruptions) {
+                data.corruption.corruptions.forEach(corruption => {
+                    if (corruption.name || corruption.description) addCorruption(corruption);
+                });
+            }
+            
+            // Если нет данных, добавляем пустое поле
+            if (!data.corruption.corruptions || data.corruption.corruptions.length === 0) {
+                addCorruption();
+            }
         }
     }
     
