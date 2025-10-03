@@ -11,6 +11,13 @@
     <div class="character-sheet">
         <header class="sheet-header">
             <div class="header-top">
+                <div class="character-avatar">
+                    <div class="avatar-placeholder" id="avatar-placeholder">
+                        <span>Аватар</span>
+                    </div>
+                    <input type="file" id="avatar-input" accept="image/*" style="display: none;">
+                    <button type="button" id="avatar-upload-btn">Загрузить</button>
+                </div>
                 <h1>Лист Персонажа</h1>
                 <div class="experience-table">
                     <table>
@@ -61,6 +68,56 @@
 
         <main class="main-grid">
             <div class="left-column">
+                <!-- Новая секция: Основная информация -->
+                <section class="basic-info-section">
+                    <h3>Основная информация</h3>
+                    <div class="basic-info-grid">
+                        <div class="info-item">
+                            <label for="char-race">Раса</label>
+                            <input type="text" id="char-race" placeholder="Раса персонажа">
+                        </div>
+                        <div class="info-item">
+                            <label for="char-background">Предистория</label>
+                            <input type="text" id="char-background" placeholder="Предистория">
+                        </div>
+                        <div class="info-item">
+                            <label for="char-role">Роль</label>
+                            <input type="text" id="char-role" placeholder="Роль">
+                        </div>
+                        <div class="info-item">
+                            <label for="char-age">Возраст</label>
+                            <input type="text" id="char-age" placeholder="Возраст">
+                        </div>
+                        <div class="info-item">
+                            <label for="char-gender">Пол</label>
+                            <input type="text" id="char-gender" placeholder="Пол">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Новая секция: Внешность -->
+                <section class="appearance-section">
+                    <h3>Внешность</h3>
+                    <div class="appearance-grid">
+                        <div class="info-item">
+                            <label for="char-skin">Кожа</label>
+                            <input type="text" id="char-skin" placeholder="Цвет кожи">
+                        </div>
+                        <div class="info-item">
+                            <label for="char-eyes">Глаза</label>
+                            <input type="text" id="char-eyes" placeholder="Цвет глаз">
+                        </div>
+                        <div class="info-item">
+                            <label for="char-hair">Волосы</label>
+                            <input type="text" id="char-hair" placeholder="Цвет волос">
+                        </div>
+                        <div class="info-item">
+                            <label for="char-build">Телосложение</label>
+                            <input type="text" id="char-build" placeholder="Телосложение">
+                        </div>
+                    </div>
+                </section>
+
                 <section class="characteristics-section">
                     <h3>Характеристики</h3>
                     <div class="stat-item">
@@ -174,195 +231,221 @@
                 </section>
             </div>
 
-            <section class="skills-section">
-                <h3>Навыки</h3>
-                <div class="skills-container">
-                    <!-- Ловкость -->
-                    <div class="skill-characteristic-group">
-                        <h4>Ловкость (Лов)</h4>
-                        <table class="skills-table">
-                            <thead>
-                                <tr>
-                                    <th>Навык</th>
-                                    <th>K</th>
-                                    <th>+10</th>
-                                    <th>+20</th>
-                                    <th>+30</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><span class="skill-name" data-skill="acrobatics">Акробатика</span><span class="skill-value" data-skill="acrobatics"></span></td><td><input type="checkbox" id="skill-acrobatics-k" data-skill="acrobatics" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-acrobatics-10" data-skill="acrobatics" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-acrobatics-20" data-skill="acrobatics" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-acrobatics-30" data-skill="acrobatics" data-level="4" data-characteristic="agility"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="dodge">Уклонение</span><span class="skill-value" data-skill="dodge"></span></td><td><input type="checkbox" id="skill-dodge-k" data-skill="dodge" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-dodge-10" data-skill="dodge" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-dodge-20" data-skill="dodge" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-dodge-30" data-skill="dodge" data-level="4" data-characteristic="agility"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="operate_surface">Управление назем.</span><span class="skill-value" data-skill="operate_surface"></span></td><td><input type="checkbox" id="skill-operate_surface-k" data-skill="operate_surface" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_surface-10" data-skill="operate_surface" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_surface-20" data-skill="operate_surface" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_surface-30" data-skill="operate_surface" data-level="4" data-characteristic="agility"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="operate_aeronautica">Управление возду.</span><span class="skill-value" data-skill="operate_aeronautica"></span></td><td><input type="checkbox" id="skill-operate_aeronautica-k" data-skill="operate_aeronautica" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_aeronautica-10" data-skill="operate_aeronautica" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_aeronautica-20" data-skill="operate_aeronautica" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_aeronautica-30" data-skill="operate_aeronautica" data-level="4" data-characteristic="agility"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="sleight_of_hand">Ловкость Рук</span><span class="skill-value" data-skill="sleight_of_hand"></span></td><td><input type="checkbox" id="skill-sleight_of_hand-k" data-skill="sleight_of_hand" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-sleight_of_hand-10" data-skill="sleight_of_hand" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-sleight_of_hand-20" data-skill="sleight_of_hand" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-sleight_of_hand-30" data-skill="sleight_of_hand" data-level="4" data-characteristic="agility"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="stealth">Скрытность</span><span class="skill-value" data-skill="stealth"></span></td><td><input type="checkbox" id="skill-stealth-k" data-skill="stealth" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-stealth-10" data-skill="stealth" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-stealth-20" data-skill="stealth" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-stealth-30" data-skill="stealth" data-level="4" data-characteristic="agility"></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Сила -->
-                    <div class="skill-characteristic-group">
-                        <h4>Сила (С)</h4>
-                        <table class="skills-table">
-                            <thead>
-                                <tr>
-                                    <th>Навык</th>
-                                    <th>K</th>
-                                    <th>+10</th>
-                                    <th>+20</th>
-                                    <th>+30</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><span class="skill-name" data-skill="athletics">Атлетика</span><span class="skill-value" data-skill="athletics"></span></td><td><input type="checkbox" id="skill-athletics-k" data-skill="athletics" data-level="1" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-10" data-skill="athletics" data-level="2" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-20" data-skill="athletics" data-level="3" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-30" data-skill="athletics" data-level="4" data-characteristic="strength"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="intimidate">Запугивание</span><span class="skill-value" data-skill="intimidate"></span></td><td><input type="checkbox" id="skill-intimidate-k" data-skill="intimidate" data-level="1" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-10" data-skill="intimidate" data-level="2" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-20" data-skill="intimidate" data-level="3" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-30" data-skill="intimidate" data-level="4" data-characteristic="strength"></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Восприятие -->
-                    <div class="skill-characteristic-group">
-                        <h4>Восприятие (Вос)</h4>
-                        <table class="skills-table">
-                            <thead>
-                                <tr>
-                                    <th>Навык</th>
-                                    <th>K</th>
-                                    <th>+10</th>
-                                    <th>+20</th>
-                                    <th>+30</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><span class="skill-name" data-skill="awareness">Бдительность</span><span class="skill-value" data-skill="awareness"></span></td><td><input type="checkbox" id="skill-awareness-k" data-skill="awareness" data-level="1" data-characteristic="perception"></td><td><input type="checkbox" id="skill-awareness-10" data-skill="awareness" data-level="2" data-characteristic="perception"></td><td><input type="checkbox" id="skill-awareness-20" data-skill="awareness" data-level="3" data-characteristic="perception"></td><td><input type="checkbox" id="skill-awareness-30" data-skill="awareness" data-level="4" data-characteristic="perception"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="survival">Выживание</span><span class="skill-value" data-skill="survival"></span></td><td><input type="checkbox" id="skill-survival-k" data-skill="survival" data-level="1" data-characteristic="perception"></td><td><input type="checkbox" id="skill-survival-10" data-skill="survival" data-level="2" data-characteristic="perception"></td><td><input type="checkbox" id="skill-survival-20" data-skill="survival" data-level="3" data-characteristic="perception"></td><td><input type="checkbox" id="skill-survival-30" data-skill="survival" data-level="4" data-characteristic="perception"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="scrutiny">Проницательность</span><span class="skill-value" data-skill="scrutiny"></span></td><td><input type="checkbox" id="skill-scrutiny-k" data-skill="scrutiny" data-level="1" data-characteristic="perception"></td><td><input type="checkbox" id="skill-scrutiny-10" data-skill="scrutiny" data-level="2" data-characteristic="perception"></td><td><input type="checkbox" id="skill-scrutiny-20" data-skill="scrutiny" data-level="3" data-characteristic="perception"></td><td><input type="checkbox" id="skill-scrutiny-30" data-skill="scrutiny" data-level="4" data-characteristic="perception"></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Общительность -->
-                    <div class="skill-characteristic-group">
-                        <h4>Общительность (Общ)</h4>
-                        <table class="skills-table">
-                            <thead>
-                                <tr>
-                                    <th>Навык</th>
-                                    <th>K</th>
-                                    <th>+10</th>
-                                    <th>+20</th>
-                                    <th>+30</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><span class="skill-name" data-skill="charm">Обаяние</span><span class="skill-value" data-skill="charm"></span></td><td><input type="checkbox" id="skill-charm-k" data-skill="charm" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-charm-10" data-skill="charm" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-charm-20" data-skill="charm" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-charm-30" data-skill="charm" data-level="4" data-characteristic="fellowship"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="command">Командывание</span><span class="skill-value" data-skill="command"></span></td><td><input type="checkbox" id="skill-command-k" data-skill="command" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-command-10" data-skill="command" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-command-20" data-skill="command" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-command-30" data-skill="command" data-level="4" data-characteristic="fellowship"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="commerce">Комерция</span><span class="skill-value" data-skill="commerce"></span></td><td><input type="checkbox" id="skill-commerce-k" data-skill="commerce" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-commerce-10" data-skill="commerce" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-commerce-20" data-skill="commerce" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-commerce-30" data-skill="commerce" data-level="4" data-characteristic="fellowship"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="deceive">Обман</span><span class="skill-value" data-skill="deceive"></span></td><td><input type="checkbox" id="skill-deceive-k" data-skill="deceive" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-deceive-10" data-skill="deceive" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-deceive-20" data-skill="deceive" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-deceive-30" data-skill="deceive" data-level="4" data-characteristic="fellowship"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="inquiry">Дознание</span><span class="skill-value" data-skill="inquiry"></span></td><td><input type="checkbox" id="skill-inquiry-k" data-skill="inquiry" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-inquiry-10" data-skill="inquiry" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-inquiry-20" data-skill="inquiry" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-inquiry-30" data-skill="inquiry" data-level="4" data-characteristic="fellowship"></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Интеллект -->
-                    <div class="skill-characteristic-group">
-                        <h4>Интеллект (Инт)</h4>
-                        <table class="skills-table">
-                            <thead>
-                                <tr>
-                                    <th>Навык</th>
-                                    <th>K</th>
-                                    <th>+10</th>
-                                    <th>+20</th>
-                                    <th>+30</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><span class="skill-name" data-skill="logic">Логика</span><span class="skill-value" data-skill="logic"></span></td><td><input type="checkbox" id="skill-logic-k" data-skill="logic" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-logic-10" data-skill="logic" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-logic-20" data-skill="logic" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-logic-30" data-skill="logic" data-level="4" data-characteristic="intelligence"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="medicae">Медика</span><span class="skill-value" data-skill="medicae"></span></td><td><input type="checkbox" id="skill-medicae-k" data-skill="medicae" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-medicae-10" data-skill="medicae" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-medicae-20" data-skill="medicae" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-medicae-30" data-skill="medicae" data-level="4" data-characteristic="intelligence"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="navigate_surface">Навигация назем.</span><span class="skill-value" data-skill="navigate_surface"></span></td><td><input type="checkbox" id="skill-navigate_surface-k" data-skill="navigate_surface" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_surface-10" data-skill="navigate_surface" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_surface-20" data-skill="navigate_surface" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_surface-30" data-skill="navigate_surface" data-level="4" data-characteristic="intelligence"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="navigate_stellar">Навигация возд.</span><span class="skill-value" data-skill="navigate_stellar"></span></td><td><input type="checkbox" id="skill-navigate_stellar-k" data-skill="navigate_stellar" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-10" data-skill="navigate_stellar" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-20" data-skill="navigate_stellar" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-30" data-skill="navigate_stellar" data-level="4" data-characteristic="intelligence"></td></tr>
-                                <tr><td><span class="skill-name" data-skill="security">Безопасность</span><span class="skill-value" data-skill="security"></span></td><td><input type="checkbox" id="skill-security-k" data-skill="security" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-10" data-skill="security" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-20" data-skill="security" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-30" data-skill="security" data-level="4" data-characteristic="intelligence"></td></tr>
-                                
-                                <!-- Общие знания с динамическим добавлением -->
-                                <tr class="skill-group-header">
-                                    <td colspan="5">
-                                        Общие знания
-                                        <button type="button" class="add-skill-btn" data-skill-type="lore-common">+ Добавить</button>
-                                    </td>
-                                </tr>
-                                <tbody id="lore-common-container" class="sub-skills-container">
-                                    <!-- Динамически добавляемые строки -->
+            <div class="right-column">
+                <section class="skills-section">
+                    <h3>Навыки</h3>
+                    <div class="skills-container">
+                        <!-- Ловкость -->
+                        <div class="skill-characteristic-group">
+                            <h4>Ловкость (Лов)</h4>
+                            <table class="skills-table">
+                                <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>K</th>
+                                        <th>+10</th>
+                                        <th>+20</th>
+                                        <th>+30</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="skill-name" data-skill="acrobatics">Акробатика</span><span class="skill-value" data-skill="acrobatics"></span></td><td><input type="checkbox" id="skill-acrobatics-k" data-skill="acrobatics" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-acrobatics-10" data-skill="acrobatics" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-acrobatics-20" data-skill="acrobatics" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-acrobatics-30" data-skill="acrobatics" data-level="4" data-characteristic="agility"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="dodge">Уклонение</span><span class="skill-value" data-skill="dodge"></span></td><td><input type="checkbox" id="skill-dodge-k" data-skill="dodge" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-dodge-10" data-skill="dodge" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-dodge-20" data-skill="dodge" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-dodge-30" data-skill="dodge" data-level="4" data-characteristic="agility"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="operate_surface">Управление назем.</span><span class="skill-value" data-skill="operate_surface"></span></td><td><input type="checkbox" id="skill-operate_surface-k" data-skill="operate_surface" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_surface-10" data-skill="operate_surface" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_surface-20" data-skill="operate_surface" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_surface-30" data-skill="operate_surface" data-level="4" data-characteristic="agility"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="operate_aeronautica">Управление возду.</span><span class="skill-value" data-skill="operate_aeronautica"></span></td><td><input type="checkbox" id="skill-operate_aeronautica-k" data-skill="operate_aeronautica" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_aeronautica-10" data-skill="operate_aeronautica" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_aeronautica-20" data-skill="operate_aeronautica" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-operate_aeronautica-30" data-skill="operate_aeronautica" data-level="4" data-characteristic="agility"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="sleight_of_hand">Ловкость Рук</span><span class="skill-value" data-skill="sleight_of_hand"></span></td><td><input type="checkbox" id="skill-sleight_of_hand-k" data-skill="sleight_of_hand" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-sleight_of_hand-10" data-skill="sleight_of_hand" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-sleight_of_hand-20" data-skill="sleight_of_hand" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-sleight_of_hand-30" data-skill="sleight_of_hand" data-level="4" data-characteristic="agility"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="stealth">Скрытность</span><span class="skill-value" data-skill="stealth"></span></td><td><input type="checkbox" id="skill-stealth-k" data-skill="stealth" data-level="1" data-characteristic="agility"></td><td><input type="checkbox" id="skill-stealth-10" data-skill="stealth" data-level="2" data-characteristic="agility"></td><td><input type="checkbox" id="skill-stealth-20" data-skill="stealth" data-level="3" data-characteristic="agility"></td><td><input type="checkbox" id="skill-stealth-30" data-skill="stealth" data-level="4" data-characteristic="agility"></td></tr>
                                 </tbody>
+                            </table>
+                        </div>
 
-                                <!-- Запретные знания с динамическим добавлением -->
-                                <tr class="skill-group-header">
-                                    <td colspan="5">
-                                        Запретные знания
-                                        <button type="button" class="add-skill-btn" data-skill-type="lore-forbidden">+ Добавить</button>
-                                    </td>
-                                </tr>
-                                <tbody id="lore-forbidden-container" class="sub-skills-container">
-                                    <!-- Динамически добавляемые строки -->
+                        <!-- Сила -->
+                        <div class="skill-characteristic-group">
+                            <h4>Сила (С)</h4>
+                            <table class="skills-table">
+                                <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>K</th>
+                                        <th>+10</th>
+                                        <th>+20</th>
+                                        <th>+30</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="skill-name" data-skill="athletics">Атлетика</span><span class="skill-value" data-skill="athletics"></span></td><td><input type="checkbox" id="skill-athletics-k" data-skill="athletics" data-level="1" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-10" data-skill="athletics" data-level="2" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-20" data-skill="athletics" data-level="3" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-30" data-skill="athletics" data-level="4" data-characteristic="strength"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="intimidate">Запугивание</span><span class="skill-value" data-skill="intimidate"></span></td><td><input type="checkbox" id="skill-intimidate-k" data-skill="intimidate" data-level="1" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-10" data-skill="intimidate" data-level="2" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-20" data-skill="intimidate" data-level="3" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-30" data-skill="intimidate" data-level="4" data-characteristic="strength"></td></tr>
                                 </tbody>
+                            </table>
+                        </div>
 
-                                <!-- Лингвистика с динамическим добавлением -->
-                                <tr class="skill-group-header">
-                                    <td colspan="5">
-                                        Лингвистика
-                                        <button type="button" class="add-skill-btn" data-skill-type="linguistics">+ Добавить</button>
-                                    </td>
-                                </tr>
-                                <tbody id="linguistics-container" class="sub-skills-container">
-                                    <!-- Динамически добавляемые строки -->
+                        <!-- Восприятие -->
+                        <div class="skill-characteristic-group">
+                            <h4>Восприятие (Вос)</h4>
+                            <table class="skills-table">
+                                <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>K</th>
+                                        <th>+10</th>
+                                        <th>+20</th>
+                                        <th>+30</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="skill-name" data-skill="awareness">Бдительность</span><span class="skill-value" data-skill="awareness"></span></td><td><input type="checkbox" id="skill-awareness-k" data-skill="awareness" data-level="1" data-characteristic="perception"></td><td><input type="checkbox" id="skill-awareness-10" data-skill="awareness" data-level="2" data-characteristic="perception"></td><td><input type="checkbox" id="skill-awareness-20" data-skill="awareness" data-level="3" data-characteristic="perception"></td><td><input type="checkbox" id="skill-awareness-30" data-skill="awareness" data-level="4" data-characteristic="perception"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="survival">Выживание</span><span class="skill-value" data-skill="survival"></span></td><td><input type="checkbox" id="skill-survival-k" data-skill="survival" data-level="1" data-characteristic="perception"></td><td><input type="checkbox" id="skill-survival-10" data-skill="survival" data-level="2" data-characteristic="perception"></td><td><input type="checkbox" id="skill-survival-20" data-skill="survival" data-level="3" data-characteristic="perception"></td><td><input type="checkbox" id="skill-survival-30" data-skill="survival" data-level="4" data-characteristic="perception"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="scrutiny">Проницательность</span><span class="skill-value" data-skill="scrutiny"></span></td><td><input type="checkbox" id="skill-scrutiny-k" data-skill="scrutiny" data-level="1" data-characteristic="perception"></td><td><input type="checkbox" id="skill-scrutiny-10" data-skill="scrutiny" data-level="2" data-characteristic="perception"></td><td><input type="checkbox" id="skill-scrutiny-20" data-skill="scrutiny" data-level="3" data-characteristic="perception"></td><td><input type="checkbox" id="skill-scrutiny-30" data-skill="scrutiny" data-level="4" data-characteristic="perception"></td></tr>
                                 </tbody>
+                            </table>
+                        </div>
 
-                                <!-- Учёные Знания с динамическим добавлением -->
-                                <tr class="skill-group-header">
-                                    <td colspan="5">
-                                        Учёные Знания
-                                        <button type="button" class="add-skill-btn" data-skill-type="lore-scholastic">+ Добавить</button>
-                                    </td>
-                                </tr>
-                                <tbody id="lore-scholastic-container" class="sub-skills-container">
-                                    <!-- Динамически добавляемые строки -->
+                        <!-- Общительность -->
+                        <div class="skill-characteristic-group">
+                            <h4>Общительность (Общ)</h4>
+                            <table class="skills-table">
+                                <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>K</th>
+                                        <th>+10</th>
+                                        <th>+20</th>
+                                        <th>+30</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="skill-name" data-skill="charm">Обаяние</span><span class="skill-value" data-skill="charm"></span></td><td><input type="checkbox" id="skill-charm-k" data-skill="charm" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-charm-10" data-skill="charm" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-charm-20" data-skill="charm" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-charm-30" data-skill="charm" data-level="4" data-characteristic="fellowship"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="command">Командывание</span><span class="skill-value" data-skill="command"></span></td><td><input type="checkbox" id="skill-command-k" data-skill="command" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-command-10" data-skill="command" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-command-20" data-skill="command" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-command-30" data-skill="command" data-level="4" data-characteristic="fellowship"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="commerce">Комерция</span><span class="skill-value" data-skill="commerce"></span></td><td><input type="checkbox" id="skill-commerce-k" data-skill="commerce" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-commerce-10" data-skill="commerce" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-commerce-20" data-skill="commerce" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-commerce-30" data-skill="commerce" data-level="4" data-characteristic="fellowship"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="deceive">Обман</span><span class="skill-value" data-skill="deceive"></span></td><td><input type="checkbox" id="skill-deceive-k" data-skill="deceive" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-deceive-10" data-skill="deceive" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-deceive-20" data-skill="deceive" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-deceive-30" data-skill="deceive" data-level="4" data-characteristic="fellowship"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="inquiry">Дознание</span><span class="skill-value" data-skill="inquiry"></span></td><td><input type="checkbox" id="skill-inquiry-k" data-skill="inquiry" data-level="1" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-inquiry-10" data-skill="inquiry" data-level="2" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-inquiry-20" data-skill="inquiry" data-level="3" data-characteristic="fellowship"></td><td><input type="checkbox" id="skill-inquiry-30" data-skill="inquiry" data-level="4" data-characteristic="fellowship"></td></tr>
                                 </tbody>
+                            </table>
+                        </div>
 
-                                <!-- Ремесло с динамическим добавлением -->
-                                <tr class="skill-group-header">
-                                    <td colspan="5">
-                                        Ремесло
-                                        <button type="button" class="add-skill-btn" data-skill-type="trade">+ Добавить</button>
-                                    </td>
-                                </tr>
-                                <tbody id="trade-container" class="sub-skills-container">
-                                    <!-- Динамически добавляемые строки -->
+                        <!-- Интеллект -->
+                        <div class="skill-characteristic-group">
+                            <h4>Интеллект (Инт)</h4>
+                            <table class="skills-table">
+                                <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>K</th>
+                                        <th>+10</th>
+                                        <th>+20</th>
+                                        <th>+30</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="skill-name" data-skill="logic">Логика</span><span class="skill-value" data-skill="logic"></span></td><td><input type="checkbox" id="skill-logic-k" data-skill="logic" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-logic-10" data-skill="logic" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-logic-20" data-skill="logic" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-logic-30" data-skill="logic" data-level="4" data-characteristic="intelligence"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="medicae">Медика</span><span class="skill-value" data-skill="medicae"></span></td><td><input type="checkbox" id="skill-medicae-k" data-skill="medicae" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-medicae-10" data-skill="medicae" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-medicae-20" data-skill="medicae" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-medicae-30" data-skill="medicae" data-level="4" data-characteristic="intelligence"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="navigate_surface">Навигация назем.</span><span class="skill-value" data-skill="navigate_surface"></span></td><td><input type="checkbox" id="skill-navigate_surface-k" data-skill="navigate_surface" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_surface-10" data-skill="navigate_surface" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_surface-20" data-skill="navigate_surface" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_surface-30" data-skill="navigate_surface" data-level="4" data-characteristic="intelligence"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="navigate_stellar">Навигация возд.</span><span class="skill-value" data-skill="navigate_stellar"></span></td><td><input type="checkbox" id="skill-navigate_stellar-k" data-skill="navigate_stellar" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-10" data-skill="navigate_stellar" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-20" data-skill="navigate_stellar" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-30" data-skill="navigate_stellar" data-level="4" data-characteristic="intelligence"></td></tr>
+                                    <tr><td><span class="skill-name" data-skill="security">Безопасность</span><span class="skill-value" data-skill="security"></span></td><td><input type="checkbox" id="skill-security-k" data-skill="security" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-10" data-skill="security" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-20" data-skill="security" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-30" data-skill="security" data-level="4" data-characteristic="intelligence"></td></tr>
+                                    
+                                    <!-- Общие знания с динамическим добавлением -->
+                                    <tr class="skill-group-header">
+                                        <td colspan="5">
+                                            Общие знания
+                                            <button type="button" class="add-skill-btn" data-skill-type="lore-common">+ Добавить</button>
+                                        </td>
+                                    </tr>
+                                    <tbody id="lore-common-container" class="sub-skills-container">
+                                        <!-- Динамически добавляемые строки -->
+                                    </tbody>
+
+                                    <!-- Запретные знания с динамическим добавлением -->
+                                    <tr class="skill-group-header">
+                                        <td colspan="5">
+                                            Запретные знания
+                                            <button type="button" class="add-skill-btn" data-skill-type="lore-forbidden">+ Добавить</button>
+                                        </td>
+                                    </tr>
+                                    <tbody id="lore-forbidden-container" class="sub-skills-container">
+                                        <!-- Динамически добавляемые строки -->
+                                    </tbody>
+
+                                    <!-- Лингвистика с динамическим добавлением -->
+                                    <tr class="skill-group-header">
+                                        <td colspan="5">
+                                            Лингвистика
+                                            <button type="button" class="add-skill-btn" data-skill-type="linguistics">+ Добавить</button>
+                                        </td>
+                                    </tr>
+                                    <tbody id="linguistics-container" class="sub-skills-container">
+                                        <!-- Динамически добавляемые строки -->
+                                    </tbody>
+
+                                    <!-- Учёные Знания с динамическим добавлением -->
+                                    <tr class="skill-group-header">
+                                        <td colspan="5">
+                                            Учёные Знания
+                                            <button type="button" class="add-skill-btn" data-skill-type="lore-scholastic">+ Добавить</button>
+                                        </td>
+                                    </tr>
+                                    <tbody id="lore-scholastic-container" class="sub-skills-container">
+                                        <!-- Динамически добавляемые строки -->
+                                    </tbody>
+
+                                    <!-- Ремесло с динамическим добавлением -->
+                                    <tr class="skill-group-header">
+                                        <td colspan="5">
+                                            Ремесло
+                                            <button type="button" class="add-skill-btn" data-skill-type="trade">+ Добавить</button>
+                                        </td>
+                                    </tr>
+                                    <tbody id="trade-container" class="sub-skills-container">
+                                        <!-- Динамически добавляемые строки -->
+                                    </tbody>
                                 </tbody>
-                            </tbody>
-                        </table>
+                            </table>
+                        </div>
+
+                        <!-- Сила воли -->
+                        <div class="skill-characteristic-group">
+                            <h4>Сила воли (СВ)</h4>
+                            <table class="skills-table">
+                                <thead>
+                                    <tr>
+                                        <th>Навык</th>
+                                        <th>K</th>
+                                        <th>+10</th>
+                                        <th>+20</th>
+                                        <th>+30</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td><span class="skill-name" data-skill="interrogation">Допрос</span><span class="skill-value" data-skill="interrogation"></span></td><td><input type="checkbox" id="skill-interrogation-k" data-skill="interrogation" data-level="1" data-characteristic="willpower"></td><td><input type="checkbox" id="skill-interrogation-10" data-skill="interrogation" data-level="2" data-characteristic="willpower"></td><td><input type="checkbox" id="skill-interrogation-20" data-skill="interrogation" data-level="3" data-characteristic="willpower"></td><td><input type="checkbox" id="skill-interrogation-30" data-skill="interrogation" data-level="4" data-characteristic="willpower"></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </section>
 
-                    <!-- Сила воли -->
-                    <div class="skill-characteristic-group">
-                        <h4>Сила воли (СВ)</h4>
-                        <table class="skills-table">
-                            <thead>
-                                <tr>
-                                    <th>Навык</th>
-                                    <th>K</th>
-                                    <th>+10</th>
-                                    <th>+20</th>
-                                    <th>+30</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><span class="skill-name" data-skill="interrogation">Допрос</span><span class="skill-value" data-skill="interrogation"></span></td><td><input type="checkbox" id="skill-interrogation-k" data-skill="interrogation" data-level="1" data-characteristic="willpower"></td><td><input type="checkbox" id="skill-interrogation-10" data-skill="interrogation" data-level="2" data-characteristic="willpower"></td><td><input type="checkbox" id="skill-interrogation-20" data-skill="interrogation" data-level="3" data-characteristic="willpower"></td><td><input type="checkbox" id="skill-interrogation-30" data-skill="interrogation" data-level="4" data-characteristic="willpower"></td></tr>
-                            </tbody>
-                        </table>
+                <!-- Новая секция: Заметки и отношения -->
+                <section class="notes-section">
+                    <h3>Заметки</h3>
+                    <textarea id="char-notes" placeholder="Заметки о персонаже..." rows="6"></textarea>
+                </section>
+
+                <section class="relationships-section">
+                    <h3>Союзники и враги</h3>
+                    <div class="relationship-group">
+                        <h4>Союзники</h4>
+                        <div class="relationship-container" id="allies-container">
+                            <!-- Динамически добавляемые союзники -->
+                        </div>
+                        <button type="button" class="add-relationship-btn" data-type="allies">+ Добавить союзника</button>
                     </div>
-                </div>
-            </section>
+                    <div class="relationship-group">
+                        <h4>Враги</h4>
+                        <div class="relationship-container" id="enemies-container">
+                            <!-- Динамически добавляемые враги -->
+                        </div>
+                        <button type="button" class="add-relationship-btn" data-type="enemies">+ Добавить врага</button>
+                    </div>
+                </section>
+            </div>
         </main>
 
         <footer class="sheet-footer">
@@ -375,7 +458,7 @@
     <!-- Модальное окно подтверждения удаления -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
-            <p>Вы уверены, что хотите удалить навык?</p>
+            <p>Вы уверены, что хотите удалить?</p>
             <div class="modal-buttons">
                 <button id="confirm-yes" class="modal-btn confirm-btn">Да</button>
                 <button id="confirm-no" class="modal-btn cancel-btn">Нет</button>

@@ -27,6 +27,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.getElementById('save-button');
     const loadInput = document.getElementById('file-input');
 
+    // --- АВАТАРКА ---
+    const avatarPlaceholder = document.getElementById('avatar-placeholder');
+    const avatarInput = document.getElementById('avatar-input');
+    const avatarUploadBtn = document.getElementById('avatar-upload-btn');
+    let avatarData = null;
+
+    avatarUploadBtn.addEventListener('click', () => {
+        avatarInput.click();
+    });
+
+    avatarInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                avatarData = e.target.result;
+                avatarPlaceholder.style.backgroundImage = `url(${avatarData})`;
+                avatarPlaceholder.classList.add('has-image');
+                avatarPlaceholder.querySelector('span').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
     // --- ДИНАМИЧЕСКОЕ ДОБАВЛЕНИЕ СТРОК ДЛЯ НАВЫКОВ ---
     const skillTypes = ['lore-common', 'lore-forbidden', 'linguistics', 'lore-scholastic', 'trade'];
     
@@ -154,6 +178,41 @@ document.addEventListener('DOMContentLoaded', () => {
     skillTypes.forEach(skillType => {
         addSkillRow(skillType);
     });
+
+    // --- СОЮЗНИКИ И ВРАГИ ---
+    const alliesContainer = document.getElementById('allies-container');
+    const enemiesContainer = document.getElementById('enemies-container');
+
+    function addRelationship(type, data = null) {
+        const container = type === 'allies' ? alliesContainer : enemiesContainer;
+        const relationshipId = `${type}-${Date.now()}`;
+        
+        const relationshipItem = document.createElement('div');
+        relationshipItem.className = 'relationship-item';
+        relationshipItem.innerHTML = `
+            <input type="text" placeholder="Имя и описание..." value="${data || ''}">
+            <button type="button" class="remove-relationship-btn" title="Удалить">×</button>
+        `;
+        
+        container.appendChild(relationshipItem);
+        
+        // Добавляем обработчик для кнопки удаления
+        relationshipItem.querySelector('.remove-relationship-btn').addEventListener('click', () => {
+            relationshipItem.remove();
+        });
+    }
+
+    // Добавляем обработчики для кнопок добавления союзников и врагов
+    document.querySelectorAll('.add-relationship-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const type = button.getAttribute('data-type');
+            addRelationship(type);
+        });
+    });
+
+    // Добавляем по одному пустому полю для союзников и врагов при загрузке
+    addRelationship('allies');
+    addRelationship('enemies');
 
     // --- ТАБЛИЦА СТОИМОСТИ УЛУЧШЕНИЙ ---
     const improvementCosts = {
@@ -352,13 +411,18 @@ document.addEventListener('DOMContentLoaded', () => {
             aptitudes: {},
             dynamicSkills: {},
             improvements: {},
-            experience: {}
+            experience: {},
+            basicInfo: {},
+            appearance: {},
+            notes: {},
+            relationships: {},
+            avatar: null
         };
         
         // Статические текстовые поля
         document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
             // Пропускаем динамические поля (они собираются отдельно)
-            if (!input.id.includes('-sub')) {
+            if (!input.id.includes('-sub') && !input.closest('.relationship-item')) {
                 data.inputs[input.id] = input.value;
             }
         });
@@ -418,6 +482,37 @@ document.addEventListener('DOMContentLoaded', () => {
             used: usedExpInput.value,
             total: totalExpInput.value
         };
+
+        // Основная информация
+        data.basicInfo = {
+            race: document.getElementById('char-race').value,
+            background: document.getElementById('char-background').value,
+            role: document.getElementById('char-role').value,
+            age: document.getElementById('char-age').value,
+            gender: document.getElementById('char-gender').value
+        };
+
+        // Внешность
+        data.appearance = {
+            skin: document.getElementById('char-skin').value,
+            eyes: document.getElementById('char-eyes').value,
+            hair: document.getElementById('char-hair').value,
+            build: document.getElementById('char-build').value
+        };
+
+        // Заметки
+        data.notes = {
+            notes: document.getElementById('char-notes').value
+        };
+
+        // Союзники и враги
+        data.relationships = {
+            allies: Array.from(alliesContainer.querySelectorAll('input')).map(input => input.value),
+            enemies: Array.from(enemiesContainer.querySelectorAll('input')).map(input => input.value)
+        };
+
+        // Аватар
+        data.avatar = avatarData;
         
         return data;
     }
@@ -492,6 +587,65 @@ document.addEventListener('DOMContentLoaded', () => {
             currentExpInput.value = data.experience.current || 0;
             usedExpInput.value = data.experience.used || 0;
             totalExpInput.value = data.experience.total || 0;
+        }
+
+        // Основная информация
+        if (data.basicInfo) {
+            document.getElementById('char-race').value = data.basicInfo.race || '';
+            document.getElementById('char-background').value = data.basicInfo.background || '';
+            document.getElementById('char-role').value = data.basicInfo.role || '';
+            document.getElementById('char-age').value = data.basicInfo.age || '';
+            document.getElementById('char-gender').value = data.basicInfo.gender || '';
+        }
+
+        // Внешность
+        if (data.appearance) {
+            document.getElementById('char-skin').value = data.appearance.skin || '';
+            document.getElementById('char-eyes').value = data.appearance.eyes || '';
+            document.getElementById('char-hair').value = data.appearance.hair || '';
+            document.getElementById('char-build').value = data.appearance.build || '';
+        }
+
+        // Заметки
+        if (data.notes) {
+            document.getElementById('char-notes').value = data.notes.notes || '';
+        }
+
+        // Союзники и враги
+        if (data.relationships) {
+            // Очищаем контейнеры
+            alliesContainer.innerHTML = '';
+            enemiesContainer.innerHTML = '';
+
+            // Добавляем союзников
+            if (data.relationships.allies) {
+                data.relationships.allies.forEach(ally => {
+                    if (ally) addRelationship('allies', ally);
+                });
+            }
+
+            // Добавляем врагов
+            if (data.relationships.enemies) {
+                data.relationships.enemies.forEach(enemy => {
+                    if (enemy) addRelationship('enemies', enemy);
+                });
+            }
+
+            // Если нет данных, добавляем пустые поля
+            if (!data.relationships.allies || data.relationships.allies.length === 0) {
+                addRelationship('allies');
+            }
+            if (!data.relationships.enemies || data.relationships.enemies.length === 0) {
+                addRelationship('enemies');
+            }
+        }
+
+        // Аватар
+        if (data.avatar) {
+            avatarData = data.avatar;
+            avatarPlaceholder.style.backgroundImage = `url(${data.avatar})`;
+            avatarPlaceholder.classList.add('has-image');
+            avatarPlaceholder.querySelector('span').style.display = 'none';
         }
     }
     

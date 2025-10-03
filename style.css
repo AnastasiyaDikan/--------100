@@ -36,7 +36,7 @@ input[type="checkbox"] {
 
 /* Контейнер листа */
 .character-sheet {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 20px auto;
     background: #fff;
     border-radius: 8px;
@@ -53,11 +53,67 @@ input[type="checkbox"] {
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 20px;
+    gap: 20px;
 }
+
+/* Аватар персонажа */
+.character-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 120px;
+}
+
+.avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.avatar-placeholder:hover {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+}
+
+.avatar-placeholder.has-image {
+    border-style: solid;
+    background-size: cover;
+    background-position: center;
+}
+
+.avatar-placeholder span {
+    color: #666;
+    font-size: 12px;
+}
+
+#avatar-upload-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #6c757d;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#avatar-upload-btn:hover {
+    background-color: #5a6268;
+}
+
 .header-info {
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-grow: 1;
 }
 .header-info input {
     font-size: 16px;
@@ -101,13 +157,54 @@ input[type="checkbox"] {
 /* Основная сетка */
 .main-grid {
     display: grid;
-    grid-template-columns: minmax(350px, 380px) 1fr; /* Увеличил ширину левой колонки */
+    grid-template-columns: 400px 1fr;
     gap: 30px;
 }
 .left-column {
     display: flex;
     flex-direction: column;
     gap: 25px;
+}
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Основная информация */
+.basic-info-section,
+.appearance-section {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.basic-info-grid,
+.appearance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.info-item label {
+    font-weight: 500;
+    font-size: 12px;
+    color: #555;
+}
+
+.info-item input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
 }
 
 /* Характеристики с улучшенным расположением кружочков */
@@ -236,7 +333,7 @@ input[type="checkbox"] {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-height: 70vh;
+    max-height: 60vh;
     overflow-y: auto;
     padding-right: 10px;
 }
@@ -299,12 +396,14 @@ input[type="checkbox"] {
     display: inline-block;
 }
 
-/* Стили для групп навыков - более светлый фон */
+/* Стили для групп навыков - БОЛЕЕ ТЕМНЫЙ ФОН */
 .skill-group-header td {
-    background-color: #e0e0e0;
+    background-color: #e0e0e0; /* Сделал темнее */
     font-weight: bold;
     text-align: left;
     padding-left: 10px;
+    border-bottom: 2px solid #ccc; /* Добавил границу для разделения */
+    color: #333; /* Сделал текст более контрастным */
 }
 .skill-sub-row td:first-child {
     padding-left: 25px; /* Создаем отступ для под-категории */
@@ -338,6 +437,108 @@ input[type="checkbox"] {
 }
 .add-skill-btn:hover {
     background-color: #218838;
+}
+
+/* Заметки */
+.notes-section {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+#char-notes {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* Союзники и враги */
+.relationships-section {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    background-color: #f9f9f9;
+}
+
+.relationship-group {
+    margin-bottom: 20px;
+}
+
+.relationship-group:last-child {
+    margin-bottom: 0;
+}
+
+.relationship-group h4 {
+    margin-top: 0;
+    background-color: #e0e0e0;
+}
+
+.relationship-container {
+    margin-bottom: 10px;
+}
+
+.relationship-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    padding: 8px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.relationship-item input {
+    flex-grow: 1;
+    border: none;
+    background: none;
+    padding: 4px;
+}
+
+.relationship-item input:focus {
+    outline: none;
+    background-color: #f0f8ff;
+}
+
+.remove-relationship-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.remove-relationship-btn:hover {
+    background-color: #c82333;
+}
+
+.add-relationship-btn {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-relationship-btn:hover {
+    background-color: #138496;
 }
 
 /* Кнопка удаления строки */
