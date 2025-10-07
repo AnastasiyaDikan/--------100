@@ -139,16 +139,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const row = document.createElement('tr');
         row.className = 'skill-sub-row';
         row.innerHTML = `
-            <td>
-                <button type="button" class="remove-skill-btn" title="Удалить навык">×</button>
-                <span class="skill-name" data-skill="${skillType}-sub${rowIndex}">${getPlaceholder(skillType)}</span>
-                <span class="skill-value" data-skill="${skillType}-sub${rowIndex}"></span>
-            </td>
-            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-k" data-skill="${skillType}-sub${rowIndex}" data-level="1" data-characteristic="intelligence"></td>
-            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-10" data-skill="${skillType}-sub${rowIndex}" data-level="2" data-characteristic="intelligence"></td>
-            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-20" data-skill="${skillType}-sub${rowIndex}" data-level="3" data-characteristic="intelligence"></td>
-            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-30" data-skill="${skillType}-sub${rowIndex}" data-level="4" data-characteristic="intelligence"></td>
-        `;
+    <td>
+        <button type="button" class="remove-skill-btn" title="Удалить навык">×</button>
+        <span class="skill-name" data-skill="${skillType}-sub${rowIndex}">${getPlaceholder(skillType)}</span>
+        <span class="skill-value" data-skill="${skillType}-sub${rowIndex}"></span>
+    </td>
+    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-k" data-skill="${skillType}-sub${rowIndex}" data-level="1" data-characteristic="intelligence"></td>
+    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-10" data-skill="${skillType}-sub${rowIndex}" data-level="2" data-characteristic="intelligence"></td>
+    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-20" data-skill="${skillType}-sub${rowIndex}" data-level="3" data-characteristic="intelligence"></td>
+    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-30" data-skill="${skillType}-sub${rowIndex}" data-level="4" data-characteristic="intelligence"></td>
+    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-40" data-skill="${skillType}-sub${rowIndex}" data-level="5" data-characteristic="intelligence"></td>
+`;
         
         container.appendChild(row);
         
@@ -409,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (checkboxes[1].checked) skillBonus = 10;  // +10
         if (checkboxes[2].checked) skillBonus = 20;  // +20
         if (checkboxes[3].checked) skillBonus = 30;  // +30
+        if (checkboxes[4].checked) skillBonus = 40;  // +40 (ДОБАВИТЬ ЭТУ СТРОКУ)
         
         // Получаем характеристику навыка
         const characteristic = checkboxes[0].dataset.characteristic;
@@ -621,6 +623,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const plus10Elem = document.getElementById(`${skillType}-sub${rowIndex}-10`);
                 const plus20Elem = document.getElementById(`${skillType}-sub${rowIndex}-20`);
                 const plus30Elem = document.getElementById(`${skillType}-sub${rowIndex}-30`);
+                const plus40Elem = document.getElementById(`${skillType}-sub${rowIndex}-40`);
                 
                 if (nameElem && kElem && plus10Elem && plus20Elem && plus30Elem) {
                     data.dynamicSkills[skillType].push({
@@ -628,7 +631,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         k: kElem.checked,
                         plus10: plus10Elem.checked,
                         plus20: plus20Elem.checked,
-                        plus30: plus30Elem.checked
+                        plus30: plus30Elem.checked,                        
+                        plus30: plus40Elem.checked
                     });
                 }
             });
