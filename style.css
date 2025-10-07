@@ -25,7 +25,7 @@ input {
     box-sizing: border-box;
 }
 input[type="number"] {
-    width: 80px; /* Увеличили ширину полей с числами */
+    width: 80px;
     text-align: center;
 }
 input[type="checkbox"] {
@@ -36,7 +36,7 @@ input[type="checkbox"] {
 
 /* Контейнер листа */
 .character-sheet {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 20px auto;
     background: #fff;
     border-radius: 8px;
@@ -57,11 +57,11 @@ input[type="checkbox"] {
 }
 
 .header-main {
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    flex-grow: 1;
 }
 
 .header-controls {
@@ -90,12 +90,11 @@ input[type="checkbox"] {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    min-width: 150px;
 }
 
 .avatar-placeholder {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     border: 2px dashed #ccc;
     border-radius: 8px;
     display: flex;
@@ -137,13 +136,99 @@ input[type="checkbox"] {
     background-color: #5a6268;
 }
 
+/* Характеристики в шапке */
+.header-characteristics {
+    min-width: 200px;
+}
+
+.header-characteristics .stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.header-characteristics .stat-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.header-characteristics .stat-item label {
+    font-weight: 500;
+    width: 100px;
+}
+
+.header-characteristics .stat-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.header-characteristics .improvement-dots {
+    display: flex;
+    gap: 3px;
+    align-items: center;
+}
+
+.header-characteristics .improvement-dot {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #28a745;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: white;
+}
+
+.header-characteristics .improvement-dot.filled {
+    background-color: #28a745;
+}
+
+/* Склонности в шапке */
+.header-aptitudes {
+    min-width: 180px;
+}
+
+.header-aptitudes .aptitude-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.header-aptitudes .aptitude-item .dots { 
+    display: flex; 
+    gap: 4px; 
+}
+.header-aptitudes .aptitude-item .dot {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.header-aptitudes .aptitude-item .dot.filled { 
+    background-color: #333; 
+}
+
+/* Правая часть шапки */
+.header-right {
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 /* Таблица опыта */
 .experience-table {
-    margin-left: 20px;
+    margin-left: 0;
 }
 .experience-table table {
     border-collapse: collapse;
-    font-size: 12px;
+    font-size: 11px;
     background-color: #f9f9f9;
     border-radius: 4px;
     overflow: hidden;
@@ -151,7 +236,7 @@ input[type="checkbox"] {
 }
 .experience-table th, .experience-table td {
     border: 1px solid #ddd;
-    padding: 6px 8px;
+    padding: 4px 6px;
     text-align: center;
 }
 .experience-table th {
@@ -161,6 +246,32 @@ input[type="checkbox"] {
 .experience-table td:first-child {
     text-align: left;
     font-weight: 500;
+}
+
+/* Опыт в шапке */
+.header-experience {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.header-experience .experience-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.header-experience .experience-item label {
+    font-weight: 500;
+    font-size: 12px;
+    width: 120px;
+}
+
+.header-experience .experience-item input {
+    width: 70px;
+    font-size: 12px;
 }
 
 /* Основная сетка */
@@ -220,125 +331,87 @@ input[type="checkbox"] {
     font-size: 14px;
 }
 
-/* Характеристики с улучшенным расположением кружочков */
-.characteristics-section {
+/* Союзники и враги */
+.relationships-section {
     border: 1px solid #ddd;
     border-radius: 6px;
     padding: 15px;
     background-color: #f9f9f9;
 }
 
-.stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee; /* Тонкая разделительная линия */
-    position: relative;
+.relationship-group {
+    margin-bottom: 20px;
 }
 
-.stat-item:last-child {
-    border-bottom: none;
+.relationship-group:last-child {
     margin-bottom: 0;
-    padding-bottom: 0;
 }
 
-.stat-item label {
-    font-weight: 500;
-    width: 100px;
+.relationship-group h4 {
+    margin-top: 0;
+    background-color: #e0e0e0;
 }
 
-.stat-input-container {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Уменьшил расстояние между полем ввода и кружочками */
+.relationship-container {
+    margin-bottom: 10px;
 }
 
-.improvement-dots {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-
-.improvement-dot {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #28a745;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s;
-    background-color: white;
-    position: relative;
-}
-
-.improvement-dot.filled {
-    background-color: #28a745;
-}
-
-.improvement-dot:hover {
-    transform: scale(1.2);
-}
-
-/* Подсказка для кружочков улучшения */
-.improvement-dot::after {
-    content: attr(data-value);
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 10px;
-    color: #666;
-    opacity: 0;
-    transition: opacity 0.2s;
-    pointer-events: none;
-}
-
-.improvement-dot:hover::after {
-    opacity: 1;
-}
-
-/* Склонности с исправленной логикой */
-.aptitude-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.relationship-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 10px;
     margin-bottom: 8px;
+    padding: 8px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    align-items: center;
 }
-.aptitude-item .dots { 
-    display: flex; 
-    gap: 6px; 
+
+.relationship-item input {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 12px;
 }
-.aptitude-item .dot {
-    width: 18px;
-    height: 18px;
-    border: 2px solid #555;
-    border-radius: 50%;
+
+.relationship-item input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.remove-relationship-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.remove-relationship-btn:hover {
+    background-color: #c82333;
+}
+
+.add-relationship-btn {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
     cursor: pointer;
     transition: background-color 0.2s;
 }
-.aptitude-item .dot.filled { 
-    background-color: #333; 
-}
 
-/* Опыт с увеличенными полями */
-.experience-section {
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-}
-.experience-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-.experience-item label {
-    font-weight: 500;
-    width: 140px; /* Увеличили ширину меток */
-}
-.experience-item input {
-    width: 100px; /* Увеличили ширину полей ввода опыта */
-    font-size: 14px;
+.add-relationship-btn:hover {
+    background-color: #138496;
 }
 
 /* Контейнер навыков */
@@ -447,17 +520,17 @@ input[type="checkbox"] {
     display: inline-block;
 }
 
-/* Стили для групп навыков - БОЛЕЕ ТЕМНЫЙ ФОН */
+/* Стили для групп навыков */
 .skill-group-header td {
-    background-color: #e0e0e0; /* Сделал темнее */
+    background-color: #e0e0e0;
     font-weight: bold;
     text-align: left;
     padding-left: 10px;
-    border-bottom: 2px solid #ccc; /* Добавил границу для разделения */
-    color: #333; /* Сделал текст более контрастным */
+    border-bottom: 2px solid #ccc;
+    color: #333;
 }
 .skill-sub-row td:first-child {
-    padding-left: 25px; /* Создаем отступ для под-категории */
+    padding-left: 25px;
     position: relative;
 }
 .skill-sub-row input[type="text"] {
@@ -467,7 +540,7 @@ input[type="checkbox"] {
     border-bottom: 1px solid #ccc;
     border-radius: 0;
     padding: 4px 0;
-    padding-left: 30px; /* Место для кнопки удаления */
+    padding-left: 30px;
 }
 .skill-sub-row input[type="text"]:focus {
     outline: none;
@@ -488,89 +561,6 @@ input[type="checkbox"] {
 }
 .add-skill-btn:hover {
     background-color: #218838;
-}
-
-/* Союзники и враги */
-.relationships-section {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    background-color: #f9f9f9;
-}
-
-.relationship-group {
-    margin-bottom: 20px;
-}
-
-.relationship-group:last-child {
-    margin-bottom: 0;
-}
-
-.relationship-group h4 {
-    margin-top: 0;
-    background-color: #e0e0e0;
-}
-
-.relationship-container {
-    margin-bottom: 10px;
-}
-
-.relationship-item {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 10px;
-    margin-bottom: 8px;
-    padding: 8px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    align-items: center;
-}
-
-.relationship-item input {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 6px;
-    font-size: 12px;
-}
-
-.relationship-item input:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-.remove-relationship-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-}
-
-.remove-relationship-btn:hover {
-    background-color: #c82333;
-}
-
-.add-relationship-btn {
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.add-relationship-btn:hover {
-    background-color: #138496;
 }
 
 /* Кнопка удаления строки */
@@ -821,94 +811,4 @@ input[type="checkbox"] {
     padding: 15px;
     background-color: #f9f9f9;
     margin-bottom: 20px;
-}
-
-/* Безумие и Порча */
-.madness-points,
-.corruption-points {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-.madness-points label,
-.corruption-points label {
-    font-weight: 500;
-    width: 120px;
-}
-
-.madness-points input,
-.corruption-points input {
-    width: 80px;
-    text-align: center;
-}
-
-.mutation-item,
-.corruption-item {
-    display: grid;
-    grid-template-columns: 1fr 2fr auto;
-    gap: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    align-items: start;
-}
-
-.mutation-item input,
-.corruption-item input {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 8px;
-    font-size: 12px;
-}
-
-.mutation-item input:focus,
-.corruption-item input:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-.remove-mutation-btn,
-.remove-corruption-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-    margin-top: 5px;
-}
-
-.remove-mutation-btn:hover,
-.remove-corruption-btn:hover {
-    background-color: #c82333;
-}
-
-.add-mutation-btn,
-.add-corruption-btn {
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    width: 100%;
-}
-
-.add-mutation-btn:hover,
-.add-corruption-btn:hover {
-    background-color: #138496;
 }
