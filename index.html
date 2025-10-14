@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Интерактивный Лист Персонажа v4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +14,6 @@
     <div class="character-sheet">
         <header class="sheet-header">
             <div class="header-top">
-                <!-- Характеристики слева -->
                 <div class="header-characteristics">
                     <h3>Характеристики</h3>
                     <div class="stat-item">
@@ -92,7 +94,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Новые характеристики -->
                     <div class="stat-item">
                         <label for="stat-melee">Навык рукопашной (НР)</label>
                         <div class="stat-input-container">
@@ -134,11 +135,9 @@
                     </div>
                 </div>
 
-                <!-- Центральная часть с заголовком, аватаркой и кнопками -->
                 <div class="header-main">
                     <h1>Лист Персонажа</h1>
                     
-                    <!-- Аватарка по центру -->
                     <div class="character-avatar">
                         <div class="avatar-placeholder" id="avatar-placeholder">
                             <span>Аватар</span>
@@ -147,7 +146,6 @@
                         <button type="button" id="avatar-upload-btn">Загрузить</button>
                     </div>
                     
-                    <!-- Кнопки под аватаркой -->
                     <div class="header-controls">
                         <button id="notes-button">Заметки</button>
                         <button id="save-button">Сохранить</button>
@@ -156,7 +154,6 @@
                     </div>
                 </div>
 
-                <!-- Склонности справа от аватарки -->
                 <div class="header-aptitudes">
                     <h3>Склонности</h3>
                     <div class="aptitude-item" data-aptitude="bs"><span>Навык Стрел.</span><div class="dots"><div class="dot"></div><div class="dot"></div></div></div>
@@ -170,7 +167,6 @@
                     <div class="aptitude-item" data-aptitude="wp"><span>Сила воли</span><div class="dots"><div class="dot"></div><div class="dot"></div></div></div>
                 </div>
 
-                <!-- Правая часть с таблицей стоимости и опытом -->
                 <div class="header-right">
                     <div class="experience-table">
                         <table>
@@ -213,7 +209,6 @@
                         </table>
                     </div>
                     
-                    <!-- Опыт в правом верхнем углу -->
                     <div class="header-experience">
                         <h3>Опыт</h3>
                         <div class="experience-item">
@@ -229,13 +224,43 @@
                             <input type="number" id="total-exp" min="0" value="0">
                         </div>
                     </div>
+
+                    <div class="fate-points-section">
+                        <h3>Очки Судьбы</h3>
+                        <div class="fate-points-item">
+                            <label for="fate-max">Максимум</label>
+                            <input type="number" id="fate-max" min="1" max="10" value="3">
+                        </div>
+                        <div class="fate-points-item">
+                            <label for="fate-current">Текущие</label>
+                            <div class="fate-controls">
+                                <button type="button" id="fate-decrease">-</button>
+                                <input type="number" id="fate-current" min="0" max="10" value="3" readonly>
+                                <button type="button" id="fate-increase">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="abyss-points-section">
+                        <h3>Очки Бездны</h3>
+                        <div class="abyss-points-item">
+                            <label for="abyss-points">Очки</label>
+                            <input type="number" id="abyss-points" min="0" value="0">
+                        </div>
+                    </div>
+
+                    <div class="abyss-breakthrough-section">
+                        <h3>Прорывы Бездны</h3>
+                        <div class="abyss-breakthrough-container" id="abyss-breakthrough-container">
+                            </div>
+                        <button type="button" class="add-breakthrough-btn">+ Добавить прорыв</button>
+                    </div>
                 </div>
             </div>
         </header>
 
         <main class="main-grid">
             <div class="left-column">
-                <!-- Основная информация -->
                 <section class="basic-info-section">
                     <h3>Основная информация</h3>
                     <div class="basic-info-grid">
@@ -266,7 +291,6 @@
                     </div>
                 </section>
 
-                <!-- Внешность -->
                 <section class="appearance-section">
                     <h3>Внешность</h3>
                     <div class="appearance-grid">
@@ -291,11 +315,9 @@
             </div>
 
             <div class="right-column">
-                <!-- Навыки -->
                 <section class="skills-section">
                     <h3>Навыки</h3>
                     <div class="skills-container">
-                        <!-- Ловкость -->
                         <div class="skill-characteristic-header" data-characteristic="agility">
                             <h4>Ловкость (Лов)</h4>
                             <span class="toggle-icon">▶</span>
@@ -323,7 +345,6 @@
                             </table>
                         </div>
 
-                        <!-- Сила -->
                         <div class="skill-characteristic-header" data-characteristic="strength">
                             <h4>Сила (С)</h4>
                             <span class="toggle-icon">▶</span>
@@ -347,7 +368,6 @@
                             </table>
                         </div>
 
-                        <!-- Восприятие -->
                         <div class="skill-characteristic-header" data-characteristic="perception">
                             <h4>Восприятие (Вос)</h4>
                             <span class="toggle-icon">▶</span>
@@ -372,7 +392,6 @@
                             </table>
                         </div>
 
-                        <!-- Общительность -->
                         <div class="skill-characteristic-header" data-characteristic="fellowship">
                             <h4>Общительность (Общ)</h4>
                             <span class="toggle-icon">▶</span>
@@ -399,7 +418,6 @@
                             </table>
                         </div>
 
-                        <!-- Интеллект -->
                         <div class="skill-characteristic-header" data-characteristic="intelligence">
                             <h4>Интеллект (Инт)</h4>
                             <span class="toggle-icon">▶</span>
@@ -423,7 +441,6 @@
                                     <tr><td><span class="skill-name" data-skill="navigate_stellar">Навигация возд.</span><span class="skill-value" data-skill="navigate_stellar"></span></td><td><input type="checkbox" id="skill-navigate_stellar-k" data-skill="navigate_stellar" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-10" data-skill="navigate_stellar" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-20" data-skill="navigate_stellar" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-30" data-skill="navigate_stellar" data-level="4" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-navigate_stellar-40" data-skill="navigate_stellar" data-level="5" data-characteristic="intelligence"></td></tr>
                                     <tr><td><span class="skill-name" data-skill="security">Безопасность</span><span class="skill-value" data-skill="security"></span></td><td><input type="checkbox" id="skill-security-k" data-skill="security" data-level="1" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-10" data-skill="security" data-level="2" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-20" data-skill="security" data-level="3" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-30" data-skill="security" data-level="4" data-characteristic="intelligence"></td><td><input type="checkbox" id="skill-security-40" data-skill="security" data-level="5" data-characteristic="intelligence"></td></tr>
                                     
-                                    <!-- Общие знания с динамическим добавлением -->
                                     <tr class="skill-group-header">
                                         <td colspan="6">
                                             Общие знания
@@ -431,10 +448,8 @@
                                         </td>
                                     </tr>
                                     <tbody id="lore-common-container" class="sub-skills-container">
-                                        <!-- Динамически добавляемые строки -->
-                                    </tbody>
+                                        </tbody>
 
-                                    <!-- Запретные знания с динамическим добавлением -->
                                     <tr class="skill-group-header">
                                         <td colspan="6">
                                             Запретные знания
@@ -442,10 +457,8 @@
                                         </td>
                                     </tr>
                                     <tbody id="lore-forbidden-container" class="sub-skills-container">
-                                        <!-- Динамически добавляемые строки -->
-                                    </tbody>
+                                        </tbody>
 
-                                    <!-- Лингвистика с динамическим добавлением -->
                                     <tr class="skill-group-header">
                                         <td colspan="6">
                                             Лингвистика
@@ -453,10 +466,8 @@
                                         </td>
                                     </tr>
                                     <tbody id="linguistics-container" class="sub-skills-container">
-                                        <!-- Динамически добавляемые строки -->
-                                    </tbody>
+                                        </tbody>
 
-                                    <!-- Учёные Знания с динамическим добавлением -->
                                     <tr class="skill-group-header">
                                         <td colspan="6">
                                             Учёные Знания
@@ -464,10 +475,8 @@
                                         </td>
                                     </tr>
                                     <tbody id="lore-scholastic-container" class="sub-skills-container">
-                                        <!-- Динамически добавляемые строки -->
-                                    </tbody>
+                                        </tbody>
 
-                                    <!-- Ремесло с динамическим добавлением -->
                                     <tr class="skill-group-header">
                                         <td colspan="6">
                                             Ремесло
@@ -475,13 +484,11 @@
                                         </td>
                                     </tr>
                                     <tbody id="trade-container" class="sub-skills-container">
-                                        <!-- Динамически добавляемые строки -->
-                                    </tbody>
+                                        </tbody>
                                 </tbody>
                             </table>
                         </div>
 
-                        <!-- Сила воли -->
                         <div class="skill-characteristic-header" data-characteristic="willpower">
                             <h4>Сила воли (СВ)</h4>
                             <span class="toggle-icon">▶</span>
@@ -506,7 +513,6 @@
                     </div>
                 </section>
 
-                <!-- Союзники и враги -->
                 <section class="relationships-section">
                     <div class="relationships-header section-header">
                         <h3>Союзники и враги</h3>
@@ -516,21 +522,18 @@
                         <div class="relationship-group">
                             <h4>Союзники</h4>
                             <div class="relationship-container" id="allies-container">
-                                <!-- Динамически добавляемые союзники -->
-                            </div>
+                                </div>
                             <button type="button" class="add-relationship-btn" data-type="allies">+ Добавить союзника</button>
                         </div>
                         <div class="relationship-group">
                             <h4>Враги</h4>
                             <div class="relationship-container" id="enemies-container">
-                                <!-- Динамически добавляемые враги -->
-                            </div>
+                                </div>
                             <button type="button" class="add-relationship-btn" data-type="enemies">+ Добавить врага</button>
                         </div>
                     </div>
                 </section>
 
-                <!-- Безумие -->
                 <section class="madness-section">
                     <div class="madness-header section-header">
                         <h3>Безумие</h3>
@@ -542,13 +545,11 @@
                             <input type="number" id="madness-points" min="0" value="0">
                         </div>
                         <div class="mutations-container" id="mutations-container">
-                            <!-- Динамически добавляемые мутации -->
-                        </div>
+                            </div>
                         <button type="button" class="add-mutation-btn">+ Добавить мутацию</button>
                     </div>
                 </section>
 
-                <!-- Порча -->
                 <section class="corruption-section">
                     <div class="corruption-header section-header">
                         <h3>Порча</h3>
@@ -560,8 +561,7 @@
                             <input type="number" id="corruption-points" min="0" value="0">
                         </div>
                         <div class="corruptions-container" id="corruptions-container">
-                            <!-- Динамически добавляемые проявления порчи -->
-                        </div>
+                            </div>
                         <button type="button" class="add-corruption-btn">+ Добавить проявление порчи</button>
                     </div>
                 </section>
@@ -569,7 +569,6 @@
         </main>
     </div>
 
-    <!-- Модальное окно заметок -->
     <div id="notes-modal" class="modal">
         <div class="modal-content large-modal">
             <h3>Заметки о партии</h3>
@@ -581,7 +580,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно подтверждения удаления -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
             <h3>Подтверждение удаления</h3>

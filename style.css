@@ -1,28 +1,40 @@
 /* Общие стили */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #e9e9e9;
-    color: #333;
+    font-family: 'Merriweather', serif;
+    background-color: #d2c5a8; /* Более темный пергаментный фон */
+    background-image: url('https://www.transparenttextures.com/patterns/old-paper-2.png');
+    color: #4a2c2a;
     font-size: 14px;
 }
+h1, h3, h4 {
+    font-weight: 700;
+    color: #5a3d3a;
+}
 h3 {
-    border-bottom: 2px solid #ccc;
+    border-bottom: 2px solid #a18a68;
     padding-bottom: 5px;
     margin-top: 0;
-    font-weight: 600;
 }
 h4 {
-    background-color: #f2f2f2;
+    background-color: transparent;
     padding: 8px;
     margin: 15px 0 8px 0;
-    border-radius: 4px;
+    border-radius: 0;
     font-weight: 600;
 }
-input {
-    border: 1px solid #ccc;
-    border-radius: 4px;
+input, textarea {
+    border: 1px solid #c9b79c;
+    border-radius: 2px;
     padding: 6px;
     box-sizing: border-box;
+    background-color: #fdfaf3;
+    color: #4a2c2a;
+    font-family: 'Merriweather', serif;
+}
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #8c6a48;
+    box-shadow: 0 0 5px rgba(140, 106, 72, 0.5);
 }
 input[type="number"] {
     width: 80px;
@@ -32,16 +44,19 @@ input[type="checkbox"] {
     width: 16px;
     height: 16px;
     cursor: pointer;
+    accent-color: #800000;
 }
 
 /* Контейнер листа */
 .character-sheet {
     max-width: 1400px;
-    margin: 20px auto;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 30px auto;
+    background: #f5eeda;
+    border: 1px solid #a18a68;
+    border-radius: 3px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.4);
     padding: 25px;
+    background-image: url('https://www.transparenttextures.com/patterns/paper.png');
 }
 
 /* Шапка */
@@ -64,24 +79,21 @@ input[type="checkbox"] {
     flex-grow: 1;
 }
 
-.header-controls {
-    display: flex;
-    gap: 10px;
-}
-
 .header-controls button {
     padding: 8px 16px;
     font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
+    border: 1px solid #8c6a48;
+    border-radius: 2px;
+    background-color: #a18a68;
+    color: #f5eeda;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
 }
 
 .header-controls button:hover {
-    background-color: #0056b3;
+    background-color: #8c6a48;
 }
 
 /* Аватар персонажа */
@@ -95,19 +107,19 @@ input[type="checkbox"] {
 .avatar-placeholder {
     width: 200px;
     height: 200px;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
+    border: 2px dashed #a18a68;
+    border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f9f9f9;
+    background-color: rgba(255,255,255,0.2);
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .avatar-placeholder:hover {
-    border-color: #007bff;
-    background-color: #f0f8ff;
+    border-color: #800000;
+    background-color: rgba(255,255,255,0.4);
 }
 
 .avatar-placeholder.has-image {
@@ -117,698 +129,243 @@ input[type="checkbox"] {
 }
 
 .avatar-placeholder span {
-    color: #666;
+    color: #665;
     font-size: 12px;
 }
 
 #avatar-upload-btn {
     padding: 6px 12px;
     font-size: 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #6c757d;
-    color: white;
+    border-radius: 2px;
+    background-color: #6c584c;
+    border: 1px solid #5a4a3a;
+    color: #f5eeda;
     cursor: pointer;
     transition: background-color 0.2s;
 }
 
 #avatar-upload-btn:hover {
-    background-color: #5a6268;
+    background-color: #5a4a3a;
 }
 
 /* Характеристики в шапке */
-.header-characteristics {
-    min-width: 200px;
-}
-
+.header-characteristics { min-width: 200px; }
 .header-characteristics .stat-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #dcd0b8;
 }
-
-.header-characteristics .stat-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-.header-characteristics .stat-item label {
-    font-weight: 500;
-    width: 100px;
-}
-
-.header-characteristics .stat-input-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.header-characteristics .improvement-dots {
-    display: flex;
-    gap: 3px;
-    align-items: center;
-}
-
+.header-characteristics .stat-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.header-characteristics .stat-item label { font-weight: 500; width: 100px; }
+.header-characteristics .stat-input-container { display: flex; align-items: center; gap: 8px; }
+.header-characteristics .improvement-dots { display: flex; gap: 3px; align-items: center; }
 .header-characteristics .improvement-dot {
-    width: 14px;
-    height: 14px;
-    border: 2px solid #28a745;
+    width: 14px; height: 14px;
+    border: 2px solid #8B4513;
     border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s;
-    background-color: white;
+    cursor: pointer; transition: all 0.2s;
+    background-color: #f5eeda;
 }
-
-.header-characteristics .improvement-dot.filled {
-    background-color: #28a745;
-}
+.header-characteristics .improvement-dot.filled { background-color: #8B4513; }
 
 /* Склонности в шапке */
-.header-aptitudes {
-    min-width: 180px;
-}
-
-.header-aptitudes .aptitude-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-.header-aptitudes .aptitude-item .dots { 
-    display: flex; 
-    gap: 4px; 
-}
+.header-aptitudes { min-width: 180px; }
+.header-aptitudes .aptitude-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.header-aptitudes .aptitude-item .dots { display: flex; gap: 4px; }
 .header-aptitudes .aptitude-item .dot {
-    width: 16px;
-    height: 16px;
-    border: 2px solid #555;
+    width: 16px; height: 16px;
+    border: 2px solid #5a3d3a;
     border-radius: 50%;
     cursor: pointer;
     transition: background-color 0.2s;
 }
-.header-aptitudes .aptitude-item .dot.filled { 
-    background-color: #333; 
-}
+.header-aptitudes .aptitude-item .dot.filled { background-color: #4a2c2a; }
 
 /* Правая часть шапки */
-.header-right {
-    min-width: 250px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Таблица опыта */
-.experience-table {
-    margin-left: 0;
-}
+.header-right { min-width: 250px; display: flex; flex-direction: column; gap: 15px; }
 .experience-table table {
     border-collapse: collapse;
     font-size: 11px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: rgba(249, 249, 239, 0.5);
+    border-radius: 2px; overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border: 1px solid #dcd0b8;
 }
-.experience-table th, .experience-table td {
-    border: 1px solid #ddd;
-    padding: 4px 6px;
-    text-align: center;
-}
-.experience-table th {
-    background-color: #e9e9e9;
-    font-weight: bold;
-}
-.experience-table td:first-child {
-    text-align: left;
-    font-weight: 500;
-}
+.experience-table th, .experience-table td { border: 1px solid #dcd0b8; padding: 4px 6px; text-align: center; }
+.experience-table th { background-color: rgba(220, 208, 184, 0.6); font-weight: bold; }
+.experience-table td:first-child { text-align: left; font-weight: 500; }
 
-/* Опыт в шапке */
-.header-experience {
-    border: 1px solid #ddd;
-    border-radius: 6px;
+/* Опыт, Судьба, Бездна */
+.header-experience, .fate-points-section, .abyss-points-section, .abyss-breakthrough-section {
+    border: 1px solid #c9b79c;
+    border-radius: 2px;
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 239, 0.5);
 }
+.header-experience .experience-item, .fate-points-item, .abyss-points-item {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
+}
+.header-experience .experience-item label, .fate-points-item label, .abyss-points-item label {
+    font-weight: 500; font-size: 12px; width: 120px;
+}
+.header-experience .experience-item input { width: 70px; font-size: 12px; }
+.fate-points-item label, .abyss-points-item label { width: 80px; }
+.fate-controls { display: flex; align-items: center; gap: 5px; }
+.fate-controls button {
+    width: 25px; height: 25px;
+    background-color: #800000;
+    color: #f5eeda; border: 1px solid #5a0000;
+    border-radius: 2px; cursor: pointer; font-weight: bold;
+}
+.fate-controls button:hover { background-color: #5a0000; }
+.fate-controls input { width: 50px; padding: 3px; background-color: #fdfaf3; }
+.abyss-points-item input { width: 70px; padding: 5px; }
 
-.header-experience .experience-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+/* Прорывы Бездны */
+.breakthrough-item {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 8px; padding: 8px;
+    background-color: #fdfaf3; border: 1px solid #dcd0b8; border-radius: 2px;
 }
+.breakthrough-value { min-width: 30px; font-weight: bold; text-align: center; color: #800000; }
+.breakthrough-description { flex: 1; }
+.breakthrough-description input { width: 100%; padding: 5px; }
 
-.header-experience .experience-item label {
-    font-weight: 500;
-    font-size: 12px;
-    width: 120px;
+.remove-breakthrough-btn, .remove-relationship-btn, .remove-mutation-btn, .remove-corruption-btn, .remove-skill-btn {
+    background-color: #8b0000; color: #f5eeda; border: 1px solid #5a0000;
+    border-radius: 2px; width: 24px; height: 24px; font-size: 12px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background-color 0.2s;
 }
-
-.header-experience .experience-item input {
-    width: 70px;
-    font-size: 12px;
+.remove-breakthrough-btn:hover, .remove-relationship-btn:hover, .remove-mutation-btn:hover, .remove-corruption-btn:hover, .remove-skill-btn:hover { background-color: #c82333; }
+.add-breakthrough-btn {
+    width: 100%; padding: 8px; background-color: #6B8E23; color: white;
+    border: 1px solid #556B2F; border-radius: 2px; cursor: pointer;
+    transition: background-color 0.2s; font-size: 12px;
 }
+.add-breakthrough-btn:hover { background-color: #556B2F; }
 
 /* Основная сетка */
-.main-grid {
-    display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: 30px;
-}
-.left-column {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
-.right-column {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
+.main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.left-column, .right-column { display: flex; flex-direction: column; gap: 25px; }
 
-/* Основная информация */
-.basic-info-section,
-.appearance-section {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    background-color: #f9f9f9;
+/* Инфо, Внешность */
+.basic-info-section, .appearance-section, .relationships-section {
+    border: 1px solid #c9b79c; border-radius: 2px; padding: 15px;
+    background-color: rgba(249, 249, 239, 0.5);
 }
-
-.basic-info-grid,
-.appearance-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.info-item {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.info-item.full-width {
-    grid-column: 1 / -1;
-}
-
-.info-item label {
-    font-weight: 500;
-    font-size: 12px;
-    color: #555;
-}
-
-.info-item input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
+.basic-info-grid, .appearance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.info-item { display: flex; flex-direction: column; gap: 5px; }
+.info-item.full-width { grid-column: 1 / -1; }
+.info-item label { font-weight: 500; font-size: 12px; color: #5a3d3a; }
+.info-item input { width: 100%; padding: 8px; font-size: 14px; }
 
 /* Союзники и враги */
-.relationships-section {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    background-color: #f9f9f9;
-}
-
-.relationship-group {
-    margin-bottom: 20px;
-}
-
-.relationship-group:last-child {
-    margin-bottom: 0;
-}
-
-.relationship-group h4 {
-    margin-top: 0;
-    background-color: #e0e0e0;
-}
-
-.relationship-container {
-    margin-bottom: 10px;
-}
-
+.relationship-group h4 { margin-top: 0; background-color: rgba(220, 208, 184, 0.4); }
 .relationship-item {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
-    gap: 10px;
-    margin-bottom: 8px;
-    padding: 8px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    align-items: center;
+    display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px;
+    margin-bottom: 8px; padding: 8px; background-color: #fdfaf3;
+    border: 1px solid #dcd0b8; border-radius: 2px; align-items: center;
 }
-
-.relationship-item input {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 6px;
-    font-size: 12px;
-}
-
-.relationship-item input:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-.remove-relationship-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.relationship-item input { font-size: 12px; }
+.add-relationship-btn, .add-mutation-btn, .add-corruption-btn {
+    background-color: #708090; color: white; border: 1px solid #506070;
+    border-radius: 2px; padding: 6px 12px; font-size: 12px; cursor: pointer;
     transition: background-color 0.2s;
 }
+.add-relationship-btn:hover, .add-mutation-btn:hover, .add-corruption-btn:hover { background-color: #506070; }
 
-.remove-relationship-btn:hover {
-    background-color: #c82333;
-}
-
-.add-relationship-btn {
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.add-relationship-btn:hover {
-    background-color: #138496;
-}
-
-/* Контейнер навыков */
-.skills-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 70vh;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-/* Заголовки характеристик для навыков */
+/* Навыки */
+.skills-container { max-height: 70vh; overflow-y: auto; padding-right: 10px; }
 .skill-characteristic-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    background-color: #e0e0e0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    margin-bottom: 5px;
+    padding: 10px 15px; background-color: rgba(220, 208, 184, 0.5);
+    border: 1px solid #c9b79c; border-radius: 2px; cursor: pointer;
+    transition: background-color 0.2s; margin-bottom: 5px;
+    display: flex; justify-content: space-between; align-items: center;
 }
-
-.skill-characteristic-header:hover {
-    background-color: #d0d0d0;
-}
-
-.skill-characteristic-header h4 {
-    margin: 0;
-    background: none;
-    padding: 0;
-}
-
-.skill-characteristic-header.active {
-    background-color: #c0c0c0;
-}
-
-.toggle-icon {
-    font-size: 12px;
-    transition: transform 0.2s;
-}
-
-.skill-characteristic-header.active .toggle-icon {
-    transform: rotate(90deg);
-}
-
-/* Группы навыков по характеристикам */
+.skill-characteristic-header:hover { background-color: rgba(220, 208, 184, 0.8); }
+.skill-characteristic-header h4 { margin: 0; background: none; padding: 0; }
+.skill-characteristic-header.active { background-color: rgba(200, 188, 164, 0.9); }
 .skill-characteristic-group {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    margin-bottom: 10px;
+    border: 1px solid #dcd0b8; border-radius: 2px; padding: 10px;
+    background-color: rgba(249, 249, 239, 0.5); margin-bottom: 10px;
 }
-
-/* Таблица Навыков */
-.skills-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 5px;
-}
-.skills-table th, .skills-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-    vertical-align: middle;
-}
-.skills-table th {
-    background-color: #e9e9e9;
-    font-weight: bold;
-}
-.skills-table td:first-child {
-    text-align: left;
-    font-weight: 500;
-    position: relative;
-}
+.skills-table { width: 100%; border-collapse: collapse; margin-bottom: 5px; }
+.skills-table th, .skills-table td { border: 1px solid #dcd0b8; padding: 8px; text-align: center; vertical-align: middle; }
+.skills-table th { background-color: rgba(220, 208, 184, 0.6); font-weight: bold; }
+.skills-table td:first-child { text-align: left; font-weight: 500; position: relative; }
 .skills-table th:not(:first-child) { width: 45px; }
 
-/* Стили для отображения значений навыков */
-.skill-name {
-    cursor: pointer;
-    padding: 2px 5px;
-    border-radius: 3px;
-    transition: background-color 0.2s;
-}
-
-.skill-name:hover {
-    background-color: #f0f0f0;
-}
-
+/* Отображение значений навыков */
+.skill-name { cursor: pointer; padding: 2px 5px; border-radius: 3px; transition: background-color 0.2s; }
+.skill-name:hover { background-color: rgba(220, 208, 184, 0.5); }
 .skill-value {
-    display: none;
-    margin-left: 10px;
-    padding: 2px 6px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 3px;
-    font-weight: bold;
-    font-size: 12px;
+    display: none; margin-left: 10px; padding: 2px 6px;
+    background-color: #800000; color: #f5eeda;
+    border-radius: 3px; font-weight: bold; font-size: 12px;
 }
-
-.skill-value.visible {
-    display: inline-block;
-}
-
-/* Стили для групп навыков */
+.skill-value.visible { display: inline-block; }
 .skill-group-header td {
-    background-color: #e0e0e0;
-    font-weight: bold;
-    text-align: left;
-    padding-left: 10px;
-    border-bottom: 2px solid #ccc;
-    color: #333;
+    background-color: rgba(220, 208, 184, 0.4); font-weight: bold;
+    text-align: left; padding-left: 10px;
+    border-bottom: 2px solid #c9b79c; color: #4a2c2a;
 }
-.skill-sub-row td:first-child {
-    padding-left: 25px;
-    position: relative;
-}
-.skill-sub-row input[type="text"] {
-    width: 100%;
-    border: none;
-    background: none;
-    border-bottom: 1px solid #ccc;
-    border-radius: 0;
-    padding: 4px 0;
-    padding-left: 30px;
-}
-.skill-sub-row input[type="text"]:focus {
-    outline: none;
-    border-bottom-color: #007bff;
-}
-
-/* Кнопка добавления навыка */
+.skill-sub-row td:first-child { padding-left: 30px; position: relative; }
 .add-skill-btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-size: 12px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background-color 0.2s;
+    background-color: #6B8E23; color: white; border: 1px solid #556B2F;
+    border-radius: 2px; padding: 4px 8px; font-size: 12px; cursor: pointer;
+    margin-left: 10px; transition: background-color 0.2s;
 }
-.add-skill-btn:hover {
-    background-color: #218838;
-}
+.add-skill-btn:hover { background-color: #556B2F; }
+.remove-skill-btn { position: absolute; left: 5px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; }
 
-/* Кнопка удаления строки */
-.remove-skill-btn {
-    position: absolute;
-    left: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    width: 20px;
-    height: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-}
-.remove-skill-btn:hover {
-    background-color: #c82333;
-}
-
-/* Полоса прокрутки для контейнера навыков */
-.skills-container::-webkit-scrollbar {
-    width: 8px;
-}
-.skills-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-.skills-container::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
-}
-.skills-container::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
+/* Полоса прокрутки */
+.skills-container::-webkit-scrollbar { width: 8px; }
+.skills-container::-webkit-scrollbar-track { background: rgba(220, 208, 184, 0.3); border-radius: 4px; }
+.skills-container::-webkit-scrollbar-thumb { background: #a18a68; border-radius: 4px; }
+.skills-container::-webkit-scrollbar-thumb:hover { background: #8c6a48; }
 
 /* Модальные окна */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-}
-
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
 .modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 500px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    background-color: #f5eeda; margin: 5% auto; padding: 20px;
+    border-radius: 2px; border: 1px solid #a18a68;
+    width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
-
-.large-modal {
-    width: 600px;
-}
-
-.modal-content h3 {
-    margin-top: 0;
-    text-align: center;
-}
-
-#campaign-notes {
-    width: 100%;
-    min-height: 300px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 14px;
-    resize: vertical;
-    box-sizing: border-box;
-}
-
-.modal-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
+.large-modal { width: 600px; }
 .modal-btn {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s;
+    padding: 8px 20px; border-radius: 2px; cursor: pointer; font-size: 14px;
+    transition: background-color 0.2s; font-family: 'Merriweather', serif;
 }
-
-.confirm-btn {
-    background-color: #28a745;
-    color: white;
-}
-
-.confirm-btn:hover {
-    background-color: #218838;
-}
-
-.cancel-btn {
-    background-color: #6c757d;
-    color: white;
-}
-
-.cancel-btn:hover {
-    background-color: #5a6268;
-}
+.confirm-btn { background-color: #6B8E23; color: white; border: 1px solid #556B2F; }
+.confirm-btn:hover { background-color: #556B2F; }
+.cancel-btn { background-color: #708090; color: white; border: 1px solid #506070; }
+.cancel-btn:hover { background-color: #506070; }
 
 /* Безумие и Порча */
-.madness-section,
-.corruption-section {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    margin-bottom: 20px;
+.madness-section, .corruption-section, .section-content {
+    border: 1px solid #c9b79c; border-radius: 2px; padding: 15px;
+    background-color: rgba(249, 249, 239, 0.5);
 }
-
-.madness-points,
-.corruption-points {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+.madness-points, .corruption-points {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #dcd0b8;
 }
-
-.madness-points label,
-.corruption-points label {
-    font-weight: 500;
-    width: 120px;
+.mutation-item, .corruption-item {
+    display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px;
+    margin-bottom: 10px; padding: 10px; background-color: #fdfaf3;
+    border: 1px solid #dcd0b8; border-radius: 2px; align-items: start;
 }
+.add-mutation-btn, .add-corruption-btn { width: 100%; padding: 8px 16px; font-size: 13px; }
 
-.madness-points input,
-.corruption-points input {
-    width: 80px;
-    text-align: center;
-}
-
-.mutation-item,
-.corruption-item {
-    display: grid;
-    grid-template-columns: 1fr 2fr auto;
-    gap: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    align-items: start;
-}
-
-.mutation-item input,
-.corruption-item input {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 8px;
-    font-size: 12px;
-}
-
-.mutation-item input:focus,
-.corruption-item input:focus {
-    outline: none;
-    border-color: #007bff;
-}
-
-.remove-mutation-btn,
-.remove-corruption-btn {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s;
-    margin-top: 5px;
-}
-
-.remove-mutation-btn:hover,
-.remove-corruption-btn:hover {
-    background-color: #c82333;
-}
-
-.add-mutation-btn,
-.add-corruption-btn {
-    background-color: #17a2b8;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    width: 100%;
-}
-
-.add-mutation-btn:hover,
-.add-corruption-btn:hover {
-    background-color: #138496;
-}
-
-/* Заголовки сворачиваемых секций */
+/* Сворачиваемые секции */
 .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 15px;
-    background-color: #e0e0e0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    margin-bottom: 5px;
+    display: flex; justify-content: space-between; align-items: center; padding: 12px 15px;
+    background-color: rgba(220, 208, 184, 0.5); border: 1px solid #c9b79c; border-radius: 2px;
+    cursor: pointer; transition: background-color 0.2s; margin-bottom: 5px;
 }
-
-.section-header:hover {
-    background-color: #d0d0d0;
-}
-
-.section-header.active {
-    background-color: #c0c0c0;
-}
-
-.section-header h3 {
-    margin: 0;
-    border: none;
-    padding: 0;
-}
-
-.section-content {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    margin-bottom: 20px;
-}
+.section-header:hover { background-color: rgba(220, 208, 184, 0.8); }
+.section-header.active { background-color: rgba(200, 188, 164, 0.9); }
+.section-header h3 { margin: 0; border: none; padding: 0; }

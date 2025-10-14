@@ -8,10 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isFilled = dot.classList.contains('filled');
                 
                 if (isFilled) {
-                    // Убираем только этот кружочек
                     dot.classList.remove('filled');
                 } else {
-                    // Заполняем все до этого кружочка включительно
                     dots.forEach((d, i) => {
                         if (i <= index) {
                             d.classList.add('filled');
@@ -58,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- МОДАЛЬНОЕ ОКНО ЗАМЕТОК ---
     notesButton.addEventListener('click', () => {
-        // Загружаем заметки из localStorage
         const savedNotes = localStorage.getItem('campaignNotes');
         if (savedNotes) {
             campaignNotes.value = savedNotes;
@@ -67,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     notesSave.addEventListener('click', () => {
-        // Сохраняем заметки в localStorage
         localStorage.setItem('campaignNotes', campaignNotes.value);
         notesModal.style.display = 'none';
     });
@@ -76,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
         notesModal.style.display = 'none';
     });
 
-    // Закрытие модального окна при клике вне его
     window.addEventListener('click', (event) => {
         if (event.target === notesModal) {
             notesModal.style.display = 'none';
@@ -85,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- СКРЫТИЕ/ПОКАЗ НАВЫКОВ ПО ХАРАКТЕРИСТИКАМ ---
     const skillHeaders = document.querySelectorAll('.skill-characteristic-header');
-    
     skillHeaders.forEach(header => {
         header.addEventListener('click', () => {
             const characteristic = header.getAttribute('data-characteristic');
@@ -106,15 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- ДИНАМИЧЕСКОЕ ДОБАВЛЕНИЕ СТРОК ДЛЯ НАВЫКОВ ---
     const skillTypes = ['lore-common', 'lore-forbidden', 'linguistics', 'lore-scholastic', 'trade'];
-    
-    // Переменные для управления модальным окном удаления
     let currentRowToRemove = null;
     let currentSkillTypeToRemove = null;
     const confirmModal = document.getElementById('confirm-modal');
     const confirmYes = document.getElementById('confirm-yes');
     const confirmNo = document.getElementById('confirm-no');
     
-    // Настройка модального окна подтверждения
     confirmYes.addEventListener('click', () => {
         if (currentRowToRemove && currentSkillTypeToRemove) {
             currentRowToRemove.remove();
@@ -131,69 +122,57 @@ document.addEventListener('DOMContentLoaded', () => {
         currentSkillTypeToRemove = null;
     }
     
-    // Функция добавления новой строки навыка
     function addSkillRow(skillType, data = null) {
         const container = document.getElementById(`${skillType}-container`);
         const rowIndex = container.children.length + 1;
-        
         const row = document.createElement('tr');
         row.className = 'skill-sub-row';
         row.innerHTML = `
-    <td>
-        <button type="button" class="remove-skill-btn" title="Удалить навык">×</button>
-        <span class="skill-name" data-skill="${skillType}-sub${rowIndex}">${getPlaceholder(skillType)}</span>
-        <span class="skill-value" data-skill="${skillType}-sub${rowIndex}"></span>
-    </td>
-    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-k" data-skill="${skillType}-sub${rowIndex}" data-level="1" data-characteristic="intelligence"></td>
-    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-10" data-skill="${skillType}-sub${rowIndex}" data-level="2" data-characteristic="intelligence"></td>
-    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-20" data-skill="${skillType}-sub${rowIndex}" data-level="3" data-characteristic="intelligence"></td>
-    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-30" data-skill="${skillType}-sub${rowIndex}" data-level="4" data-characteristic="intelligence"></td>
-    <td><input type="checkbox" id="${skillType}-sub${rowIndex}-40" data-skill="${skillType}-sub${rowIndex}" data-level="5" data-characteristic="intelligence"></td>
-`;
-        
+            <td>
+                <button type="button" class="remove-skill-btn" title="Удалить навык">×</button>
+                <span class="skill-name dynamic-skill" data-skill="${skillType}-sub${rowIndex}">${getPlaceholder(skillType)}</span>
+                <span class="skill-value" data-skill="${skillType}-sub${rowIndex}"></span>
+            </td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-k" data-skill="${skillType}-sub${rowIndex}" data-level="1" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-10" data-skill="${skillType}-sub${rowIndex}" data-level="2" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-20" data-skill="${skillType}-sub${rowIndex}" data-level="3" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-30" data-skill="${skillType}-sub${rowIndex}" data-level="4" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-40" data-skill="${skillType}-sub${rowIndex}" data-level="5" data-characteristic="intelligence"></td>
+        `;
         container.appendChild(row);
-        
-        // Заполняем данными, если они переданы
+
         if (data) {
             const nameSpan = row.querySelector('.skill-name');
             nameSpan.textContent = data.name || getPlaceholder(skillType);
-            document.getElementById(`${skillType}-sub${rowIndex}-k`).checked = data.k || false;
-            document.getElementById(`${skillType}-sub${rowIndex}-10`).checked = data.plus10 || false;
-            document.getElementById(`${skillType}-sub${rowIndex}-20`).checked = data.plus20 || false;
-            document.getElementById(`${skillType}-sub${rowIndex}-30`).checked = data.plus30 || false;
+            row.querySelector(`#${skillType}-sub${rowIndex}-k`).checked = data.k || false;
+            row.querySelector(`#${skillType}-sub${rowIndex}-10`).checked = data.plus10 || false;
+            row.querySelector(`#${skillType}-sub${rowIndex}-20`).checked = data.plus20 || false;
+            row.querySelector(`#${skillType}-sub${rowIndex}-30`).checked = data.plus30 || false;
         }
-        
-        // Добавляем обработчики для чекбоксов динамических навыков
-        const checkboxes = row.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
+
+        row.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
             checkbox.addEventListener('change', handleSkillCheckboxChange);
         });
         
-        // Добавляем обработчик для кнопки удаления
         row.querySelector('.remove-skill-btn').addEventListener('click', () => {
             currentRowToRemove = row;
             currentSkillTypeToRemove = skillType;
             confirmModal.style.display = 'block';
         });
 
-        // Добавляем обработчик для отображения значения навыка
-        const skillName = row.querySelector('.skill-name');
-        skillName.addEventListener('click', toggleSkillValueDisplay);
+        const skillNameSpan = row.querySelector('.skill-name');
+        skillNameSpan.addEventListener('click', handleSkillNameClick);
     }
     
-    // Функция для получения placeholder в зависимости от типа навыка
     function getPlaceholder(skillType) {
         const placeholders = {
-            'lore-common': 'Область знаний...',
-            'lore-forbidden': 'Область знаний...',
-            'linguistics': 'Язык...',
-            'lore-scholastic': 'Область знаний...',
+            'lore-common': 'Область знаний...', 'lore-forbidden': 'Область знаний...',
+            'linguistics': 'Язык...', 'lore-scholastic': 'Область знаний...',
             'trade': 'Вид ремесла...'
         };
         return placeholders[skillType] || 'Название...';
     }
-    
-    // Функция переиндексации строк после удаления
+
     function reindexSkillRows(skillType) {
         const container = document.getElementById(`${skillType}-container`);
         const rows = container.querySelectorAll('.skill-sub-row');
@@ -204,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const valueSpan = row.querySelector('.skill-value');
             const checkboxes = row.querySelectorAll('input[type="checkbox"]');
             
-            // Обновляем ID и data-атрибуты
             nameSpan.dataset.skill = `${skillType}-sub${newIndex}`;
             valueSpan.dataset.skill = `${skillType}-sub${newIndex}`;
             
@@ -213,25 +191,68 @@ document.addEventListener('DOMContentLoaded', () => {
             checkboxes[2].id = `${skillType}-sub${newIndex}-20`;
             checkboxes[3].id = `${skillType}-sub${newIndex}-30`;
             
-            // Обновляем data-атрибуты
-            checkboxes.forEach((checkbox, i) => {
-                checkbox.dataset.skill = `${skillType}-sub${newIndex}`;
-            });
+            checkboxes.forEach(checkbox => checkbox.dataset.skill = `${skillType}-sub${newIndex}`);
         });
     }
     
-    // Добавляем обработчики для кнопок "Добавить"
     document.querySelectorAll('.add-skill-btn').forEach(button => {
         button.addEventListener('click', () => {
-            const skillType = button.getAttribute('data-skill-type');
-            addSkillRow(skillType);
+            addSkillRow(button.getAttribute('data-skill-type'));
         });
     });
     
-    // Добавляем по одной пустой строке для каждого типа навыков при загрузке
-    skillTypes.forEach(skillType => {
-        addSkillRow(skillType);
-    });
+    skillTypes.forEach(skillType => addSkillRow(skillType));
+
+    // --- РЕДАКТИРОВАНИЕ НАЗВАНИЙ НАВЫКОВ ---
+    function handleSkillNameClick(event) {
+        const span = event.target;
+        const isPlaceholder = Object.values(getPlaceholders()).includes(span.textContent);
+
+        // Если это не placeholder, то показываем значение. Иначе - редактируем.
+        if (!isPlaceholder) {
+            toggleSkillValueDisplay(event);
+        } else {
+            makeSkillNameEditable(span);
+        }
+    }
+
+    function makeSkillNameEditable(span) {
+        const currentText = span.textContent;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = currentText;
+        input.className = 'skill-name-input';
+
+        span.replaceWith(input);
+        input.focus();
+
+        const save = () => {
+            const skillType = input.closest('.sub-skills-container').id.replace('-container', '');
+            const newText = input.value.trim() || getPlaceholder(skillType);
+            const newSpan = document.createElement('span');
+            newSpan.className = 'skill-name dynamic-skill';
+            newSpan.textContent = newText;
+            newSpan.dataset.skill = span.dataset.skill;
+            
+            input.replaceWith(newSpan);
+            newSpan.addEventListener('click', handleSkillNameClick); // Re-add generalized handler
+        };
+
+        input.addEventListener('blur', save);
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                save();
+            }
+        });
+    }
+
+    function getPlaceholders() {
+        return {
+            'lore-common': 'Область знаний...', 'lore-forbidden': 'Область знаний...',
+            'linguistics': 'Язык...', 'lore-scholastic': 'Область знаний...',
+            'trade': 'Вид ремесла...'
+        };
+    }
 
     // --- СОЮЗНИКИ И ВРАГИ ---
     const alliesContainer = document.getElementById('allies-container');
@@ -239,8 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addRelationship(type, data = null) {
         const container = type === 'allies' ? alliesContainer : enemiesContainer;
-        const relationshipId = `${type}-${Date.now()}`;
-        
         const relationshipItem = document.createElement('div');
         relationshipItem.className = 'relationship-item';
         relationshipItem.innerHTML = `
@@ -249,181 +268,75 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type="text" placeholder="Информация" value="${data ? data.info || '' : ''}">
             <button type="button" class="remove-relationship-btn" title="Удалить">×</button>
         `;
-        
         container.appendChild(relationshipItem);
-        
-        // Добавляем обработчик для кнопки удаления
-        relationshipItem.querySelector('.remove-relationship-btn').addEventListener('click', () => {
-            relationshipItem.remove();
-        });
+        relationshipItem.querySelector('.remove-relationship-btn').addEventListener('click', () => relationshipItem.remove());
     }
 
-    // Добавляем обработчики для кнопок добавления союзников и врагов
     document.querySelectorAll('.add-relationship-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const type = button.getAttribute('data-type');
-            addRelationship(type);
-        });
+        button.addEventListener('click', () => addRelationship(button.getAttribute('data-type')));
     });
 
-    // Добавляем по одному пустому полю для союзников и врагов при загрузке
     addRelationship('allies');
     addRelationship('enemies');
 
-    // --- СКРЫТИЕ/ПОКАЗ СЕКЦИИ СОЮЗНИКОВ И ВРАГОВ ---
-    const relationshipsHeader = document.querySelector('.relationships-header');
-    
-    relationshipsHeader.addEventListener('click', () => {
-        const content = document.querySelector('.relationships-content');
-        const toggleIcon = relationshipsHeader.querySelector('.toggle-icon');
-        
-        if (content.style.display === 'none') {
-            content.style.display = 'block';
-            relationshipsHeader.classList.add('active');
-            toggleIcon.textContent = '▼';
-        } else {
-            content.style.display = 'none';
-            relationshipsHeader.classList.remove('active');
-            toggleIcon.textContent = '▶';
-        }
+    // --- СКРЫТИЕ/ПОКАЗ СЕКЦИЙ ---
+    document.querySelectorAll('.section-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            const toggleIcon = header.querySelector('.toggle-icon');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                header.classList.add('active');
+                toggleIcon.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                header.classList.remove('active');
+                toggleIcon.textContent = '▶';
+            }
+        });
     });
-
+    
     // --- БЕЗУМИЕ И ПОРЧА ---
     const mutationsContainer = document.getElementById('mutations-container');
     const corruptionsContainer = document.getElementById('corruptions-container');
-    const addMutationBtn = document.querySelector('.add-mutation-btn');
-    const addCorruptionBtn = document.querySelector('.add-corruption-btn');
 
-    // Функция добавления мутации
     function addMutation(data = null) {
-        const mutationId = `mutation-${Date.now()}`;
-        
-        const mutationItem = document.createElement('div');
-        mutationItem.className = 'mutation-item';
-        mutationItem.innerHTML = `
-            <input type="text" placeholder="Название мутации" value="${data ? data.name || '' : ''}">
-            <input type="text" placeholder="Описание мутации" value="${data ? data.description || '' : ''}">
-            <button type="button" class="remove-mutation-btn" title="Удалить мутацию">×</button>
-        `;
-        
-        mutationsContainer.appendChild(mutationItem);
-        
-        // Добавляем обработчик для кнопки удаления
-        mutationItem.querySelector('.remove-mutation-btn').addEventListener('click', () => {
-            mutationItem.remove();
-        });
+        const item = document.createElement('div');
+        item.className = 'mutation-item';
+        item.innerHTML = `<input type="text" placeholder="Название мутации" value="${data ? data.name || '' : ''}"><input type="text" placeholder="Описание мутации" value="${data ? data.description || '' : ''}"><button type="button" class="remove-mutation-btn" title="Удалить мутацию">×</button>`;
+        mutationsContainer.appendChild(item);
+        item.querySelector('.remove-mutation-btn').addEventListener('click', () => item.remove());
     }
-
-    // Функция добавления проявления порчи
     function addCorruption(data = null) {
-        const corruptionId = `corruption-${Date.now()}`;
-        
-        const corruptionItem = document.createElement('div');
-        corruptionItem.className = 'corruption-item';
-        corruptionItem.innerHTML = `
-            <input type="text" placeholder="Название проявления" value="${data ? data.name || '' : ''}">
-            <input type="text" placeholder="Описание проявления" value="${data ? data.description || '' : ''}">
-            <button type="button" class="remove-corruption-btn" title="Удалить проявление">×</button>
-        `;
-        
-        corruptionsContainer.appendChild(corruptionItem);
-        
-        // Добавляем обработчик для кнопки удаления
-        corruptionItem.querySelector('.remove-corruption-btn').addEventListener('click', () => {
-            corruptionItem.remove();
-        });
+        const item = document.createElement('div');
+        item.className = 'corruption-item';
+        item.innerHTML = `<input type="text" placeholder="Название проявления" value="${data ? data.name || '' : ''}"><input type="text" placeholder="Описание проявления" value="${data ? data.description || '' : ''}"><button type="button" class="remove-corruption-btn" title="Удалить проявление">×</button>`;
+        corruptionsContainer.appendChild(item);
+        item.querySelector('.remove-corruption-btn').addEventListener('click', () => item.remove());
     }
 
-    // Добавляем обработчики для кнопок добавления
-    addMutationBtn.addEventListener('click', () => {
-        addMutation();
-    });
-
-    addCorruptionBtn.addEventListener('click', () => {
-        addCorruption();
-    });
-
-    // Добавляем по одному пустому полю при загрузке
+    document.querySelector('.add-mutation-btn').addEventListener('click', () => addMutation());
+    document.querySelector('.add-corruption-btn').addEventListener('click', () => addCorruption());
     addMutation();
     addCorruption();
 
-    // --- СКРЫТИЕ/ПОКАЗ СЕКЦИЙ БЕЗУМИЯ И ПОРЧИ ---
-    const madnessHeader = document.querySelector('.madness-header');
-    const corruptionHeader = document.querySelector('.corruption-header');
-    
-    madnessHeader.addEventListener('click', () => {
-        const content = document.querySelector('.madness-content');
-        const toggleIcon = madnessHeader.querySelector('.toggle-icon');
-        
-        if (content.style.display === 'none') {
-            content.style.display = 'block';
-            madnessHeader.classList.add('active');
-            toggleIcon.textContent = '▼';
-        } else {
-            content.style.display = 'none';
-            madnessHeader.classList.remove('active');
-            toggleIcon.textContent = '▶';
-        }
-    });
-    
-    corruptionHeader.addEventListener('click', () => {
-        const content = document.querySelector('.corruption-content');
-        const toggleIcon = corruptionHeader.querySelector('.toggle-icon');
-        
-        if (content.style.display === 'none') {
-            content.style.display = 'block';
-            corruptionHeader.classList.add('active');
-            toggleIcon.textContent = '▼';
-        } else {
-            content.style.display = 'none';
-            corruptionHeader.classList.remove('active');
-            toggleIcon.textContent = '▶';
-        }
-    });
+    // --- КОНСТАНТЫ И КАРТЫ ---
+    const improvementCosts = { 0: [500, 1000, 2000, 4000, 8000], 1: [250, 500, 1000, 2000, 4000], 2: [100, 200, 400, 800, 1600] };
+    const characteristicToAptitudeMap = { 'agility': 'ag', 'strength': 's', 'perception': 'per', 'fellowship': 'fel', 'intelligence': 'int', 'willpower': 'wp' };
 
-    // --- ТАБЛИЦА СТОИМОСТИ УЛУЧШЕНИЙ ---
-    const improvementCosts = {
-        0: [500, 1000, 2000, 4000, 8000],    // 0 склонностей
-        1: [250, 500, 1000, 2000, 4000],     // 1 склонность
-        2: [100, 200, 400, 800, 1600]        // 2 склонности
-    };
-
-    // --- МАППИНГ ХАРАКТЕРИСТИК ДЛЯ СКЛОННОСТЕЙ ---
-    const characteristicToAptitudeMap = {
-        'agility': 'ag',
-        'strength': 's',
-        'perception': 'per',
-        'fellowship': 'fel',
-        'intelligence': 'int',
-        'willpower': 'wp'
-    };
-
-    // --- ФУНКЦИИ ДЛЯ РАСЧЕТА ЗНАЧЕНИЙ НАВЫКОВ ---
+    // --- РАСЧЕТ ЗНАЧЕНИЙ НАВЫКОВ ---
     function calculateSkillValue(skillName) {
-        // Находим все чекбоксы для этого навыка
         const checkboxes = document.querySelectorAll(`input[type="checkbox"][data-skill="${skillName}"]`);
+        let skillBonus = -20;
+        if (checkboxes[0].checked) skillBonus = 0;
+        if (checkboxes[1].checked) skillBonus = 10;
+        if (checkboxes[2].checked) skillBonus = 20;
+        if (checkboxes[3].checked) skillBonus = 30;
+        if (checkboxes[4].checked) skillBonus = 40;
         
-        // Определяем уровень прокачки навыка
-        let skillBonus = -20; // Базовое значение без прокачки
-        
-        if (checkboxes[0].checked) skillBonus = 0;   // K
-        if (checkboxes[1].checked) skillBonus = 10;  // +10
-        if (checkboxes[2].checked) skillBonus = 20;  // +20
-        if (checkboxes[3].checked) skillBonus = 30;  // +30
-        if (checkboxes[4].checked) skillBonus = 40;  // +40 (ДОБАВИТЬ ЭТУ СТРОКУ)
-        
-        // Получаем характеристику навыка
         const characteristic = checkboxes[0].dataset.characteristic;
-        const characteristicInput = document.getElementById(`stat-${characteristic}`);
-        const characteristicValue = parseInt(characteristicInput.value) || 0;
-        
-        // Вычисляем модификатор (первая цифра характеристики)
-        const modifier = Math.floor(characteristicValue / 10);
-        
-        // Итоговое значение: характеристика + бонус навыка + модификатор
-        const totalValue = characteristicValue + skillBonus + modifier;
-        
-        return totalValue;
+        const charValue = parseInt(document.getElementById(`stat-${characteristic}`).value) || 0;
+        return charValue + skillBonus;
     }
 
     function toggleSkillValueDisplay(event) {
@@ -431,508 +344,289 @@ document.addEventListener('DOMContentLoaded', () => {
         const valueElement = document.querySelector(`.skill-value[data-skill="${skillName}"]`);
         
         if (valueElement.classList.contains('visible')) {
-            // Скрываем значение
             valueElement.classList.remove('visible');
         } else {
-            // Показываем значение
-            const calculatedValue = calculateSkillValue(skillName);
-            valueElement.textContent = calculatedValue;
+            valueElement.textContent = calculateSkillValue(skillName);
             valueElement.classList.add('visible');
         }
     }
-
-    // Добавляем обработчики для отображения значений навыков
-    document.querySelectorAll('.skill-name').forEach(skillName => {
+    
+    document.querySelectorAll('.skill-name:not(.dynamic-skill)').forEach(skillName => {
         skillName.addEventListener('click', toggleSkillValueDisplay);
     });
 
-    // --- СИСТЕМА УЛУЧШЕНИЯ ХАРАКТЕРИСТИК (ИСПРАВЛЕННАЯ) ---
-    const improvementDots = document.querySelectorAll('.improvement-dot');
-    
-    improvementDots.forEach(dot => {
+    // --- УЛУЧШЕНИЕ ХАРАКТЕРИСТИК ---
+    document.querySelectorAll('.improvement-dot').forEach(dot => {
         dot.addEventListener('click', () => {
             const isFilled = dot.classList.contains('filled');
             const statName = dot.dataset.stat;
-            const improvementLevel = parseInt(dot.dataset.value);
+            const level = parseInt(dot.dataset.value);
             const statInput = document.getElementById(`stat-${statName}`);
             
-            // Получаем количество склонностей для этой характеристики
             const aptitudeKey = characteristicToAptitudeMap[statName];
             const aptitudeItem = document.querySelector(`.aptitude-item[data-aptitude="${aptitudeKey}"]`);
             const aptitudeCount = aptitudeItem ? aptitudeItem.querySelectorAll('.dot.filled').length : 0;
-            
-            // Получаем стоимость улучшения
-            const cost = improvementCosts[aptitudeCount][improvementLevel - 1];
+            const cost = improvementCosts[aptitudeCount][level - 1];
             
             if (!isFilled) {
-                // Пытаемся добавить улучшение
                 if (canSpendExperience(cost)) {
                     spendExperience(cost);
                     dot.classList.add('filled');
-                    const currentValue = parseInt(statInput.value) || 0;
-                    statInput.value = currentValue + 5;
+                    statInput.value = (parseInt(statInput.value) || 0) + 5;
                 } else {
                     alert('Недостаточно опыта для улучшения!');
                 }
             } else {
-                // Убираем улучшение (НЕ возвращаем опыт)
                 dot.classList.remove('filled');
-                // Характеристику не уменьшаем, как требовалось
             }
         });
     });
 
-    // --- СИСТЕМА ОПЫТА С ВОЗМОЖНОСТЬЮ РЕДАКТИРОВАНИЯ ---
+    // --- СИСТЕМА ОПЫТА ---
     const currentExpInput = document.getElementById('current-exp');
     const usedExpInput = document.getElementById('used-exp');
     const totalExpInput = document.getElementById('total-exp');
     
-    // Функция проверки возможности траты опыта
-    function canSpendExperience(cost = 0) {
-        const currentExp = parseInt(currentExpInput.value) || 0;
-        return currentExp >= cost;
-    }
-    
-    // Функция траты опыта
+    function canSpendExperience(cost = 0) { return (parseInt(currentExpInput.value) || 0) >= cost; }
     function spendExperience(cost = 0) {
         const currentExp = parseInt(currentExpInput.value) || 0;
-        const usedExp = parseInt(usedExpInput.value) || 0;
-        
         if (cost > 0 && currentExp >= cost) {
             currentExpInput.value = currentExp - cost;
-            usedExpInput.value = usedExp + cost;
+            usedExpInput.value = (parseInt(usedExpInput.value) || 0) + cost;
             updateTotalExperience();
             return true;
         }
         return false;
     }
-    
-    // Функция обновления общего опыта
     function updateTotalExperience() {
-        const currentExp = parseInt(currentExpInput.value) || 0;
-        const usedExp = parseInt(usedExpInput.value) || 0;
-        totalExpInput.value = currentExp + usedExp;
+        totalExpInput.value = (parseInt(currentExpInput.value) || 0) + (parseInt(usedExpInput.value) || 0);
     }
     
-    // Обновляем общий опыт при изменении текущего опыта
     currentExpInput.addEventListener('input', updateTotalExperience);
-    
-    // Обновляем общий опыт при изменении использованного опыта
     usedExpInput.addEventListener('input', updateTotalExperience);
-    
-    // Обновляем текущий опыт при изменении общего опыта
     totalExpInput.addEventListener('input', () => {
-        const totalExp = parseInt(totalExpInput.value) || 0;
-        const usedExp = parseInt(usedExpInput.value) || 0;
-        currentExpInput.value = totalExp - usedExp;
+        currentExpInput.value = (parseInt(totalExpInput.value) || 0) - (parseInt(usedExpInput.value) || 0);
     });
 
-    // --- ЛОГИКА ДЛЯ НАВЫКОВ ---
+    // --- ЛОГИКА ДЛЯ ЧЕКБОКСОВ НАВЫКОВ ---
     function handleSkillCheckboxChange(event) {
         const checkbox = event.target;
-        const isChecked = checkbox.checked;
         const skillName = checkbox.dataset.skill;
         const level = parseInt(checkbox.dataset.level);
         const characteristic = checkbox.dataset.characteristic;
         
-        // Получаем количество склонностей для этой характеристики
         const aptitudeKey = characteristicToAptitudeMap[characteristic];
         const aptitudeItem = document.querySelector(`.aptitude-item[data-aptitude="${aptitudeKey}"]`);
         const aptitudeCount = aptitudeItem ? aptitudeItem.querySelectorAll('.dot.filled').length : 0;
-        
-        // Получаем стоимость улучшения
         const cost = improvementCosts[aptitudeCount][level - 1];
         
-        if (isChecked) {
-            // Пытаемся добавить улучшение навыка
-            if (canSpendExperience(cost)) {
-                spendExperience(cost);
-                // Галочка ставится автоматически благодаря checked свойству
-            } else {
-                // Если не хватило опыта, отменяем установку галочки
+        if (checkbox.checked) {
+            if (!canSpendExperience(cost)) {
                 checkbox.checked = false;
                 alert('Недостаточно опыта для улучшения навыка!');
+            } else {
+                spendExperience(cost);
             }
-        } else {
-            // Убираем улучшение навыка (НЕ возвращаем опыт)
-            // Галочка снимается, но опыт не возвращается
         }
-
-        // Обновляем отображаемое значение навыка, если оно видимо
+        
         const valueElement = document.querySelector(`.skill-value[data-skill="${skillName}"]`);
         if (valueElement.classList.contains('visible')) {
-            const calculatedValue = calculateSkillValue(skillName);
-            valueElement.textContent = calculatedValue;
+            valueElement.textContent = calculateSkillValue(skillName);
         }
     }
     
-    // Добавляем обработчики для всех чекбоксов навыков
     document.querySelectorAll('.skills-table input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', handleSkillCheckboxChange);
     });
 
-    // --- ФУНКЦИЯ СБОРА ДАННЫХ ---
+    // --- ОЧКИ СУДЬБЫ ---
+    const fateMaxInput = document.getElementById('fate-max');
+    const fateCurrentInput = document.getElementById('fate-current');
+    
+    document.getElementById('fate-increase').addEventListener('click', () => {
+        const current = parseInt(fateCurrentInput.value) || 0;
+        const max = parseInt(fateMaxInput.value) || 3;
+        if (current < max) fateCurrentInput.value = current + 1;
+    });
+    document.getElementById('fate-decrease').addEventListener('click', () => {
+        const current = parseInt(fateCurrentInput.value) || 0;
+        if (current > 0) fateCurrentInput.value = current - 1;
+    });
+    fateMaxInput.addEventListener('change', () => {
+        if (parseInt(fateCurrentInput.value) > parseInt(fateMaxInput.value)) {
+            fateCurrentInput.value = fateMaxInput.value;
+        }
+    });
+
+    // --- ПРОРЫВЫ БЕЗДНЫ ---
+    const abyssBreakthroughContainer = document.getElementById('abyss-breakthrough-container');
+    function arabicToRoman(num) {
+        const roman = { M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1 };
+        let str = '';
+        for (let i of Object.keys(roman)) {
+            let q = Math.floor(num / roman[i]);
+            num -= q * roman[i];
+            str += i.repeat(q);
+        }
+        return str;
+    }
+    function addAbyssBreakthrough(data = null) {
+        const item = document.createElement('div');
+        item.className = 'breakthrough-item';
+        const romanValue = arabicToRoman(abyssBreakthroughContainer.children.length + 1);
+        item.innerHTML = `<div class="breakthrough-value">${romanValue}</div><div class="breakthrough-description"><input type="text" placeholder="Описание прорыва" value="${data ? data.description || '' : ''}"></div><button type="button" class="remove-breakthrough-btn" title="Удалить прорыв">×</button>`;
+        abyssBreakthroughContainer.appendChild(item);
+        item.querySelector('.remove-breakthrough-btn').addEventListener('click', () => {
+            item.remove();
+            updateBreakthroughNumbers();
+        });
+    }
+    function updateBreakthroughNumbers() {
+        abyssBreakthroughContainer.querySelectorAll('.breakthrough-item').forEach((item, index) => {
+            item.querySelector('.breakthrough-value').textContent = arabicToRoman(index + 1);
+        });
+    }
+    document.querySelector('.add-breakthrough-btn').addEventListener('click', () => addAbyssBreakthrough());
+    addAbyssBreakthrough();
+
+    // --- СОХРАНЕНИЕ И ЗАГРУЗКА ---
     function getFormData() {
         const data = {
-            inputs: {},
-            checkboxes: {},
-            aptitudes: {},
-            dynamicSkills: {},
-            improvements: {},
-            experience: {},
-            basicInfo: {},
-            appearance: {},
-            relationships: {},
-            avatar: null,
-            campaignNotes: localStorage.getItem('campaignNotes') || ''
+            inputs: {}, checkboxes: {}, aptitudes: {}, dynamicSkills: {}, improvements: {},
+            experience: { current: currentExpInput.value, used: usedExpInput.value, total: totalExpInput.value },
+            basicInfo: { name: document.getElementById('char-name').value, race: document.getElementById('char-race').value, background: document.getElementById('char-background').value, role: document.getElementById('char-role').value, age: document.getElementById('char-age').value, gender: document.getElementById('char-gender').value },
+            appearance: { skin: document.getElementById('char-skin').value, eyes: document.getElementById('char-eyes').value, hair: document.getElementById('char-hair').value, build: document.getElementById('char-build').value },
+            relationships: {
+                allies: Array.from(alliesContainer.querySelectorAll('.relationship-item')).map(item => ({ name: item.children[0].value, relation: item.children[1].value, info: item.children[2].value })),
+                enemies: Array.from(enemiesContainer.querySelectorAll('.relationship-item')).map(item => ({ name: item.children[0].value, relation: item.children[1].value, info: item.children[2].value }))
+            },
+            avatar: avatarData,
+            campaignNotes: localStorage.getItem('campaignNotes') || '',
+            fatePoints: { current: parseInt(fateCurrentInput.value) || 3, max: parseInt(fateMaxInput.value) || 3 },
+            abyssPoints: parseInt(document.getElementById('abyss-points').value) || 0,
+            abyssBreakthroughs: Array.from(abyssBreakthroughContainer.querySelectorAll('.breakthrough-item')).map(item => ({ description: item.querySelector('input').value })),
+            madness: {
+                points: document.getElementById('madness-points').value || 0,
+                mutations: Array.from(mutationsContainer.querySelectorAll('.mutation-item')).map(item => ({ name: item.children[0].value, description: item.children[1].value }))
+            },
+            corruption: {
+                points: document.getElementById('corruption-points').value || 0,
+                corruptions: Array.from(corruptionsContainer.querySelectorAll('.corruption-item')).map(item => ({ name: item.children[0].value, description: item.children[1].value }))
+            }
         };
-        
-        // Статические текстовые поля
-        document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
-            // Пропускаем динамические поля (они собираются отдельно)
-            if (!input.id.includes('-sub') && !input.closest('.relationship-item')) {
+
+        document.querySelectorAll('input[type="text"]:not([class^="skill-name-input"]), input[type="number"]').forEach(input => {
+            if (!input.closest('.relationship-item, .mutation-item, .corruption-item, .breakthrough-item') && !['fate-current', 'fate-max', 'abyss-points'].includes(input.id)) {
                 data.inputs[input.id] = input.value;
             }
         });
-        
-        // Статические чекбоксы
-        document.querySelectorAll('.skills-table input[type="checkbox"]').forEach(checkbox => {
-            // Пропускаем динамические чекбоксы
-            if (!checkbox.id.includes('-sub')) {
-                data.checkboxes[checkbox.id] = checkbox.checked;
-            }
+        document.querySelectorAll('.skills-table input[type="checkbox"]:not([id*="-sub"])').forEach(cb => data.checkboxes[cb.id] = cb.checked);
+        document.querySelectorAll('.aptitude-item').forEach(item => data.aptitudes[item.dataset.aptitude] = item.querySelectorAll('.dot.filled').length);
+        skillTypes.forEach(type => {
+            data.dynamicSkills[type] = Array.from(document.getElementById(`${type}-container`).querySelectorAll('.skill-sub-row')).map(row => ({
+                name: row.querySelector('.skill-name').textContent,
+                k: row.querySelector('[data-level="1"]').checked,
+                plus10: row.querySelector('[data-level="2"]').checked,
+                plus20: row.querySelector('[data-level="3"]').checked,
+                plus30: row.querySelector('[data-level="4"]').checked,
+                plus40: row.querySelector('[data-level="5"]').checked
+            }));
         });
+        document.querySelectorAll('.stat-item').forEach(item => data.improvements[item.querySelector('input').id.replace('stat-', '')] = item.querySelectorAll('.improvement-dot.filled').length);
         
-        // Склонности
-        document.querySelectorAll('.aptitude-item').forEach(item => {
-            const aptitudeName = item.dataset.aptitude;
-            const filledCount = item.querySelectorAll('.dot.filled').length;
-            data.aptitudes[aptitudeName] = filledCount;
-        });
-        
-        // Динамические навыки
-        skillTypes.forEach(skillType => {
-            data.dynamicSkills[skillType] = [];
-            const container = document.getElementById(`${skillType}-container`);
-            const rows = container.querySelectorAll('.skill-sub-row');
-            
-            rows.forEach((row, index) => {
-                const rowIndex = index + 1;
-                const nameElem = row.querySelector('.skill-name');
-                const kElem = document.getElementById(`${skillType}-sub${rowIndex}-k`);
-                const plus10Elem = document.getElementById(`${skillType}-sub${rowIndex}-10`);
-                const plus20Elem = document.getElementById(`${skillType}-sub${rowIndex}-20`);
-                const plus30Elem = document.getElementById(`${skillType}-sub${rowIndex}-30`);
-                const plus40Elem = document.getElementById(`${skillType}-sub${rowIndex}-40`);
-                
-                if (nameElem && kElem && plus10Elem && plus20Elem && plus30Elem) {
-                    data.dynamicSkills[skillType].push({
-                        name: nameElem.textContent,
-                        k: kElem.checked,
-                        plus10: plus10Elem.checked,
-                        plus20: plus20Elem.checked,
-                        plus30: plus30Elem.checked,                        
-                        plus30: plus40Elem.checked
-                    });
-                }
-            });
-        });
-        
-        // Улучшения характеристик
-        document.querySelectorAll('.stat-item').forEach(item => {
-            const statInput = item.querySelector('input[type="number"]');
-            const statName = statInput.id.replace('stat-', '');
-            const filledCount = item.querySelectorAll('.improvement-dot.filled').length;
-            data.improvements[statName] = filledCount;
-        });
-        
-        // Опыт
-        data.experience = {
-            current: currentExpInput.value,
-            used: usedExpInput.value,
-            total: totalExpInput.value
-        };
-
-        // Основная информация
-        data.basicInfo = {
-            name: document.getElementById('char-name').value,
-            race: document.getElementById('char-race').value,
-            background: document.getElementById('char-background').value,
-            role: document.getElementById('char-role').value,
-            age: document.getElementById('char-age').value,
-            gender: document.getElementById('char-gender').value
-        };
-
-        // Внешность
-        data.appearance = {
-            skin: document.getElementById('char-skin').value,
-            eyes: document.getElementById('char-eyes').value,
-            hair: document.getElementById('char-hair').value,
-            build: document.getElementById('char-build').value
-        };
-
-        // Союзники и враги
-        data.relationships = {
-            allies: Array.from(alliesContainer.querySelectorAll('.relationship-item')).map(item => {
-                const inputs = item.querySelectorAll('input');
-                return {
-                    name: inputs[0].value,
-                    relation: inputs[1].value,
-                    info: inputs[2].value
-                };
-            }),
-            enemies: Array.from(enemiesContainer.querySelectorAll('.relationship-item')).map(item => {
-                const inputs = item.querySelectorAll('input');
-                return {
-                    name: inputs[0].value,
-                    relation: inputs[1].value,
-                    info: inputs[2].value
-                };
-            })
-        };
-
-        // Аватар
-        data.avatar = avatarData;
-        
-        // Безумие
-        data.madness = {
-            points: document.getElementById('madness-points').value || 0,
-            mutations: Array.from(mutationsContainer.querySelectorAll('.mutation-item')).map(item => {
-                const inputs = item.querySelectorAll('input');
-                return {
-                    name: inputs[0].value,
-                    description: inputs[1].value
-                };
-            })
-        };
-
-        // Порча
-        data.corruption = {
-            points: document.getElementById('corruption-points').value || 0,
-            corruptions: Array.from(corruptionsContainer.querySelectorAll('.corruption-item')).map(item => {
-                const inputs = item.querySelectorAll('input');
-                return {
-                    name: inputs[0].value,
-                    description: inputs[1].value
-                };
-            })
-        };
-
         return data;
     }
 
-    // --- ФУНКЦИЯ ЗАПОЛНЕНИЯ ДАННЫМИ ---
     function setFormData(data) {
-        // Статические inputs
-        if (data.inputs) {
-            for (const id in data.inputs) {
-                const element = document.getElementById(id);
-                if (element) element.value = data.inputs[id];
+        if (data.inputs) for (const id in data.inputs) if (document.getElementById(id)) document.getElementById(id).value = data.inputs[id];
+        if (data.checkboxes) for (const id in data.checkboxes) if (document.getElementById(id)) document.getElementById(id).checked = data.checkboxes[id];
+        if (data.aptitudes) for (const name in data.aptitudes) {
+            const item = document.querySelector(`.aptitude-item[data-aptitude="${name}"]`);
+            if (item) item.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('filled', i < data.aptitudes[name]));
+        }
+        if (data.dynamicSkills) skillTypes.forEach(type => {
+            const container = document.getElementById(`${type}-container`);
+            container.innerHTML = '';
+            if (data.dynamicSkills[type] && data.dynamicSkills[type].length > 0) {
+                data.dynamicSkills[type].forEach(skillData => addSkillRow(type, skillData));
+            } else {
+                addSkillRow(type);
             }
+        });
+        if (data.improvements) for (const name in data.improvements) {
+            const item = document.querySelector(`#stat-${name}`).closest('.stat-item');
+            if(item) item.querySelectorAll('.improvement-dot').forEach((dot, i) => dot.classList.toggle('filled', i < data.improvements[name]));
         }
-        
-        // Статические checkboxes
-        if (data.checkboxes) {
-            for (const id in data.checkboxes) {
-                const element = document.getElementById(id);
-                if (element) element.checked = data.checkboxes[id];
-            }
-        }
-        
-        // Склонности
-        if (data.aptitudes) {
-            for (const aptitudeName in data.aptitudes) {
-                const item = document.querySelector(`.aptitude-item[data-aptitude="${aptitudeName}"]`);
-                if (item) {
-                    const dots = item.querySelectorAll('.dot');
-                    const count = data.aptitudes[aptitudeName];
-                    dots.forEach((dot, index) => {
-                        dot.classList.toggle('filled', index < count);
-                    });
-                }
-            }
-        }
-        
-        // Динамические навыки
-        if (data.dynamicSkills) {
-            skillTypes.forEach(skillType => {
-                const container = document.getElementById(`${skillType}-container`);
-                // Очищаем контейнер
-                container.innerHTML = '';
-                
-                if (data.dynamicSkills[skillType] && data.dynamicSkills[skillType].length > 0) {
-                    // Добавляем строки с данными
-                    data.dynamicSkills[skillType].forEach(skillData => {
-                        addSkillRow(skillType, skillData);
-                    });
-                } else {
-                    // Добавляем одну пустую строку, если нет данных
-                    addSkillRow(skillType);
-                }
-            });
-        }
-        
-        // Улучшения характеристик
-        if (data.improvements) {
-            for (const statName in data.improvements) {
-                const statItem = document.querySelector(`#stat-${statName}`).closest('.stat-item');
-                if (statItem) {
-                    const dots = statItem.querySelectorAll('.improvement-dot');
-                    const count = data.improvements[statName];
-                    dots.forEach((dot, index) => {
-                        dot.classList.toggle('filled', index < count);
-                    });
-                }
-            }
-        }
-        
-        // Опыт
         if (data.experience) {
             currentExpInput.value = data.experience.current || 0;
             usedExpInput.value = data.experience.used || 0;
             totalExpInput.value = data.experience.total || 0;
         }
-
-        // Основная информация
-        if (data.basicInfo) {
-            document.getElementById('char-name').value = data.basicInfo.name || '';
-            document.getElementById('char-race').value = data.basicInfo.race || '';
-            document.getElementById('char-background').value = data.basicInfo.background || '';
-            document.getElementById('char-role').value = data.basicInfo.role || '';
-            document.getElementById('char-age').value = data.basicInfo.age || '';
-            document.getElementById('char-gender').value = data.basicInfo.gender || '';
-        }
-
-        // Внешность
-        if (data.appearance) {
-            document.getElementById('char-skin').value = data.appearance.skin || '';
-            document.getElementById('char-eyes').value = data.appearance.eyes || '';
-            document.getElementById('char-hair').value = data.appearance.hair || '';
-            document.getElementById('char-build').value = data.appearance.build || '';
-        }
-
-        // Союзники и враги
+        if (data.basicInfo) Object.keys(data.basicInfo).forEach(key => document.getElementById(`char-${key}`).value = data.basicInfo[key] || '');
+        if (data.appearance) Object.keys(data.appearance).forEach(key => document.getElementById(`char-${key}`).value = data.appearance[key] || '');
         if (data.relationships) {
-            // Очищаем контейнеры
-            alliesContainer.innerHTML = '';
-            enemiesContainer.innerHTML = '';
-
-            // Добавляем союзников
-            if (data.relationships.allies) {
-                data.relationships.allies.forEach(ally => {
-                    if (ally.name || ally.relation || ally.info) addRelationship('allies', ally);
-                });
-            }
-
-            // Добавляем врагов
-            if (data.relationships.enemies) {
-                data.relationships.enemies.forEach(enemy => {
-                    if (enemy.name || enemy.relation || enemy.info) addRelationship('enemies', enemy);
-                });
-            }
-
-            // Если нет данных, добавляем пустые поля
-            if (!data.relationships.allies || data.relationships.allies.length === 0) {
-                addRelationship('allies');
-            }
-            if (!data.relationships.enemies || data.relationships.enemies.length === 0) {
-                addRelationship('enemies');
-            }
+            alliesContainer.innerHTML = ''; enemiesContainer.innerHTML = '';
+            data.relationships.allies.forEach(ally => addRelationship('allies', ally));
+            data.relationships.enemies.forEach(enemy => addRelationship('enemies', enemy));
+            if (alliesContainer.children.length === 0) addRelationship('allies');
+            if (enemiesContainer.children.length === 0) addRelationship('enemies');
         }
-
-        // Аватар
         if (data.avatar) {
             avatarData = data.avatar;
             avatarPlaceholder.style.backgroundImage = `url(${data.avatar})`;
             avatarPlaceholder.classList.add('has-image');
             avatarPlaceholder.querySelector('span').style.display = 'none';
         }
-
-        // Заметки
-        if (data.campaignNotes) {
-            localStorage.setItem('campaignNotes', data.campaignNotes);
+        if (data.campaignNotes) localStorage.setItem('campaignNotes', data.campaignNotes);
+        if (data.fatePoints) { fateMaxInput.value = data.fatePoints.max || 3; fateCurrentInput.value = data.fatePoints.current || 3; }
+        if (data.abyssPoints !== undefined) document.getElementById('abyss-points').value = data.abyssPoints || 0;
+        if (data.abyssBreakthroughs) {
+            abyssBreakthroughContainer.innerHTML = '';
+            data.abyssBreakthroughs.forEach(b => addAbyssBreakthrough(b));
         }
-
-        // Безумие
         if (data.madness) {
             document.getElementById('madness-points').value = data.madness.points || 0;
-            
-            // Очищаем контейнер мутаций
             mutationsContainer.innerHTML = '';
-            
-            // Добавляем мутации
-            if (data.madness.mutations) {
-                data.madness.mutations.forEach(mutation => {
-                    if (mutation.name || mutation.description) addMutation(mutation);
-                });
-            }
-            
-            // Если нет данных, добавляем пустое поле
-            if (!data.madness.mutations || data.madness.mutations.length === 0) {
-                addMutation();
-            }
+            data.madness.mutations.forEach(m => addMutation(m));
+            if(mutationsContainer.children.length === 0) addMutation();
         }
-
-        // Порча
         if (data.corruption) {
             document.getElementById('corruption-points').value = data.corruption.points || 0;
-            
-            // Очищаем контейнер проявлений порчи
             corruptionsContainer.innerHTML = '';
-            
-            // Добавляем проявления порчи
-            if (data.corruption.corruptions) {
-                data.corruption.corruptions.forEach(corruption => {
-                    if (corruption.name || corruption.description) addCorruption(corruption);
-                });
-            }
-            
-            // Если нет данных, добавляем пустое поле
-            if (!data.corruption.corruptions || data.corruption.corruptions.length === 0) {
-                addCorruption();
-            }
+            data.corruption.corruptions.forEach(c => addCorruption(c));
+            if(corruptionsContainer.children.length === 0) addCorruption();
         }
     }
     
-    // --- СОХРАНЕНИЕ В ФАЙЛ ---
     saveButton.addEventListener('click', () => {
         const data = getFormData();
-        const dataStr = JSON.stringify(data, null, 2);
-        const blob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const charName = (document.getElementById('char-name').value.trim() || 'character').replace(/[^a-z0-9]/gi, '_');
-        a.href = url;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
         a.download = `${charName}.json`;
-        document.body.appendChild(a);
         a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        URL.revokeObjectURL(a.href);
     });
 
-    // --- ЗАГРУЗКА ИЗ ФАЙЛА ---
     loadInput.addEventListener('change', (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
-                    const data = JSON.parse(e.target.result);
-                    setFormData(data);
+                    setFormData(JSON.parse(e.target.result));
                 } catch (error) {
                     console.error("Ошибка чтения файла:", error);
-                    alert('Ошибка при чтении файла. Убедитесь, что это корректный JSON-файл персонажа.');
+                    alert('Ошибка при чтении файла.');
                 }
             };
             reader.readAsText(file);
             loadInput.value = '';
         }
     });
-    
-    // Закрытие модального окна при клике вне его
+
     window.addEventListener('click', (event) => {
-        if (event.target === confirmModal) {
-            closeModal();
-        }
+        if (event.target === confirmModal) closeModal();
     });
 });
