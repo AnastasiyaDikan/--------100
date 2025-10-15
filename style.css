@@ -17,10 +17,13 @@ h3 {
 }
 h4 {
     background-color: transparent;
-    padding: 8px;
-    margin: 15px 0 8px 0;
+    padding: 0;
+    margin: 0 0 8px 0;
     border-radius: 0;
     font-weight: 600;
+    text-align: center;
+    border-bottom: 1px solid #c9b79c;
+    padding-bottom: 5px;
 }
 input, textarea {
     border: 1px solid #c9b79c;
@@ -39,6 +42,11 @@ input:focus, textarea:focus {
 input[type="number"] {
     width: 80px;
     text-align: center;
+}
+input[readonly] {
+    background-color: #ece2ce;
+    color: #5a3d3a;
+    font-weight: bold;
 }
 input[type="checkbox"] {
     width: 16px;
@@ -68,7 +76,7 @@ input[type="checkbox"] {
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 20px;
-    gap: 20px;
+    gap: 15px;
 }
 
 .header-main {
@@ -76,7 +84,8 @@ input[type="checkbox"] {
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    flex-grow: 1;
+    flex-basis: 250px;
+    flex-shrink: 0;
 }
 
 .header-controls button {
@@ -97,102 +106,75 @@ input[type="checkbox"] {
 }
 
 /* Аватар персонажа */
-.character-avatar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
+.character-avatar { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .avatar-placeholder {
-    width: 200px;
-    height: 200px;
-    border: 2px dashed #a18a68;
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255,255,255,0.2);
-    cursor: pointer;
-    transition: all 0.2s;
+    width: 200px; height: 200px; border: 2px dashed #a18a68; border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    background-color: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.2s;
 }
-
-.avatar-placeholder:hover {
-    border-color: #800000;
-    background-color: rgba(255,255,255,0.4);
-}
-
-.avatar-placeholder.has-image {
-    border-style: solid;
-    background-size: cover;
-    background-position: center;
-}
-
-.avatar-placeholder span {
-    color: #665;
-    font-size: 12px;
-}
-
+.avatar-placeholder:hover { border-color: #800000; background-color: rgba(255,255,255,0.4); }
+.avatar-placeholder.has-image { border-style: solid; background-size: cover; background-position: center; }
+.avatar-placeholder span { color: #665; font-size: 12px; }
 #avatar-upload-btn {
-    padding: 6px 12px;
-    font-size: 12px;
-    border-radius: 2px;
-    background-color: #6c584c;
-    border: 1px solid #5a4a3a;
-    color: #f5eeda;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    padding: 6px 12px; font-size: 12px; border-radius: 2px; background-color: #6c584c;
+    border: 1px solid #5a4a3a; color: #f5eeda; cursor: pointer; transition: background-color 0.2s;
 }
-
-#avatar-upload-btn:hover {
-    background-color: #5a4a3a;
-}
+#avatar-upload-btn:hover { background-color: #5a4a3a; }
 
 /* Характеристики в шапке */
 .header-characteristics { min-width: 200px; }
 .header-characteristics .stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #dcd0b8;
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+    padding-bottom: 10px; border-bottom: 1px solid #dcd0b8;
 }
 .header-characteristics .stat-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .header-characteristics .stat-item label { font-weight: 500; width: 100px; }
 .header-characteristics .stat-input-container { display: flex; align-items: center; gap: 8px; }
 .header-characteristics .improvement-dots { display: flex; gap: 3px; align-items: center; }
 .header-characteristics .improvement-dot {
-    width: 14px; height: 14px;
-    border: 2px solid #8B4513;
-    border-radius: 50%;
-    cursor: pointer; transition: all 0.2s;
-    background-color: #f5eeda;
+    width: 14px; height: 14px; border: 2px solid #8B4513; border-radius: 50%;
+    cursor: pointer; transition: all 0.2s; background-color: #f5eeda;
 }
 .header-characteristics .improvement-dot.filled { background-color: #8B4513; }
+
+/* Колонка со Склонностями и Прочим */
+.header-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 200px;
+}
 
 /* Склонности в шапке */
 .header-aptitudes { min-width: 180px; }
 .header-aptitudes .aptitude-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .header-aptitudes .aptitude-item .dots { display: flex; gap: 4px; }
 .header-aptitudes .aptitude-item .dot {
-    width: 16px; height: 16px;
-    border: 2px solid #5a3d3a;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    width: 16px; height: 16px; border: 2px solid #5a3d3a; border-radius: 50%;
+    cursor: pointer; transition: background-color 0.2s;
 }
 .header-aptitudes .aptitude-item .dot.filled { background-color: #4a2c2a; }
+
+/* Секция витальных параметров */
+.character-vitals { display: flex; flex-direction: column; gap: 10px; }
+.vitals-section {
+    border: 1px solid #c9b79c; border-radius: 2px; padding: 10px;
+    background-color: rgba(249, 249, 239, 0.5); display: flex;
+    flex-direction: column; gap: 8px;
+}
+.vitals-item { display: flex; justify-content: space-between; align-items: center; }
+.vitals-item label { font-size: 13px; font-weight: 500; }
+.vitals-item input { width: 70px; padding: 4px; font-size: 13px; }
+.movement-section .vitals-item input { font-weight: bold; }
+.movement-section .vitals-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.movement-section .vitals-grid .vitals-item { flex-direction: column; gap: 4px; }
+.movement-section .vitals-grid .vitals-item input { width: 100%; text-align: center; }
 
 /* Правая часть шапки */
 .header-right { min-width: 250px; display: flex; flex-direction: column; gap: 15px; }
 .experience-table table {
-    border-collapse: collapse;
-    font-size: 11px;
-    background-color: rgba(249, 249, 239, 0.5);
-    border-radius: 2px; overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    border: 1px solid #dcd0b8;
+    border-collapse: collapse; font-size: 11px; background-color: rgba(249, 249, 239, 0.5);
+    border-radius: 2px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border: 1px solid #dcd0b8;
 }
 .experience-table th, .experience-table td { border: 1px solid #dcd0b8; padding: 4px 6px; text-align: center; }
 .experience-table th { background-color: rgba(220, 208, 184, 0.6); font-weight: bold; }
@@ -200,25 +182,18 @@ input[type="checkbox"] {
 
 /* Опыт, Судьба, Бездна */
 .header-experience, .fate-points-section, .abyss-points-section, .abyss-breakthrough-section {
-    border: 1px solid #c9b79c;
-    border-radius: 2px;
-    padding: 10px;
-    background-color: rgba(249, 249, 239, 0.5);
+    border: 1px solid #c9b79c; border-radius: 2px; padding: 10px; background-color: rgba(249, 249, 239, 0.5);
 }
 .header-experience .experience-item, .fate-points-item, .abyss-points-item {
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
 }
-.header-experience .experience-item label, .fate-points-item label, .abyss-points-item label {
-    font-weight: 500; font-size: 12px; width: 120px;
-}
+.header-experience .experience-item label, .fate-points-item label, .abyss-points-item label { font-weight: 500; font-size: 12px; width: 120px; }
 .header-experience .experience-item input { width: 70px; font-size: 12px; }
 .fate-points-item label, .abyss-points-item label { width: 80px; }
 .fate-controls { display: flex; align-items: center; gap: 5px; }
 .fate-controls button {
-    width: 25px; height: 25px;
-    background-color: #800000;
-    color: #f5eeda; border: 1px solid #5a0000;
-    border-radius: 2px; cursor: pointer; font-weight: bold;
+    width: 25px; height: 25px; background-color: #800000; color: #f5eeda;
+    border: 1px solid #5a0000; border-radius: 2px; cursor: pointer; font-weight: bold;
 }
 .fate-controls button:hover { background-color: #5a0000; }
 .fate-controls input { width: 50px; padding: 3px; background-color: #fdfaf3; }
@@ -286,7 +261,6 @@ input[type="checkbox"] {
     display: flex; justify-content: space-between; align-items: center;
 }
 .skill-characteristic-header:hover { background-color: rgba(220, 208, 184, 0.8); }
-.skill-characteristic-header h4 { margin: 0; background: none; padding: 0; }
 .skill-characteristic-header.active { background-color: rgba(200, 188, 164, 0.9); }
 .skill-characteristic-group {
     border: 1px solid #dcd0b8; border-radius: 2px; padding: 10px;
@@ -297,8 +271,6 @@ input[type="checkbox"] {
 .skills-table th { background-color: rgba(220, 208, 184, 0.6); font-weight: bold; }
 .skills-table td:first-child { text-align: left; font-weight: 500; position: relative; }
 .skills-table th:not(:first-child) { width: 45px; }
-
-/* Отображение значений навыков */
 .skill-name { cursor: pointer; padding: 2px 5px; border-radius: 3px; transition: background-color 0.2s; }
 .skill-name:hover { background-color: rgba(220, 208, 184, 0.5); }
 .skill-value {
@@ -366,6 +338,7 @@ input[type="checkbox"] {
     background-color: rgba(220, 208, 184, 0.5); border: 1px solid #c9b79c; border-radius: 2px;
     cursor: pointer; transition: background-color 0.2s; margin-bottom: 5px;
 }
+.section-header h4 { border-bottom: none; padding-bottom: 0; }
 .section-header:hover { background-color: rgba(220, 208, 184, 0.8); }
 .section-header.active { background-color: rgba(200, 188, 164, 0.9); }
 .section-header h3 { margin: 0; border: none; padding: 0; }
