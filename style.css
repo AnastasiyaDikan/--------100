@@ -6,6 +6,13 @@ body {
     color: #4a2c2a;
     font-size: 14px;
 }
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+}
 h1, h3, h4 {
     font-weight: 700;
     color: #5a3d3a;
@@ -33,6 +40,7 @@ input, textarea {
     background-color: #fdfaf3;
     color: #4a2c2a;
     font-family: 'Merriweather', serif;
+    width: 100%;
 }
 input:focus, textarea:focus {
     outline: none;
@@ -58,52 +66,26 @@ input[type="checkbox"] {
 /* Контейнер листа */
 .character-sheet {
     max-width: 1400px;
-    margin: 30px auto;
     background: #f5eeda;
     border: 1px solid #a18a68;
     border-radius: 3px;
     box-shadow: 0 5px 25px rgba(0,0,0,0.4);
     padding: 25px;
     background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+    transition: max-width 0.3s ease-in-out;
 }
 
 /* Шапка */
-.sheet-header {
-    margin-bottom: 25px;
-}
-.header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    gap: 15px;
-}
-
-.header-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    flex-basis: 250px;
-    flex-shrink: 0;
-}
-
+.sheet-header { margin-bottom: 25px; }
+.header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; gap: 15px; }
+.header-main { display: flex; flex-direction: column; align-items: center; gap: 15px; flex-basis: 250px; flex-shrink: 0; }
+.header-controls { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
 .header-controls button {
-    padding: 8px 16px;
-    font-size: 14px;
-    border: 1px solid #8c6a48;
-    border-radius: 2px;
-    background-color: #a18a68;
-    color: #f5eeda;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    font-family: 'Merriweather', serif;
-    font-weight: 700;
+    padding: 8px 12px; font-size: 13px; border: 1px solid #8c6a48; border-radius: 2px;
+    background-color: #a18a68; color: #f5eeda; cursor: pointer; transition: background-color 0.2s;
+    font-family: 'Merriweather', serif; font-weight: 700;
 }
-
-.header-controls button:hover {
-    background-color: #8c6a48;
-}
+.header-controls button:hover { background-color: #8c6a48; }
 
 /* Аватар персонажа */
 .character-avatar { display: flex; flex-direction: column; align-items: center; gap: 10px; }
@@ -138,14 +120,7 @@ input[type="checkbox"] {
 .header-characteristics .improvement-dot.filled { background-color: #8B4513; }
 
 /* Колонка со Склонностями и Прочим */
-.header-column {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    min-width: 200px;
-}
-
-/* Склонности в шапке */
+.header-column { display: flex; flex-direction: column; gap: 15px; min-width: 200px; }
 .header-aptitudes { min-width: 180px; }
 .header-aptitudes .aptitude-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .header-aptitudes .aptitude-item .dots { display: flex; gap: 4px; }
@@ -180,7 +155,6 @@ input[type="checkbox"] {
 .experience-table th { background-color: rgba(220, 208, 184, 0.6); font-weight: bold; }
 .experience-table td:first-child { text-align: left; font-weight: 500; }
 
-/* Опыт, Судьба, Бездна */
 .header-experience, .fate-points-section, .abyss-points-section, .abyss-breakthrough-section {
     border: 1px solid #c9b79c; border-radius: 2px; padding: 10px; background-color: rgba(249, 249, 239, 0.5);
 }
@@ -188,8 +162,8 @@ input[type="checkbox"] {
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
 }
 .header-experience .experience-item label, .fate-points-item label, .abyss-points-item label { font-weight: 500; font-size: 12px; width: 120px; }
-.header-experience .experience-item input { width: 70px; font-size: 12px; }
-.fate-points-item label, .abyss-points-item label { width: 80px; }
+.header-experience .experience-item input, .abyss-points-item input { width: 70px; }
+.fate-points-item label { width: 80px; }
 .fate-controls { display: flex; align-items: center; gap: 5px; }
 .fate-controls button {
     width: 25px; height: 25px; background-color: #800000; color: #f5eeda;
@@ -197,7 +171,6 @@ input[type="checkbox"] {
 }
 .fate-controls button:hover { background-color: #5a0000; }
 .fate-controls input { width: 50px; padding: 3px; background-color: #fdfaf3; }
-.abyss-points-item input { width: 70px; padding: 5px; }
 
 /* Прорывы Бездны */
 .breakthrough-item {
@@ -206,21 +179,20 @@ input[type="checkbox"] {
 }
 .breakthrough-value { min-width: 30px; font-weight: bold; text-align: center; color: #800000; }
 .breakthrough-description { flex: 1; }
-.breakthrough-description input { width: 100%; padding: 5px; }
 
-.remove-breakthrough-btn, .remove-relationship-btn, .remove-mutation-btn, .remove-corruption-btn, .remove-skill-btn {
+.remove-breakthrough-btn, .remove-relationship-btn, .remove-mutation-btn, .remove-corruption-btn, .remove-skill-btn, .remove-talent-btn {
     background-color: #8b0000; color: #f5eeda; border: 1px solid #5a0000;
-    border-radius: 2px; width: 24px; height: 24px; font-size: 12px;
+    border-radius: 50%; width: 22px; height: 22px; font-size: 12px;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s; flex-shrink: 0;
 }
-.remove-breakthrough-btn:hover, .remove-relationship-btn:hover, .remove-mutation-btn:hover, .remove-corruption-btn:hover, .remove-skill-btn:hover { background-color: #c82333; }
-.add-breakthrough-btn {
+.remove-breakthrough-btn:hover, .remove-relationship-btn:hover, .remove-mutation-btn:hover, .remove-corruption-btn:hover, .remove-skill-btn:hover, .remove-talent-btn:hover { background-color: #c82333; }
+.add-breakthrough-btn, .add-talent-btn {
     width: 100%; padding: 8px; background-color: #6B8E23; color: white;
     border: 1px solid #556B2F; border-radius: 2px; cursor: pointer;
     transition: background-color 0.2s; font-size: 12px;
 }
-.add-breakthrough-btn:hover { background-color: #556B2F; }
+.add-breakthrough-btn:hover, .add-talent-btn:hover { background-color: #556B2F; }
 
 /* Основная сетка */
 .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -235,7 +207,6 @@ input[type="checkbox"] {
 .info-item { display: flex; flex-direction: column; gap: 5px; }
 .info-item.full-width { grid-column: 1 / -1; }
 .info-item label { font-weight: 500; font-size: 12px; color: #5a3d3a; }
-.info-item input { width: 100%; padding: 8px; font-size: 14px; }
 
 /* Союзники и враги */
 .relationship-group h4 { margin-top: 0; background-color: rgba(220, 208, 184, 0.4); }
@@ -244,7 +215,6 @@ input[type="checkbox"] {
     margin-bottom: 8px; padding: 8px; background-color: #fdfaf3;
     border: 1px solid #dcd0b8; border-radius: 2px; align-items: center;
 }
-.relationship-item input { font-size: 12px; }
 .add-relationship-btn, .add-mutation-btn, .add-corruption-btn {
     background-color: #708090; color: white; border: 1px solid #506070;
     border-radius: 2px; padding: 6px 12px; font-size: 12px; cursor: pointer;
@@ -261,6 +231,7 @@ input[type="checkbox"] {
     display: flex; justify-content: space-between; align-items: center;
 }
 .skill-characteristic-header:hover { background-color: rgba(220, 208, 184, 0.8); }
+.skill-characteristic-header h4, .section-header h3 { margin: 0; background: none; padding: 0; border: none; }
 .skill-characteristic-header.active { background-color: rgba(200, 188, 164, 0.9); }
 .skill-characteristic-group {
     border: 1px solid #dcd0b8; border-radius: 2px; padding: 10px;
@@ -291,13 +262,13 @@ input[type="checkbox"] {
     margin-left: 10px; transition: background-color 0.2s;
 }
 .add-skill-btn:hover { background-color: #556B2F; }
-.remove-skill-btn { position: absolute; left: 5px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; }
+.remove-skill-btn { position: absolute; left: 5px; top: 50%; transform: translateY(-50%); }
 
 /* Полоса прокрутки */
-.skills-container::-webkit-scrollbar { width: 8px; }
-.skills-container::-webkit-scrollbar-track { background: rgba(220, 208, 184, 0.3); border-radius: 4px; }
-.skills-container::-webkit-scrollbar-thumb { background: #a18a68; border-radius: 4px; }
-.skills-container::-webkit-scrollbar-thumb:hover { background: #8c6a48; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: rgba(220, 208, 184, 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: #a18a68; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #8c6a48; }
 
 /* Модальные окна */
 .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); }
@@ -330,7 +301,6 @@ input[type="checkbox"] {
     margin-bottom: 10px; padding: 10px; background-color: #fdfaf3;
     border: 1px solid #dcd0b8; border-radius: 2px; align-items: start;
 }
-.add-mutation-btn, .add-corruption-btn { width: 100%; padding: 8px 16px; font-size: 13px; }
 
 /* Сворачиваемые секции */
 .section-header {
@@ -341,4 +311,50 @@ input[type="checkbox"] {
 .section-header h4 { border-bottom: none; padding-bottom: 0; }
 .section-header:hover { background-color: rgba(220, 208, 184, 0.8); }
 .section-header.active { background-color: rgba(200, 188, 164, 0.9); }
-.section-header h3 { margin: 0; border: none; padding: 0; }
+
+/* --- СТИЛИ ДЛЯ ЛИСТА ТАЛАНТОВ --- */
+.talents-sheet {
+    background: #f5eeda; border: 1px solid #a18a68; border-radius: 3px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.4); padding: 25px;
+    background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+    width: 600px;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    align-self: flex-start;
+}
+.talents-sheet.hidden {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    transform: translateX(-30px);
+    pointer-events: none;
+}
+.talents-header { display: flex; justify-content: space-between; align-items: center; }
+.close-talents-btn {
+    background: none; border: none; font-size: 24px; color: #8b0000;
+    cursor: pointer; font-weight: bold;
+}
+.talents-tabs { display: flex; border-bottom: 2px solid #a18a68; margin-bottom: 15px; }
+.talent-tab-btn {
+    padding: 8px 15px; border: none; background: transparent;
+    border-bottom: 3px solid transparent;
+    cursor: pointer; font-family: 'Merriweather', serif; font-weight: 700;
+    color: #6c584c; font-size: 14px;
+}
+.talent-tab-btn.active {
+    border-bottom: 3px solid #800000;
+    color: #5a3d3a;
+}
+.talent-tab-content { display: none; }
+.talent-tab-content.active { display: block; }
+.talent-list { display: flex; flex-direction: column; gap: 15px; max-height: 60vh; overflow-y: auto; padding: 5px; margin-bottom: 15px;}
+.talent-item {
+    display: grid; grid-template-columns: 1fr auto; gap: 10px;
+    padding: 10px; background-color: #fdfaf3; border: 1px solid #dcd0b8;
+    border-radius: 2px; align-items: start;
+}
+.talent-item-fields { display: flex; flex-direction: column; gap: 8px; }
+.talent-item label { font-size: 11px; font-weight: bold; color: #5a3d3a; }
+.talent-item .remove-talent-btn { margin-top: 18px; }
+.talent-item textarea { min-height: 60px; resize: vertical; }

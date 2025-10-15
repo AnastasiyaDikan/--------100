@@ -67,11 +67,323 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- ОБРАБОТЧИКИ ИЗМЕНЕНИЯ БАЗОВЫХ ХАРАКТЕРИСТИК ---
     const statInputsForCalculations = ['stat-agility', 'stat-strength', 'stat-willpower', 'stat-endurance'];
     statInputsForCalculations.forEach(id => {
-        document.getElementById(id).addEventListener('input', updateCalculatedStats);
+        document.getElementById(id)?.addEventListener('input', updateCalculatedStats);
     });
     
-    // ... (весь остальной JS код, который был ранее, до секции сохранения/загрузки)
+    // --- СКЛОННОСТИ ---
+    document.querySelectorAll('.aptitude-item').forEach(item => {
+        item.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const isFilled = dot.classList.contains('filled');
+                if (isFilled) {
+                    dot.classList.remove('filled');
+                } else {
+                    item.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('filled', i <= index));
+                }
+            });
+        });
+    });
 
+    // --- АВАТАРКА ---
+    const avatarPlaceholder = document.getElementById('avatar-placeholder');
+    const avatarInput = document.getElementById('avatar-input');
+    let avatarData = null;
+    document.getElementById('avatar-upload-btn').addEventListener('click', () => avatarInput.click());
+    avatarInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                avatarData = e.target.result;
+                avatarPlaceholder.style.backgroundImage = `url(${avatarData})`;
+                avatarPlaceholder.classList.add('has-image');
+                avatarPlaceholder.querySelector('span').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // --- МОДАЛЬНЫЕ ОКНА ---
+    const notesModal = document.getElementById('notes-modal');
+    const campaignNotes = document.getElementById('campaign-notes');
+    document.getElementById('notes-button').addEventListener('click', () => {
+        campaignNotes.value = localStorage.getItem('campaignNotes') || '';
+        notesModal.style.display = 'block';
+    });
+    document.getElementById('notes-save').addEventListener('click', () => {
+        localStorage.setItem('campaignNotes', campaignNotes.value);
+        notesModal.style.display = 'none';
+    });
+    document.getElementById('notes-cancel').addEventListener('click', () => {
+        notesModal.style.display = 'none';
+    });
+    window.addEventListener('click', (event) => {
+        if (event.target === notesModal) notesModal.style.display = 'none';
+    });
+    
+    // --- СКРЫТИЕ/ПОКАЗ СЕКЦИЙ ---
+    document.querySelectorAll('.skill-characteristic-header, .section-header').forEach(header => {
+        header.addEventListener('click', () => {
+            let content;
+            if (header.classList.contains('section-header')) {
+                content = header.nextElementSibling;
+            } else if (header.dataset.characteristic) {
+                content = document.getElementById(`skills-${header.dataset.characteristic}`);
+            }
+
+            if (content) {
+                const toggleIcon = header.querySelector('.toggle-icon');
+                const isHidden = content.style.display === 'none' || content.style.display === '';
+                content.style.display = isHidden ? 'block' : 'none';
+                header.classList.toggle('active', isHidden);
+                if (toggleIcon) toggleIcon.textContent = isHidden ? '▼' : '▶';
+            }
+        });
+    });
+
+    // --- ДИНАМИЧЕСКИЕ НАВЫКИ ---
+    const skillTypes = ['lore-common', 'lore-forbidden', 'linguistics', 'lore-scholastic', 'trade'];
+    let currentRowToRemove = null;
+    let currentSkillTypeToRemove = null;
+    const confirmModal = document.getElementById('confirm-modal');
+    document.getElementById('confirm-yes').addEventListener('click', () => {
+        if (currentRowToRemove) {
+            currentRowToRemove.remove();
+            if (currentSkillTypeToRemove) reindexSkillRows(currentSkillTypeToRemove);
+            closeConfirmModal();
+        }
+    });
+    document.getElementById('confirm-no').addEventListener('click', closeConfirmModal);
+    function closeConfirmModal() {
+        confirmModal.style.display = 'none';
+        currentRowToRemove = null;
+        currentSkillTypeToRemove = null;
+    }
+    const placeholders = {
+        'lore-common': 'Область знаний...', 'lore-forbidden': 'Область знаний...',
+        'linguistics': 'Язык...', 'lore-scholastic': 'Область знаний...', 'trade': 'Вид ремесла...'
+    };
+    function getPlaceholder(skillType) { return placeholders[skillType] || 'Название...'; }
+
+    function addSkillRow(skillType, data = null) {
+        const container = document.getElementById(`${skillType}-container`);
+        const rowIndex = container.children.length + 1;
+        const row = document.createElement('tr');
+        row.className = 'skill-sub-row';
+        row.innerHTML = `
+            <td>
+                <button type="button" class="remove-skill-btn" title="Удалить навык">×</button>
+                <span class="skill-name dynamic-skill" data-skill="${skillType}-sub${rowIndex}">${(data && data.name) ? data.name : getPlaceholder(skillType)}</span>
+                <span class="skill-value" data-skill="${skillType}-sub${rowIndex}"></span>
+            </td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-k" data-skill="${skillType}-sub${rowIndex}" data-level="1" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-10" data-skill="${skillType}-sub${rowIndex}" data-level="2" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-20" data-skill="${skillType}-sub${rowIndex}" data-level="3" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-30" data-skill="${skillType}-sub${rowIndex}" data-level="4" data-characteristic="intelligence"></td>
+            <td><input type="checkbox" id="${skillType}-sub${rowIndex}-40" data-skill="${skillType}-sub${rowIndex}" data-level="5" data-characteristic="intelligence"></td>
+        `;
+        container.appendChild(row);
+
+        if (data) {
+            row.querySelector('[data-level="1"]').checked = data.k || false;
+            row.querySelector('[data-level="2"]').checked = data.plus10 || false;
+            row.querySelector('[data-level="3"]').checked = data.plus20 || false;
+            row.querySelector('[data-level="4"]').checked = data.plus30 || false;
+            row.querySelector('[data-level="5"]').checked = data.plus40 || false;
+        }
+
+        row.querySelectorAll('input[type="checkbox"]').forEach(checkbox => checkbox.addEventListener('change', handleSkillCheckboxChange));
+        row.querySelector('.remove-skill-btn').addEventListener('click', () => {
+            currentRowToRemove = row;
+            currentSkillTypeToRemove = skillType;
+            confirmModal.style.display = 'block';
+        });
+        row.querySelector('.skill-name').addEventListener('click', handleSkillNameClick);
+    }
+    
+    function reindexSkillRows(skillType) {
+        document.getElementById(`${skillType}-container`).querySelectorAll('.skill-sub-row').forEach((row, index) => {
+            const newIndex = index + 1;
+            const newSkillId = `${skillType}-sub${newIndex}`;
+            row.querySelector('.skill-name').dataset.skill = newSkillId;
+            row.querySelector('.skill-value').dataset.skill = newSkillId;
+            row.querySelectorAll('input[type="checkbox"]').forEach((cb, i) => {
+                const levelMap = { 0: 'k', 1: '10', 2: '20', 3: '30', 4: '40' };
+                cb.id = `${newSkillId}-${levelMap[i] || i}`;
+                cb.dataset.skill = newSkillId;
+            });
+        });
+    }
+
+    document.querySelectorAll('.add-skill-btn').forEach(button => {
+        button.addEventListener('click', () => addSkillRow(button.dataset.skillType));
+    });
+    skillTypes.forEach(addSkillRow);
+    
+    function handleSkillNameClick(event) {
+        const span = event.target;
+        makeSkillNameEditable(span);
+    }
+
+    function makeSkillNameEditable(span) {
+        const originalText = span.textContent;
+        const isPlaceholder = Object.values(placeholders).includes(originalText);
+
+        if (!isPlaceholder) {
+            toggleSkillValueDisplay({ target: span });
+            return;
+        }
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = originalText;
+        input.className = 'skill-name-input';
+        span.replaceWith(input);
+        input.focus();
+
+        const save = () => {
+            const skillType = input.closest('tbody').id.replace('-container', '');
+            span.textContent = input.value.trim() || getPlaceholder(skillType);
+            input.replaceWith(span);
+        };
+        input.addEventListener('blur', save);
+        input.addEventListener('keydown', (e) => { if (e.key === 'Enter') save(); });
+    }
+
+    // --- РАСЧЕТ ЗНАЧЕНИЯ НАВЫКА ---
+    function calculateSkillValue(skillName) {
+        const checkboxes = document.querySelectorAll(`input[data-skill="${skillName}"]`);
+        let skillBonus = -20;
+        if (checkboxes[0] && checkboxes[0].checked) skillBonus = 0;
+        if (checkboxes[1] && checkboxes[1].checked) skillBonus = 10;
+        if (checkboxes[2] && checkboxes[2].checked) skillBonus = 20;
+        if (checkboxes[3] && checkboxes[3].checked) skillBonus = 30;
+        if (checkboxes[4] && checkboxes[4].checked) skillBonus = 40;
+        const characteristic = checkboxes[0]?.dataset.characteristic;
+        if (!characteristic) return -20;
+        const charValue = parseInt(document.getElementById(`stat-${characteristic}`).value) || 0;
+        return charValue + skillBonus;
+    }
+
+    function toggleSkillValueDisplay(event) {
+        const skillName = event.target.dataset.skill;
+        const valueElement = document.querySelector(`.skill-value[data-skill="${skillName}"]`);
+        if (valueElement.classList.toggle('visible')) {
+            valueElement.textContent = calculateSkillValue(skillName);
+        }
+    }
+    
+    document.querySelectorAll('.skill-name:not(.dynamic-skill)').forEach(el => el.addEventListener('click', toggleSkillValueDisplay));
+    
+    // --- ОПЫТ ---
+    const currentExpInput = document.getElementById('current-exp');
+    const usedExpInput = document.getElementById('used-exp');
+    const totalExpInput = document.getElementById('total-exp');
+    const canSpendExperience = (cost) => (parseInt(currentExpInput.value) || 0) >= cost;
+    const spendExperience = (cost) => {
+        if (canSpendExperience(cost)) {
+            currentExpInput.value = (parseInt(currentExpInput.value) || 0) - cost;
+            usedExpInput.value = (parseInt(usedExpInput.value) || 0) + cost;
+            updateTotalExperience();
+            return true;
+        }
+        return false;
+    };
+    const updateTotalExperience = () => totalExpInput.value = (parseInt(currentExpInput.value) || 0) + (parseInt(usedExpInput.value) || 0);
+    [currentExpInput, usedExpInput].forEach(el => el.addEventListener('input', updateTotalExperience));
+    totalExpInput.addEventListener('input', () => currentExpInput.value = (parseInt(totalExpInput.value) || 0) - (parseInt(usedExpInput.value) || 0));
+
+    // --- УЛУЧШЕНИЯ ХАРАКТЕРИСТИК И НАВЫКОВ ---
+    document.querySelectorAll('.improvement-dot').forEach(dot => {
+        dot.addEventListener('click', () => {
+            const statName = dot.dataset.stat;
+            const level = parseInt(dot.dataset.value);
+            const aptitudeKey = characteristicToAptitudeMap[statName];
+            const aptitudeItem = document.querySelector(`[data-aptitude="${aptitudeKey}"]`);
+            const aptitudeCount = aptitudeItem ? aptitudeItem.querySelectorAll('.dot.filled').length : 0;
+            const cost = improvementCosts[aptitudeCount] ? improvementCosts[aptitudeCount][level - 1] : Infinity;
+            
+            if (!dot.classList.contains('filled')) {
+                if (spendExperience(cost)) {
+                    dot.classList.add('filled');
+                    const input = document.getElementById(`stat-${statName}`);
+                    input.value = (parseInt(input.value) || 0) + 5;
+                    updateCalculatedStats();
+                } else {
+                    alert('Недостаточно опыта!');
+                }
+            } else { 
+                dot.classList.remove('filled');
+                // Логика возврата опыта и снижения статов (закомментирована)
+            }
+        });
+    });
+
+    function handleSkillCheckboxChange(event) {
+        const cb = event.target;
+        const level = parseInt(cb.dataset.level);
+        const characteristic = cb.dataset.characteristic;
+        const aptitudeKey = characteristicToAptitudeMap[characteristic];
+        const aptitudeItem = document.querySelector(`[data-aptitude="${aptitudeKey}"]`);
+        const aptitudeCount = aptitudeItem ? aptitudeItem.querySelectorAll('.dot.filled').length : 0;
+        const cost = improvementCosts[aptitudeCount][level - 1];
+        if (cb.checked && !spendExperience(cost)) {
+            cb.checked = false;
+            alert('Недостаточно опыта для улучшения навыка!');
+        }
+        const valueEl = cb.closest('tr').querySelector(`.skill-value[data-skill="${cb.dataset.skill}"]`);
+        if (valueEl.classList.contains('visible')) {
+            valueEl.textContent = calculateSkillValue(cb.dataset.skill);
+        }
+    }
+    
+    // --- ОЧКИ СУДЬБЫ ---
+    const fateMaxInput = document.getElementById('fate-max');
+    const fateCurrentInput = document.getElementById('fate-current');
+    document.getElementById('fate-increase').addEventListener('click', () => {
+        const current = parseInt(fateCurrentInput.value);
+        if (current < parseInt(fateMaxInput.value)) fateCurrentInput.value = current + 1;
+    });
+    document.getElementById('fate-decrease').addEventListener('click', () => {
+        const current = parseInt(fateCurrentInput.value);
+        if (current > 0) fateCurrentInput.value = current - 1;
+    });
+    fateMaxInput.addEventListener('change', () => {
+        if (parseInt(fateCurrentInput.value) > parseInt(fateMaxInput.value)) fateCurrentInput.value = fateMaxInput.value;
+    });
+
+    // --- ПРОРЫВЫ БЕЗДНЫ ---
+    const abyssBreakthroughContainer = document.getElementById('abyss-breakthrough-container');
+    const arabicToRoman = num => {
+        if (isNaN(num) || num < 1) return '';
+        const roman = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1};
+        let str = '';
+        for (let i of Object.keys(roman)) {
+            let q = Math.floor(num / roman[i]);
+            num -= q * roman[i];
+            str += i.repeat(q);
+        }
+        return str;
+    }
+    const updateBreakthroughNumbers = () => {
+        abyssBreakthroughContainer.querySelectorAll('.breakthrough-item').forEach((item, index) => {
+            item.querySelector('.breakthrough-value').textContent = arabicToRoman(index + 1);
+        });
+    }
+    const addAbyssBreakthrough = (data = null) => {
+        const item = document.createElement('div');
+        item.className = 'breakthrough-item';
+        item.innerHTML = `<div class="breakthrough-value"></div><div class="breakthrough-description"><input type="text" placeholder="Описание прорыва" value="${data ? data.description || '' : ''}"></div><button type="button" class="remove-breakthrough-btn" title="Удалить прорыв">×</button>`;
+        abyssBreakthroughContainer.appendChild(item);
+        item.querySelector('.remove-breakthrough-btn').addEventListener('click', () => {
+            item.remove();
+            updateBreakthroughNumbers();
+        });
+        updateBreakthroughNumbers();
+    }
+    document.querySelector('.add-breakthrough-btn').addEventListener('click', () => addAbyssBreakthrough());
+    if (abyssBreakthroughContainer.children.length === 0) addAbyssBreakthrough();
+    
     // --- ЛИСТ ТАЛАНТОВ ---
     const talentsButton = document.getElementById('talents-button');
     const talentsSheet = document.getElementById('talents-sheet');
@@ -84,11 +396,11 @@ document.addEventListener('DOMContentLoaded', () => {
     talentTabsContainer.addEventListener('click', (e) => {
         if (e.target.classList.contains('talent-tab-btn')) {
             const tabType = e.target.dataset.tab;
-            talentTabsContainer.querySelector('.active').classList.remove('active');
+            talentTabsContainer.querySelector('.active')?.classList.remove('active');
             e.target.classList.add('active');
 
-            document.querySelector('.talent-tab-content.active').classList.remove('active');
-            document.getElementById(`tab-${tabType}`).classList.add('active');
+            document.querySelector('.talent-tab-content.active')?.classList.remove('active');
+            document.getElementById(`tab-${tabType}`)?.classList.add('active');
         }
     });
 
@@ -100,15 +412,15 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="talent-item-fields">
                 <div>
                     <label>Наименование</label>
-                    <input type="text" class="talent-name" value="${data ? data.name : ''}">
+                    <input type="text" class="talent-name" value="${data && data.name ? data.name : ''}">
                 </div>
                 <div>
                     <label>Описание</label>
-                    <textarea class="talent-desc">${data ? data.description : ''}</textarea>
+                    <textarea class="talent-desc">${data && data.description ? data.description : ''}</textarea>
                 </div>
                 <div>
                     <label>Требование</label>
-                    <input type="text" class="talent-req" value="${data ? data.requirement : ''}">
+                    <input type="text" class="talent-req" value="${data && data.requirement ? data.requirement : ''}">
                 </div>
             </div>
             <button class="remove-talent-btn" title="Удалить талант">×</button>
@@ -122,7 +434,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.add-talent-btn').forEach(btn => {
         btn.addEventListener('click', () => addTalentRow(btn.dataset.type));
     });
-
     ['combat', 'social', 'mental'].forEach(type => addTalentRow(type));
 
 
@@ -144,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
             abyssPoints: parseInt(document.getElementById('abyss-points').value) || 0,
         };
 
-        document.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
+        document.querySelectorAll('input[type="text"]:not(.talent-name):not(.talent-req), input[type="number"], textarea:not(.talent-desc)').forEach(input => {
             if (input.id && !input.closest('.dynamic-skill, .relationship-item, .mutation-item, .corruption-item, .breakthrough-item')) {
                  data.inputs[input.id] = input.value;
             }
@@ -171,8 +482,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         document.querySelectorAll('.stat-item').forEach(item => {
             const statInput = item.querySelector('input[type="number"]');
-            const statName = statInput.id.replace('stat-', '');
-            data.improvements[statName] = item.querySelectorAll('.improvement-dot.filled').length;
+            if (statInput && statInput.id) {
+                const statName = statInput.id.replace('stat-', '');
+                data.improvements[statName] = item.querySelectorAll('.improvement-dot.filled').length;
+            }
         });
 
         document.getElementById('abyss-breakthrough-container').querySelectorAll('.breakthrough-item').forEach(item => {
@@ -195,6 +508,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function setFormData(data) {
         if (data.inputs) for (const id in data.inputs) if (document.getElementById(id)) document.getElementById(id).value = data.inputs[id];
         if (data.checkboxes) for (const id in data.checkboxes) if (document.getElementById(id)) document.getElementById(id).checked = data.checkboxes[id];
+        if (data.basicInfo) for (const key in data.basicInfo) if(document.getElementById(`char-${key}`)) document.getElementById(`char-${key}`).value = data.basicInfo[key];
+        if (data.appearance) for (const key in data.appearance) if(document.getElementById(`char-${key}`)) document.getElementById(`char-${key}`).value = data.appearance[key];
+        if (data.experience) {
+            currentExpInput.value = data.experience.current;
+            usedExpInput.value = data.experience.used;
+            totalExpInput.value = data.experience.total;
+        }
 
         if (data.aptitudes) for (const name in data.aptitudes) {
             const item = document.querySelector(`.aptitude-item[data-aptitude="${name}"]`);
@@ -244,7 +564,6 @@ document.addEventListener('DOMContentLoaded', () => {
             avatarPlaceholder.querySelector('span').style.display = 'none';
         }
 
-        // ОБЯЗАТЕЛЬНО ПЕРЕСЧИТАТЬ ВСЕ ЗАВИСИМЫЕ ПОЛЯ ПОСЛЕ ЗАГРУЗКИ
         updateCalculatedStats();
     }
 
@@ -268,7 +587,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     setFormData(JSON.parse(e.target.result));
                 } catch (error) {
                     console.error("Ошибка чтения файла:", error);
-                    alert('Ошибка при чтении файла.');
+                    alert('Ошибка при чтении или обработке файла.');
                 }
             };
             reader.readAsText(file);
