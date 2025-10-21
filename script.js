@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     // --- КОНСТАНТЫ И ДАННЫЕ ДЛЯ РАСЧЕТОВ ---
     const movementData = {
         0: { half: 0, full: 0, charge: 0, run: 0 }, 1: { half: 1, full: 2, charge: 3, run: 6 },
@@ -105,21 +106,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- МОДАЛЬНЫЕ ОКНА ---
     const notesModal = document.getElementById('notes-modal');
-    const campaignNotes = document.getElementById('campaign-notes');
-    document.getElementById('notes-button').addEventListener('click', () => {
-        campaignNotes.value = localStorage.getItem('campaignNotes') || '';
-        notesModal.style.display = 'block';
-    });
-    document.getElementById('notes-save').addEventListener('click', () => {
-        localStorage.setItem('campaignNotes', campaignNotes.value);
-        notesModal.style.display = 'none';
-    });
-    document.getElementById('notes-cancel').addEventListener('click', () => {
-        notesModal.style.display = 'none';
-    });
-    window.addEventListener('click', (event) => {
-        if (event.target === notesModal) notesModal.style.display = 'none';
-    });
+const campaignNotes = document.getElementById('campaign-notes');
+document.getElementById('notes-button').addEventListener('click', () => {
+    notesModal.style.display = 'block';
+});
+document.getElementById('notes-save').addEventListener('click', () => {
+    notesModal.style.display = 'none';
+});
+document.getElementById('notes-cancel').addEventListener('click', () => {
+    notesModal.style.display = 'none';
+});
+window.addEventListener('click', (event) => {
+    if (event.target === notesModal) notesModal.style.display = 'none';
+});
     
     // --- СКРЫТИЕ/ПОКАЗ СЕКЦИЙ ---
     document.querySelectorAll('.skill-characteristic-header, .section-header').forEach(header => {
@@ -442,18 +441,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================================
     
     function getFormData() {
-        const data = {
-            inputs: {}, checkboxes: {}, aptitudes: {}, dynamicSkills: {}, improvements: {}, talents: { combat: [], social: [], mental: [] },
-            abyssBreakthroughs: [],
-            experience: { current: currentExpInput.value, used: usedExpInput.value, total: totalExpInput.value },
-            basicInfo: { name: document.getElementById('char-name').value, race: document.getElementById('char-race').value, background: document.getElementById('char-background').value, role: document.getElementById('char-role').value, age: document.getElementById('char-age').value, gender: document.getElementById('char-gender').value },
-            appearance: { skin: document.getElementById('char-skin').value, eyes: document.getElementById('char-eyes').value, hair: document.getElementById('char-hair').value, build: document.getElementById('char-build').value },
-            vitals: { woundsCurrent: document.getElementById('wounds-current').value, fatigueCurrent: fatigueCurrentInput.value },
-            avatar: avatarData,
-            campaignNotes: localStorage.getItem('campaignNotes') || '',
-            fatePoints: { current: parseInt(fateCurrentInput.value) || 3, max: parseInt(fateMaxInput.value) || 3 },
-            abyssPoints: parseInt(document.getElementById('abyss-points').value) || 0,
-        };
+         const data = {
+        inputs: {}, 
+        checkboxes: {}, 
+        aptitudes: {}, 
+        dynamicSkills: {}, 
+        improvements: {}, 
+        talents: { combat: [], social: [], mental: [] },
+        abyssBreakthroughs: [],
+        experience: { current: currentExpInput.value, used: usedExpInput.value, total: totalExpInput.value },
+        basicInfo: { 
+            name: document.getElementById('char-name').value, 
+            race: document.getElementById('char-race').value, 
+            background: document.getElementById('char-background').value, 
+            role: document.getElementById('char-role').value, 
+            age: document.getElementById('char-age').value, 
+            gender: document.getElementById('char-gender').value 
+        },
+        appearance: { 
+            skin: document.getElementById('char-skin').value, 
+            eyes: document.getElementById('char-eyes').value, 
+            hair: document.getElementById('char-hair').value, 
+            build: document.getElementById('char-build').value 
+        },
+        vitals: { 
+            woundsCurrent: document.getElementById('wounds-current').value, 
+            fatigueCurrent: fatigueCurrentInput.value 
+        },
+        avatar: avatarData,
+        campaignNotes: document.getElementById('campaign-notes').value || '', // ЗАМЕТКИ ТЕПЕРЬ ЗДЕСЬ
+        fatePoints: { 
+            current: parseInt(fateCurrentInput.value) || 3, 
+            max: parseInt(fateMaxInput.value) || 3 
+        },
+        abyssPoints: parseInt(document.getElementById('abyss-points').value) || 0,
+    };
 
         document.querySelectorAll('input[type="text"]:not(.talent-name):not(.talent-req), input[type="number"], textarea:not(.talent-desc)').forEach(input => {
             if (input.id && !input.closest('.dynamic-skill, .relationship-item, .mutation-item, .corruption-item, .breakthrough-item')) {
@@ -510,6 +532,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (data.checkboxes) for (const id in data.checkboxes) if (document.getElementById(id)) document.getElementById(id).checked = data.checkboxes[id];
         if (data.basicInfo) for (const key in data.basicInfo) if(document.getElementById(`char-${key}`)) document.getElementById(`char-${key}`).value = data.basicInfo[key];
         if (data.appearance) for (const key in data.appearance) if(document.getElementById(`char-${key}`)) document.getElementById(`char-${key}`).value = data.appearance[key];
+            if (data.campaignNotes) {
+        document.getElementById('campaign-notes').value = data.campaignNotes;
+    } else {
+        document.getElementById('campaign-notes').value = ''; // Очищаем если нет заметок
+    }
+    
         if (data.experience) {
             currentExpInput.value = data.experience.current;
             usedExpInput.value = data.experience.used;
@@ -597,4 +625,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ПЕРВЫЙ РАСЧЕТ ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
     updateCalculatedStats();
+
+    // Очищаем заметки при первой загрузке страницы
+    if (!localStorage.getItem('characterLoaded')) {
+        document.getElementById('campaign-notes').value = '';
+        localStorage.setItem('characterLoaded', 'true');
+    }
 });
