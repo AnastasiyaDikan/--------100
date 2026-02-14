@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const characteristicToAptitudeMap = { 'agility': 'ag', 'strength': 's', 'perception': 'per', 'fellowship': 'fel', 'intelligence': 'int', 'willpower': 'wp', 'melee': 'ws', 'ranged': 'bs', 'endurance': 't' };
     
     // --- ГЛАВНАЯ ФУНКЦИЯ ОБНОВЛЕНИЯ РАССЧИТЫВАЕМЫХ ПОЛЕЙ ---
-    function updateCalculatedStats() {
+    function  updateCalculatedStats ( )  { 
         const getModifier = (statId) => Math.floor((parseInt(document.getElementById(statId).value, 10) || 0) / 10);
 
         const strMod = getModifier('stat-strength');
@@ -32,9 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const wpMod = getModifier('stat-willpower');
         const agiMod = getModifier('stat-agility');
 
-        const totalWounds = strMod + wpMod + (endMod * 2);
-        document.getElementById('wounds-total').value = totalWounds;
-        document.getElementById('wounds-current').max = totalWounds;
+        // РАНЫ БОЛЬШЕ НЕ РАССЧИТЫВАЕМ АВТОМАТИЧЕСКИ
+        // Просто оставляем поле как есть, без изменений
 
         document.getElementById('fatigue-threshold').value = endMod + wpMod;
 
@@ -521,6 +520,7 @@ window.addEventListener('click', (event) => {
         },
         vitals: { 
             woundsCurrent: document.getElementById('wounds-current').value, 
+            woundsTotal: document.getElementById('wounds-total').value, // ДОБАВЬТЕ ЭТУ СТРОКУ
             fatigueCurrent: fatigueCurrentInput.value 
         },
         avatar: avatarData,
@@ -656,6 +656,7 @@ window.addEventListener('click', (event) => {
         
         if (data.vitals) {
             document.getElementById('wounds-current').value = data.vitals.woundsCurrent || 0;
+            document.getElementById('wounds-total').value = data.vitals.woundsTotal || 10; // ДОБАВЬТЕ ЭТУ СТРОКУ
             fatigueCurrentInput.value = data.vitals.fatigueCurrent || 0;
         }
 
@@ -666,7 +667,6 @@ window.addEventListener('click', (event) => {
             avatarPlaceholder.querySelector('span').style.display = 'none';
         }
 
-        updateCalculatedStats();
     }
 
     document.getElementById('save-button').addEventListener('click', () => {
