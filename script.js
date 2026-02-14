@@ -272,6 +272,7 @@ window.addEventListener('click', (event) => {
         }
     }
     
+    
     document.querySelectorAll('.skill-name:not(.dynamic-skill)').forEach(el => el.addEventListener('click', toggleSkillValueDisplay));
     
     // --- ОПЫТ ---
@@ -435,6 +436,60 @@ window.addEventListener('click', (event) => {
     });
     ['combat', 'social', 'mental'].forEach(type => addTalentRow(type));
 
+        // --- ИНВЕНТАРЬ ---
+    const inventoryButton = document.getElementById('inventory-button');
+    const inventorySheet = document.getElementById('inventory-sheet');
+    const closeInventoryBtn = document.querySelector('.close-inventory-btn');
+    const inventoryContainer = document.getElementById('inventory-items-container');
+    
+    // Открытие/закрытие инвентаря
+    inventoryButton.addEventListener('click', () => {
+        inventorySheet.classList.remove('hidden');
+        // Закрываем таланты, если они открыты
+        talentsSheet.classList.add('hidden');
+    });
+    
+    closeInventoryBtn.addEventListener('click', () => {
+        inventorySheet.classList.add('hidden');
+    });
+    
+    // Функция добавления предмета в инвентарь
+    function addInventoryItem(data = null) {
+        const itemId = 'inventory-item-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        const item = document.createElement('div');
+        item.className = 'inventory-item';
+        item.dataset.id = itemId;
+        
+        item.innerHTML = `
+            <div class="inventory-item-field">
+                <label>Наименование</label>
+                <input type="text" class="inventory-name" placeholder="Название предмета" value="${data && data.name ? data.name.replace(/"/g, '&quot;') : ''}">
+            </div>
+            <div class="inventory-item-field">
+                <label>Свойства</label>
+                <textarea class="inventory-properties" placeholder="Описание, свойства, вес и т.д.">${data && data.properties ? data.properties.replace(/"/g, '&quot;') : ''}</textarea>
+            </div>
+            <button class="remove-inventory-btn" title="Удалить предмет">×</button>
+        `;
+        
+        inventoryContainer.appendChild(item);
+        
+        // Добавляем обработчик для удаления
+        item.querySelector('.remove-inventory-btn').addEventListener('click', () => {
+            item.remove();
+        });
+    }
+    
+    // Обработчик для кнопки добавления предмета
+    document.querySelector('.add-inventory-btn').addEventListener('click', () => {
+        addInventoryItem();
+    });
+    
+    // Добавляем один предмет по умолчанию
+    if (inventoryContainer.children.length === 0) {
+        addInventoryItem();
+    }
+
 
     // ==========================================================
     // --- ПОЛНОЦЕННОЕ СОХРАНЕНИЕ И ЗАГРУЗКА (ИСПРАВЛЕНО) ---
@@ -523,6 +578,15 @@ window.addEventListener('click', (event) => {
                 });
             });
         });
+
+                // Сбор данных инвентаря
+        data.inventory = [];
+        document.querySelectorAll('#inventory-items-container .inventory-item').forEach(item => {
+            data.inventory.push({
+                name: item.querySelector('.inventory-name').value,
+                properties: item.querySelector('.inventory-properties').value
+            });
+        });
         
         return data;
     }
@@ -578,6 +642,16 @@ window.addEventListener('click', (event) => {
                     data.talents[type].forEach(t => addTalentRow(type, t));
                 } else { addTalentRow(type); }
             });
+        }
+
+                // Загрузка данных инвентаря
+        if (data.inventory) {
+            inventoryContainer.innerHTML = '';
+            if (data.inventory.length > 0) {
+                data.inventory.forEach(item => addInventoryItem(item));
+            } else {
+                addInventoryItem();
+            }
         }
         
         if (data.vitals) {

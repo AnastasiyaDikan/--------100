@@ -358,3 +358,145 @@ input[type="checkbox"] {
 .talent-item label { font-size: 11px; font-weight: bold; color: #5a3d3a; }
 .talent-item .remove-talent-btn { margin-top: 18px; }
 .talent-item textarea { min-height: 60px; resize: vertical; }
+
+/* --- СТИЛИ ДЛЯ ИНВЕНТАРЯ --- */
+.inventory-sheet {
+    background: #f5eeda;
+    border: 1px solid #a18a68;
+    border-radius: 3px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+    padding: 25px;
+    background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+    width: 600px;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    align-self: flex-start;
+}
+
+.inventory-sheet.hidden {
+    opacity: 0;
+    width: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    transform: translateX(-30px);
+    pointer-events: none;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #a18a68;
+    padding-bottom: 10px;
+}
+
+.inventory-header h3 {
+    margin: 0;
+    border: none;
+    padding: 0;
+}
+
+.close-inventory-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #8b0000;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.close-inventory-btn:hover {
+    color: #c82333;
+}
+
+.inventory-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.inventory-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 15px;
+    padding: 15px;
+    background-color: #fdfaf3;
+    border: 1px solid #dcd0b8;
+    border-radius: 2px;
+    align-items: start;
+}
+
+.inventory-item-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.inventory-item-field label {
+    font-size: 11px;
+    font-weight: bold;
+    color: #5a3d3a;
+}
+
+.inventory-item-field input,
+.inventory-item-field textarea {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #c9b79c;
+    border-radius: 2px;
+    background-color: #fff;
+    font-family: 'Merriweather', serif;
+    font-size: 13px;
+}
+
+.inventory-item-field textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.remove-inventory-btn {
+    background-color: #8b0000;
+    color: #f5eeda;
+    border: 1px solid #5a0000;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    margin-top: 20px;
+}
+
+.remove-inventory-btn:hover {
+    background-color: #c82333;
+}
+
+.add-inventory-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #6B8E23;
+    color: white;
+    border: 1px solid #556B2F;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 13px;
+    font-family: 'Merriweather', serif;
+}
+
+.add-inventory-btn:hover {
+    background-color: #556B2F;
+}

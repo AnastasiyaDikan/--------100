@@ -148,6 +148,7 @@
                         
                         <div class="header-controls">
                             <button id="talents-button">Таланты</button>
+                            <button id="inventory-button">Инвентарь</button> <!-- Добавьте эту строку -->
                             <button id="notes-button">Заметки</button>
                             <button id="save-button">Сохранить</button>
                             <button onclick="document.getElementById('file-input').click()">Загрузить</button>
@@ -407,6 +408,7 @@
                                     <tbody>
                                         <tr><td><span class="skill-name" data-skill="athletics">Атлетика</span><span class="skill-value" data-skill="athletics"></span></td><td><input type="checkbox" id="skill-athletics-k" data-skill="athletics" data-level="1" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-10" data-skill="athletics" data-level="2" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-20" data-skill="athletics" data-level="3" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-30" data-skill="athletics" data-level="4" data-characteristic="strength"></td><td><input type="checkbox" id="skill-athletics-40" data-skill="athletics" data-level="5" data-characteristic="strength"></td></tr>
                                         <tr><td><span class="skill-name" data-skill="intimidate">Запугивание</span><span class="skill-value" data-skill="intimidate"></span></td><td><input type="checkbox" id="skill-intimidate-k" data-skill="intimidate" data-level="1" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-10" data-skill="intimidate" data-level="2" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-20" data-skill="intimidate" data-level="3" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-30" data-skill="intimidate" data-level="4" data-characteristic="strength"></td><td><input type="checkbox" id="skill-intimidate-40" data-skill="intimidate" data-level="5" data-characteristic="strength"></td></tr>
+                                        <tr><td><span class="skill-name" data-skill="parry">Парирование</span><span class="skill-value" data-skill="parry"></span></td><td><input type="checkbox" id="skill-parry-k" data-skill="parry" data-level="1" data-characteristic="melee"></td><td><input type="checkbox" id="skill-parry-10" data-skill="parry" data-level="2" data-characteristic="melee"></td><td><input type="checkbox" id="skill-parry-20" data-skill="parry" data-level="3" data-characteristic="melee"></td><td><input type="checkbox" id="skill-parry-30" data-skill="parry" data-level="4" data-characteristic="melee"></td><td><input type="checkbox" id="skill-parry-40" data-skill="parry" data-level="5" data-characteristic="melee"></td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -637,6 +639,18 @@
                 </div>
             </div>
         </div>
+        
+        <div id="inventory-sheet" class="inventory-sheet hidden">
+            <div class="inventory-header">
+                <h3>Инвентарь</h3>
+                <button class="close-inventory-btn" title="Закрыть">×</button>
+            </div>
+            <div class="inventory-content">
+                <div id="inventory-items-container" class="inventory-list"></div>
+                <button class="add-inventory-btn">+ Добавить предмет</button>
+            </div>
+        </div>
+
     </div>
 
     <div id="notes-modal" class="modal">
